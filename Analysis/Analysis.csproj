@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="Tinkoff.Trading.OpenApi" Version="1.7.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Stock.Indicators\indicators\Indicators.csproj" />
+    <ProjectReference Include="..\Adapters\TinkoffAdapter\TinkoffAdapter.csproj" />
+    <ProjectReference Include="..\DataCollector\DataCollector.csproj" />
+    <ProjectReference Include="..\RetryPolicyModel\RetryPolicyModel.csproj" />
+  </ItemGroup>
+
+</Project>

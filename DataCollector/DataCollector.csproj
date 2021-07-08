@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Adapters\TinkoffAdapter\TinkoffAdapter.csproj" />
+    <ProjectReference Include="..\MarketDataModules\MarketDataModules.csproj" />
+    <ProjectReference Include="..\RetryPolicyModel\RetryPolicyModel.csproj" />
+  </ItemGroup>
+
+</Project>
