@@ -12,10 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Stock.Indicators\indicators\Indicators.csproj" />
     <ProjectReference Include="..\Adapters\TinkoffAdapter\TinkoffAdapter.csproj" />
     <ProjectReference Include="..\DataCollector\DataCollector.csproj" />
     <ProjectReference Include="..\RetryPolicyModel\RetryPolicyModel.csproj" />
+    <ProjectReference Include="..\Stock.Indicators\indicators\Indicators.csproj" />
   </ItemGroup>
 
 </Project>
