@@ -19,14 +19,14 @@ namespace TradingAlgorithms.IndicatorSignals
         {
             Log.Information("Start Sma LongSignal. Figi: " + candleList.Figi);
             List<EmaResult> ema = Mapper.EmaData(candleList, deltaPrice, smaLookbackPeriod);
-            decimal? smaPriceDelta = ((deltaPrice * 100) / ema.Last().Ema) - 100; //Насколько далеко убежала цена от Sma
+            decimal? emaPriceDelta = ((deltaPrice * 100) / ema.Last().Ema) - 100; //Насколько далеко убежала цена от Sma
             if (
-                smaPriceDelta < smaPriceDeltaCount
+                emaPriceDelta < emaPriceDeltaCount
                )
             {
                 Log.Information("Checking for the absence of a gap via SMA");
                 Log.Information("Sma = " + ema.Last().Ema + "LPrice = " + deltaPrice);
-                Log.Information("smaPriceDelta = " + smaPriceDelta);
+                Log.Information("smaPriceDelta = " + emaPriceDelta);
                 Log.Information("smaPriceDeltaCount = " + smaPriceDeltaCount);
                 Log.Information("Should be: smaPriceDelta < smaPriceDeltaCount");
                 Log.Information("Sma = Long - true for: " + candleList.Figi);
@@ -36,7 +36,7 @@ namespace TradingAlgorithms.IndicatorSignals
             {
                 Log.Information("Checking for the absence of a gap via SMA");
                 Log.Information("Sma = " + ema.Last().Ema + "LPrice = " + deltaPrice);
-                Log.Information("smaPriceDelta = " + smaPriceDelta);
+                Log.Information("smaPriceDelta = " + emaPriceDelta);
                 Log.Information("smaPriceDeltaCount = " + smaPriceDeltaCount);
                 Log.Information("Should be: smaPriceDelta < smaPriceDeltaCount");
                 Log.Information("Sma = Long - falce for: " + candleList.Figi);
