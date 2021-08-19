@@ -15,19 +15,33 @@ namespace TradingAlgorithms.IndicatorSignals
     {
         int firstEmaLookbackPeriod = 60;
         int SecondEmaLookbackPeriod = 200;
-        const decimal DeltaCount = 8M;
+        const decimal firstEmaDeltaCount = 8M;
+        const decimal secondEmaDeltaCount = 8M;
         internal bool TwoEmaLongSignal(CandlesList candleList, decimal deltaPrice)
         {
             Log.Information("Start TwoEma LongSignal. Figi: " + candleList.Figi);
             List<EmaResult> firstEma = Mapper.EmaData(candleList, deltaPrice, firstEmaLookbackPeriod);
             List<EmaResult> secondEma = Mapper.EmaData(candleList, deltaPrice, SecondEmaLookbackPeriod);
-            decimal? emaPriceDelta = ((deltaPrice * 100) / firstEma.Last().Ema) - 100; //Насколько далеко убежала цена от Ema
+            decimal? firstEmaPriceDelta = ((deltaPrice * 100) / firstEma.Last().Ema) - 100; //Насколько далеко убежала цена от первой Ema
+            decimal? secondEmaDeltaCount = ((deltaPrice * 100) / firstEma.Last().Ema) - 100; //Насколько далеко убежала цена от второй Ema
+            bool persech=false;
+            for (int i = 1; i <= 5; i++)
+            {
+                if (firstEma[firstEma.Count - i].Ema >= secondEma[secondEma.Count - i].Ema
+                    &&
+                    firstEma[firstEma.Count - i - 1].Ema <= secondEma[secondEma.Count - i - 1].Ema)
+                {
+                    persech = true;
+                }
+            }
             if (
                 firstEma.Last().Ema > secondEma.Last().Ema
                 &&
                 deltaPrice > firstEma.Last().Ema
                 &&
-                emaPriceDelta < DeltaCount
+                firstEmaPriceDelta < firstEmaDeltaCount
+                &&
+                persech==true
                )
             {
                 //Log.Information("Checking for the absence of a gap via SMA");
