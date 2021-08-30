@@ -5,10 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LinqStatistics" Version="2.3.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <PackageReference Include="Tinkoff.Trading.OpenApi" Version="1.7.3" />
+    <PackageReference Include="Tinkoff.Trading.OpenApi" Version="1.7.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +17,10 @@
     <ProjectReference Include="..\DataCollector\DataCollector.csproj" />
     <ProjectReference Include="..\RetryPolicyModel\RetryPolicyModel.csproj" />
     <ProjectReference Include="..\Stock.Indicators\indicators\Indicators.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Screeners\InstrumentScreener\" />
   </ItemGroup>
 
 </Project>

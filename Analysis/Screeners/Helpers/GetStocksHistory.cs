@@ -22,7 +22,7 @@ namespace ScreenerStocks.Helpers
         {
             Log.Information("Start AllUsdStocks method");
             List<Instrument> usdStocks = new List<Instrument>();
-            InstrumentList stocks = await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await dataCollector.GetInstrumentListAsync());
+            InstrumentList stocks = await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await dataCollector.GetInstrumentListAsync(Provider.Tinkoff));
             Log.Information("Get All MarketInstruments. Count =  " + stocks.Instruments.Count);
             foreach (Instrument item in stocks.Instruments)
             {
@@ -45,7 +45,7 @@ namespace ScreenerStocks.Helpers
         {
             Log.Information("Start AllStocks method");
             List<Instrument> usdStocks = new List<Instrument>();
-            InstrumentList stocks = await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await dataCollector.GetInstrumentListAsync());
+            InstrumentList stocks = await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await dataCollector.GetInstrumentListAsync(Provider.Tinkoff));
             Log.Information("Get All MarketInstruments. Count =  " + stocks.Instruments.Count);
             foreach (Instrument item in stocks.Instruments)
             {
@@ -89,9 +89,9 @@ namespace ScreenerStocks.Helpers
                 else
                 {
                     Log.Information("Get candle with figi: " + candle.Figi);
-                    usdCandels.Add(candle);                    
+                    usdCandels.Add(candle);
                     Log.Information("Add USD Candles with figi: " + item.Figi + " to candlesList");
-                }     
+                }
             }
             Log.Information("Return " + usdCandels.Count + " USD candles");
             Log.Information("Stop AllUsdCandles method");
@@ -117,9 +117,9 @@ namespace ScreenerStocks.Helpers
             return validCandleLists;
         }
         //определяет: торговалась ли акция последние заданные минуты
-        private bool NotTradeableCountMinutes(CandlesList candleList, int notTradeMinutes)
+        private bool IsTradeXMinutes(CandlesList candleList, int minutes)
         {
-            Log.Information("Start NotTradeableCountMinutes method. Not trade minutes = " + notTradeMinutes);
+            Log.Information("Start IsTradeXMinutes method. minutes = " + minutes);
             var timeNow = DateTime.Now.ToUniversalTime();
             Log.Information("UTC : "+ timeNow.ToString());
             Log.Information("Last candle time is : " + candleList.Candles.LastOrDefault().Time + " Close: " + candleList.Candles.LastOrDefault().Close + " Open: " + candleList.Candles.LastOrDefault().Open + " Volume: " +candleList.Candles.LastOrDefault().Volume);
@@ -129,19 +129,19 @@ namespace ScreenerStocks.Helpers
                 Log.Warning("CandleList = null");
                 return false;
             } 
-            else if (candleList.Candles.Last().Time <= timeNow.AddMinutes(-notTradeMinutes))
+            else if (candleList.Candles.Last().Time <= timeNow.AddMinutes(-minutes))
             {
-                Log.Information("Last time candle of " + candleList.Figi + " is " + candleList.Candles.Last().Time.ToString() + " < then " + timeNow.AddMinutes(-notTradeMinutes));
+                Log.Information("Last time candle of " + candleList.Figi + " is " + candleList.Candles.Last().Time.ToString() + " < then " + timeNow.AddMinutes(-minutes));
                 //Log.Information("Last time candle of " + candleList.Figi + " is " + candleList.Candles.Last().Time.ToString());
-                Log.Information(candleList.Figi + " not trading last " + notTradeMinutes + " minutes");
+                Log.Information(candleList.Figi + " not trading last " + minutes + " minutes");
                 Log.Information("Stop NotTradeable method. Return - false");
                 return false;
             }
             else
             {
-                Log.Information("Last time candle of " + candleList.Figi + " is " + candleList.Candles.Last().Time.ToString() + " > then " + timeNow.AddMinutes(-notTradeMinutes));
-                Log.Information(candleList.Figi + " is trading last " + notTradeMinutes + " minutes");
-                Log.Information("Stop NotTradeable method. Return - true");
+                Log.Information("Last time candle of " + candleList.Figi + " is " + candleList.Candles.Last().Time.ToString() + " > then " + timeNow.AddMinutes(-minutes));
+                Log.Information(candleList.Figi + " is trading last " + minutes + " minutes");
+                Log.Information("Stop IsTradeXMinutes method. Return - true");
                 return true;
             }
         }
@@ -202,7 +202,7 @@ namespace ScreenerStocks.Helpers
                     Log.Information("notTradeMinutes = " + notTradeMinutes);
                     break;
             }
-            return NotTradeableCountMinutes(candleList, notTradeMinutes);
+            return IsTradeXMinutes(candleList, notTradeMinutes);
         }
 
         // определяет: не привышает ли стоимость ации определенную сумму
@@ -234,7 +234,7 @@ namespace ScreenerStocks.Helpers
             Log.Information("AllValidCandles method. Candle.Figi: " + candlesList.Figi);
             Log.Information("AllValidCandles method. Candle.Interval: " + candlesList.Interval);
             Log.Information("AllValidCandles method. Candle Count: " + candlesList.Candles.Count);
-            if (LessPrice(candlesList, price) && NotTradeableCountMinutes(candlesList, notTradeMinutes))
+            if (LessPrice(candlesList, price) && IsTradeXMinutes(candlesList, notTradeMinutes))
             {
                 Log.Information(candlesList.Figi + " Valid CandlesList");
                 Log.Information("Stop validation CandlesList " + candlesList.Figi);

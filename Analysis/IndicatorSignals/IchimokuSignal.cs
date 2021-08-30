@@ -77,10 +77,10 @@ namespace TradingAlgorithms.IndicatorSignals
         double IchimokuTenkansenDegreeAverageAngle(List<IchimokuResult> ichimoku, int anglesCount)
         {
             List<IchimokuResult> skipIchimoku = ichimoku.Skip(ichimoku.Count - (anglesCount + 1)).ToList();
-            List<decimal?> values = new List<decimal?>();
+            List<decimal> values = new List<decimal>();
             foreach (var item in skipIchimoku)
             {
-                values.Add(item.TenkanSen);
+                values.Add(Convert.ToDecimal(item.TenkanSen));
                 Log.Information("Tenkansen: " + item.Date + " " + item.TenkanSen);
             }
             return DeltaDegreeAngle(values);

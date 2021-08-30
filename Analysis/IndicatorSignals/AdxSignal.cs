@@ -165,23 +165,30 @@ namespace TradingAlgorithms.IndicatorSignals
         {
             Log.Information("Start AdxSignal AdxDegreeAverageAngle method");
             List<AdxResult> skipAdx = AdxValue.Skip(AdxValue.Count - (anglesCount + 1)).ToList();
-            List<decimal?> values = new List<decimal?>();
+            List<decimal> values = new List<decimal>();
             foreach (var item in skipAdx)
             {
-                switch (adxLine)
+                if (item.Adx == null || item.Mdi == null || item.Pdi == null)
                 {
-                    case Adx.Pdi:
-                        values.Add(item.Pdi);
-                        Log.Information("ADX +DI for Degree Average Angle: " + item.Date + " " + item.Pdi);
-                        break;
-                    case Adx.Mdi:
-                        values.Add(item.Mdi);
-                        Log.Information("ADX -DI for Degree Average Angle: " + item.Date + " " + item.Mdi);
-                        break;
-                    case Adx.Adx:
-                        values.Add(item.Adx);
-                        Log.Information("ADX for Degree Average Angle: " + item.Date + " " + item.Adx);
-                        break;
+                    continue;
+                }
+                else
+                {
+                    switch (adxLine)
+                    {
+                        case Adx.Pdi:
+                            values.Add(Convert.ToDecimal(item.Pdi));
+                            Log.Information("ADX +DI for Degree Average Angle: " + item.Date + " " + item.Pdi);
+                            break;
+                        case Adx.Mdi:
+                            values.Add(Convert.ToDecimal(item.Mdi));
+                            Log.Information("ADX -DI for Degree Average Angle: " + item.Date + " " + item.Mdi);
+                            break;
+                        case Adx.Adx:
+                            values.Add(Convert.ToDecimal(item.Adx));
+                            Log.Information("ADX for Degree Average Angle: " + item.Date + " " + item.Adx);
+                            break;
+                    }
                 }
             }
             Log.Information("Stop AdxSignal AdxDegreeAverageAngle method");

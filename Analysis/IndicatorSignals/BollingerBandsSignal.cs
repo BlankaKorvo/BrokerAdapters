@@ -57,10 +57,11 @@ namespace TradingAlgorithms.IndicatorSignals
         {
             Log.Information("Start BollingerBandsWidthDegreeAverageAngle method.");
             List<BollingerBandsResult> skipbollingerBands = bollingerBands.Skip(bollingerBands.Count - (anglesCount + 1)).ToList();
-            List<decimal?> values = new List<decimal?>();
+            List<decimal> values = new List<decimal>();
             foreach (var item in skipbollingerBands)
             {
-                values.Add(item.Width);
+
+                values.Add(Convert.ToDecimal(item.Width));
                 Log.Information("Bollinger Bands Width for Degree Average Angle: " + item.Date + " " + item.Width);
             }
             Log.Information("Stop BollingerBandsWidthDegreeAverageAngle method.");

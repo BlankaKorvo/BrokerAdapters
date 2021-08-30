@@ -92,23 +92,30 @@ namespace TradingAlgorithms.IndicatorSignals
             {
                 Log.Information("Start OBV LongSignal. Figi: " + candleList.Figi);
                 List<ObvResult> skipObv = ObvValue.Skip(ObvValue.Count - (anglesCount + 1)).ToList();
-                List<decimal?> values = new List<decimal?>();
+                List<decimal> values = new List<decimal>();
                 foreach (var item in skipObv)
                 {
-                    switch (obvLine)
+                    if (item.ObvSma == null)
                     {
-                        case obv.obv:
-                            values.Add(item.Obv);
-                            Log.Information("Obv degree average of " + anglesCount + " angles: " + item.Date + " " + item.Obv);
-                            break;
-                        case obv.ObvSma:
-                            values.Add(item.ObvSma);
-                            Log.Information("ObvSma degree average of " + anglesCount + " angles: " + item.Date + " " + item.ObvSma);
-                            break;
-                        //case obv.ObvSmaDenominator:
-                        //    values.Add(item.ObvSmaDenominator);
-                        //    Log.Information("ObvSmaDenominator degree average of " + anglesCount + " angles: " + item.Date + " " + item.ObvSmaDenominator);
-                        //    break;
+                        continue;
+                    }
+                    else
+                    {
+                        switch (obvLine)
+                        {
+                            case obv.obv:
+                                values.Add(item.Obv);
+                                Log.Information("Obv degree average of " + anglesCount + " angles: " + item.Date + " " + item.Obv);
+                                break;
+                            case obv.ObvSma:
+                                values.Add(Convert.ToDecimal(item.ObvSma));
+                                Log.Information("ObvSma degree average of " + anglesCount + " angles: " + item.Date + " " + item.ObvSma);
+                                break;
+                                //case obv.ObvSmaDenominator:
+                                //    values.Add(item.ObvSmaDenominator);
+                                //    Log.Information("ObvSmaDenominator degree average of " + anglesCount + " angles: " + item.Date + " " + item.ObvSmaDenominator);
+                                //    break;
+                        }
                     }
                 }
                 return DeltaDegreeAngle(values);

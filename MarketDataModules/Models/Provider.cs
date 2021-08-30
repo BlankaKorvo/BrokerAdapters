@@ -1,6 +1,6 @@
 ﻿namespace MarketDataModules
 {
-    public enum Providers
+    public enum Provider
     {
         Tinkoff,
         Alor,

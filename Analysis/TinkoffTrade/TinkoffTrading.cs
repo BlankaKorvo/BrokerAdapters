@@ -91,7 +91,7 @@ namespace TinkoffAdapter.TinkoffTrade
             CandlesList candleList = await marketDataCollector.GetCandlesAsync(transactionModel.Figi, candleInterval, CandlesCount);
 
             //Получаем стакан
-            Orderbook orderbook = await marketDataCollector.GetOrderbookAsync(transactionModel.Figi);
+            Orderbook orderbook = await marketDataCollector.GetOrderbookAsync(transactionModel.Figi, Provider.Tinkoff);
             if (orderbook == null)
             {
                 Log.Information("Orderbook " + transactionModel.Figi + " is null");
@@ -105,6 +105,7 @@ namespace TinkoffAdapter.TinkoffTrade
             decimal deltaPrice = (ask + bid) / 2;
 
             Mishmash mishmash = new Mishmash() { candleList = candleList, deltaPrice = deltaPrice, orderbook = orderbook };
+
 
             if (mishmash.Long()==true)
             {
@@ -133,7 +134,7 @@ namespace TinkoffAdapter.TinkoffTrade
             CandlesList candleList = await marketDataCollector.GetCandlesAsync(figi, candleInterval, CandlesCount);
 
             //Получаем стакан
-            Orderbook orderbook = await marketDataCollector.GetOrderbookAsync(figi);
+            Orderbook orderbook = await marketDataCollector.GetOrderbookAsync(figi, Provider.Tinkoff);
             if (orderbook == null)
             {
                 Log.Information("Orderbook " + figi + " is null");
@@ -148,7 +149,9 @@ namespace TinkoffAdapter.TinkoffTrade
 
             Mishmash mishmash = new Mishmash() { candleList = candleList, deltaPrice = deltaPrice, orderbook = orderbook };
 
-            if (mishmash.Long() == true)
+            StochFiveMinutes stochFiveMinutes = new StochFiveMinutes() { candleList = candleList, deltaPrice = deltaPrice};
+
+            if (stochFiveMinutes.Long() == true)
             {
                 Log.Information("Go to Long: " + transactionModelBase.Figi);
                 transactionModelBase.Operation = Operation.toLong;
@@ -185,7 +188,7 @@ namespace TinkoffAdapter.TinkoffTrade
                 return; }
 
             await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, lots, OperationType.Buy, transactionModel.Price)));
-            Instrument instrument = await marketDataCollector.GetInstrumentByFigi(transactionModel.Figi);
+            Instrument instrument = await marketDataCollector.GetInstrumentByFigi(transactionModel.Figi, Provider.Tinkoff);
             using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
             {
                 sw.WriteLine(DateTime.Now + @" Buy " + transactionModel.Figi + " " + instrument.Ticker + " Quantity: " + lots +  " price: " + transactionModel.Price + " mzda: " + (transactionModel.Price * 0.02m) / 100m);

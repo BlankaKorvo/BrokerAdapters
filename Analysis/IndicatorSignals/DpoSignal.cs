@@ -81,10 +81,10 @@ namespace TradingAlgorithms.IndicatorSignals
         {
             Log.Information("Start DpoDegreeAverageAngle");
             List<DpoResult> skipDpo = dpo.Skip(dpo.Count - (anglesCount + 1)).ToList();
-            List<decimal?> values = new List<decimal?>();
+            List<decimal> values = new List<decimal>();
             foreach (var item in skipDpo)
             {
-                values.Add(item.Dpo);
+                values.Add(Convert.ToDecimal(item.Dpo));
                 Log.Information("DPO for Degree Average Angle: " + item.Date + " " + item.Dpo);
             }
             Log.Information("Stop DpoDegreeAverageAngle");

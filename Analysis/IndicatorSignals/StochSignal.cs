@@ -80,6 +80,33 @@ namespace TradingAlgorithms.IndicatorSignals
             }            
         }
 
+        double StochLinearDegreeAverageAngle(List<StochResult> AdlValue, int anglesCount, Stoch line)
+        {
+            Log.Information("Start StochLinearDegreeAverageAngle");
+            List<StochResult> calculatedValues = AdlValue.Skip(AdlValue.Count - (anglesCount + 1)).ToList();
+            Log.Information("calculatedValues.count " + calculatedValues.Count);
+
+            if (line == Stoch.Oscillator)
+            {
+                Log.Information("Stoch Oscillator");
+                List<decimal> values = calculatedValues.Select(na => (decimal)na.Oscillator).ToList();
+                return LinearAngle(values);
+            }
+            else if (line == Stoch.Signal)
+            {
+                Log.Information("Stoch Signal");
+                List<decimal> values = calculatedValues.Select(na => (decimal)na.Signal).ToList();
+                return LinearAngle(values);
+            }
+            else
+            {
+                Log.Information("Stoch PercentJ");
+                List<decimal> values = calculatedValues.Select(na => (decimal)na.PercentJ).ToList();
+                return LinearAngle(values);
+            }
+            Log.Information("Stop StochLinearDegreeAverageAngle");
+        }
+
         //internal bool StochFromLongSignal(CandlesList candleList, decimal deltaPrice)
         //{
 

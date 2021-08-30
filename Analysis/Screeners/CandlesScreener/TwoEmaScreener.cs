@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using TradingAlgorithms.IndicatorSignals;
 using TradingAlgorithms.IndicatorSignals.Helpers;
 
-namespace Analysis.Screeners
+namespace Analysis.Screeners.CandlesScreener
 {
     public class TwoEmaScreener : GetStocksHistory
     {

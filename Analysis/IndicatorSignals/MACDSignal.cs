@@ -109,22 +109,36 @@ namespace TradingAlgorithms.IndicatorSignals
         double MacdDegreeAverageAngle(List<MacdResult> macd, int anglesCount)
         {
             List<MacdResult> skipMacd = macd.Skip(macd.Count - (anglesCount + 1)).ToList();
-            List<decimal?> values = new List<decimal?>();
+            List<decimal> values = new List<decimal>();
             foreach (var item in skipMacd)
             {
-                values.Add(item.Macd);
-                Log.Information("MACD for Degree Average Angle: " + item.Date + " " + item.Macd);
+                if (item.Macd == null)
+                {
+                    continue;
+                }
+                else
+                { 
+                    values.Add(Convert.ToDecimal(item.Macd));
+                    Log.Information("MACD for Degree Average Angle: " + item.Date + " " + item.Macd);
+                }
             }
             return DeltaDegreeAngle(values);
         }
         double MacdHistogramDegreeAverageAngle(List<MacdResult> macd, int anglesCount)
         {
             List<MacdResult> skipMacd = macd.Skip(macd.Count - (anglesCount + 1)).ToList();
-            List<decimal?> values = new List<decimal?>();
+            List<decimal> values = new List<decimal>();
             foreach (var item in skipMacd)
             {
-                values.Add(item.Histogram);
-                Log.Information("MACD Histogram for Degree Average Angle: " + item.Date + " " + item.Histogram);
+                if (item.Histogram == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    values.Add(Convert.ToDecimal(item.Histogram));
+                    Log.Information("MACD Histogram for Degree Average Angle: " + item.Date + " " + item.Histogram);
+                }
             }
             return DeltaDegreeAngle(values);
         }
