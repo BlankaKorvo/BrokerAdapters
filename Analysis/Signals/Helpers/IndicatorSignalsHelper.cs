@@ -47,6 +47,68 @@ namespace TradingAlgorithms.IndicatorSignals.Helpers
             Log.Information("Stop LinearDeltaDegreeAngle");
             return result;
         }
+
+        public double LinearAngle(List<decimal> values, int anglesCount)
+        {
+            Log.Information("Start LinearAngle");
+            Log.Information("values.Count: " + values.Count);
+            Log.Information("anglesCount: " + anglesCount);
+            List<decimal> calculatedValues = values.Skip(values.Count - (anglesCount + 1)).ToList();
+            foreach (var item in calculatedValues)
+            { Log.Information(item.ToString()); }
+
+            List<Tuple<decimal, decimal>> tuples = ToTuples(calculatedValues);
+            decimal M = (decimal)tuples.LeastSquares().M;
+            decimal B = (decimal)tuples.LeastSquares().B;
+            decimal y1 = M * 1 + B;
+            decimal y2 = M * 2 + B;
+            var result = AngleCalc(y1, y2);
+            Log.Information("M: " + M);
+            Log.Information("B: " + B);
+            Log.Information("y1: " + y1);
+            Log.Information("y2: " + y2);
+            Log.Information("result: " + result);
+            Log.Information("Stop LinearDeltaDegreeAngle");
+            return result;
+        }
+
+        public double LinearAngle(List<decimal?> values, int anglesCount)
+        {
+            Log.Information("Start LinearAngle");
+            Log.Information("values.Count: " + values.Count);
+            Log.Information("anglesCount: " + anglesCount);
+
+            //Проверка на то, что списка значений в конце изначального списка не содержит Null
+            if (values[^anglesCount] == null)
+            {
+                throw new Exception("anglesCount is more, then notnulable List values count");
+            }
+            else
+            {
+                List<decimal?> calculatedValuesN = values.Skip(values.Count - (anglesCount + 1)).ToList();
+                //Приводим список значений списка к типу decimal
+                List<decimal> calculatedValues = calculatedValuesN.Select(x => (decimal)x).ToList();
+                foreach (var item in calculatedValues)
+                { Log.Information(item.ToString()); }
+
+                List<Tuple<decimal, decimal>> tuples = ToTuples(calculatedValues);
+                decimal M = (decimal)tuples.LeastSquares().M;
+                decimal B = (decimal)tuples.LeastSquares().B;
+                decimal y1 = M * 1 + B;
+                decimal y2 = M * 2 + B;
+                var result = AngleCalc(y1, y2);
+                Log.Information("M: " + M);
+                Log.Information("B: " + B);
+                Log.Information("y1: " + y1);
+                Log.Information("y2: " + y2);
+                Log.Information("result: " + result);
+                Log.Information("Stop LinearDeltaDegreeAngle");
+                return result;
+            }
+        }
+
+
+
         public double DeltaDegreeAngle(List<decimal> values)
         {
             Log.Information("Start DeltaDegreeAngle");
@@ -89,29 +151,7 @@ namespace TradingAlgorithms.IndicatorSignals.Helpers
             return angle;
         }
 
-        public double LinearAngle(List<decimal> values, int anglesCount)
-        {
-            Log.Information("Start LinearAngle");
-            Log.Information("values.Count: " + values.Count);
-            Log.Information("anglesCount: " + anglesCount);
-            List<decimal> calculatedValues = values.Skip(values.Count - (anglesCount + 1)).ToList();
-            foreach (var item in calculatedValues)
-            { Log.Information(item.ToString()); }
 
-            List<Tuple<decimal, decimal>> tuples = ToTuples(calculatedValues);
-            decimal M = (decimal)tuples.LeastSquares().M;
-            decimal B = (decimal)tuples.LeastSquares().B;
-            decimal y1 = M * 1 + B;
-            decimal y2 = M * 2 + B;
-            var result = AngleCalc(y1, y2);
-            Log.Information("M: " + M);
-            Log.Information("B: " + B);
-            Log.Information("y1: " + y1);
-            Log.Information("y2: " + y2);
-            Log.Information("result: " + result);
-            Log.Information("Stop LinearDeltaDegreeAngle");
-            return result;
-        }
         internal double DeltaDegreeAngle(List<decimal?> values, int anglesCount)
         {
             Log.Information("Start DeltaDegreeAngle");
