@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Stock.Indicators\indicators\Indicators.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Screeners\InstrumentScreener\" />
-  </ItemGroup>
-
 </Project>

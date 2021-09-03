@@ -1,7 +1,7 @@
-﻿using DataCollector;
+﻿using Analysis.Screeners.Helpers;
+using DataCollector;
 using MarketDataModules;
 using MarketDataModules.Models.Candles;
-using ScreenerStocks.Helpers;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace Analysis.Screeners.CandlesScreener
     public class StochDivScreener : GetStocksHistory
     {
         //MarketDataCollector dataCollector = new MarketDataCollector();
-        IndicatorSignalsHelper indicatorSignalsHelper = new IndicatorSignalsHelper();
+        //IndicatorSignalsHelper indicatorSignalsHelper = new IndicatorSignalsHelper();
         Signal signal = new Signal();
         public List<CandlesList> TrandUp(List<CandlesList> candlesLists)
         {

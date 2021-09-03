@@ -12,7 +12,7 @@ using DataCollector;
 using TinkoffAdapter.Authority;
 using CandleInterval = MarketDataModules.CandleInterval;
 
-namespace ScreenerStocks.Helpers
+namespace Analysis.Screeners.Helpers
 {
     public class GetStocksHistory
     {
@@ -65,7 +65,7 @@ namespace ScreenerStocks.Helpers
             return usdStocks;
         }
 
-        internal async Task<List<CandlesList>> AllUsdCandlesAsync(CandleInterval candleInterval, int candelCount)
+        public async Task<List<CandlesList>> AllUsdCandlesAsync(CandleInterval candleInterval, int candelCount)
         {
             Log.Information("Start AllUsdCandles method");
             List<Instrument> stocks = await AllUsdStocksAsync();
@@ -97,7 +97,7 @@ namespace ScreenerStocks.Helpers
             Log.Information("Stop AllUsdCandles method");
             return usdCandels;
         }
-        internal List<CandlesList> AllValidCandles(List<CandlesList> listCandleLists, decimal price, int notTradeMinutes)
+        public List<CandlesList> AllValidCandles(List<CandlesList> listCandleLists, decimal price, int notTradeMinutes)
         {
             Log.Information("Start AllValidCandles method");
             List<CandlesList> validCandleLists = new List<CandlesList> { };
@@ -222,7 +222,7 @@ namespace ScreenerStocks.Helpers
                 return false;
             }
         }
-        internal bool ValidCandles(CandlesList candlesList, decimal price, int notTradeMinutes)
+        public bool ValidCandles(CandlesList candlesList, decimal price, int notTradeMinutes)
         {
             Log.Information("Start validation CandlesList " + candlesList.Figi);
             if (candlesList == null)
@@ -247,7 +247,7 @@ namespace ScreenerStocks.Helpers
                 return false;
             }
         }
-        internal bool ValidCandles(CandlesList candlesList, decimal price)
+        public bool ValidCandles(CandlesList candlesList, decimal price)
         {
             Log.Information("Start validation CandlesList " + candlesList.Figi);
             if (candlesList == null)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 //using Tinkoff.Trading.OpenApi.Models;
 using TradingAlgorithms.IndicatorSignals;
 
-namespace TradingAlgorithms.Algoritms
+namespace Analysis.TradeDecision
 {
     public class Mishmash
     {

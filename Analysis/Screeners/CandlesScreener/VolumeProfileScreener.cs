@@ -1,7 +1,7 @@
-﻿using DataCollector;
+﻿using Analysis.Screeners.Helpers;
+using DataCollector;
 using MarketDataModules;
 using MarketDataModules.Models.Candles;
-using ScreenerStocks.Helpers;
 using Serilog;
 using System;
 using System.Collections.Generic;

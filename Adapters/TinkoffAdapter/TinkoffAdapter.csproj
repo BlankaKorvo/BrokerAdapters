@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MarketDataModules\MarketDataModules.csproj" />
     <ProjectReference Include="..\..\RetryPolicyModel\RetryPolicyModel.csproj" />
   </ItemGroup>
 

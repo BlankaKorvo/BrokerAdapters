@@ -90,21 +90,24 @@ namespace TradingAlgorithms.IndicatorSignals
             {
                 Log.Information("Stoch Oscillator");
                 List<decimal> values = calculatedValues.Select(na => (decimal)na.Oscillator).ToList();
+                Log.Information("Stop StochLinearDegreeAverageAngle");
                 return LinearAngle(values);
             }
             else if (line == Stoch.Signal)
             {
                 Log.Information("Stoch Signal");
                 List<decimal> values = calculatedValues.Select(na => (decimal)na.Signal).ToList();
+                Log.Information("Stop StochLinearDegreeAverageAngle");
                 return LinearAngle(values);
             }
             else
             {
                 Log.Information("Stoch PercentJ");
                 List<decimal> values = calculatedValues.Select(na => (decimal)na.PercentJ).ToList();
+                Log.Information("Stop StochLinearDegreeAverageAngle");
                 return LinearAngle(values);
             }
-            Log.Information("Stop StochLinearDegreeAverageAngle");
+
         }
 
         //internal bool StochFromLongSignal(CandlesList candleList, decimal deltaPrice)

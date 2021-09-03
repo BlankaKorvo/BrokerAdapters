@@ -68,7 +68,6 @@ namespace TradingAlgorithms.IndicatorSignals
             }
         }
 
-
         public double AdlDegreeAverageAngle(List<AdlResult> AdlValue, int anglesCount, Adl line)
         {
             if (line == Adl.Adl)
@@ -82,6 +81,7 @@ namespace TradingAlgorithms.IndicatorSignals
                 return DeltaDegreeAngle(values, anglesCount);
             }
         }
+
         public enum Adl
         {
             Adl,
