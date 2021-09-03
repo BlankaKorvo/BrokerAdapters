@@ -193,21 +193,21 @@ namespace TinkoffData
             return Indicator.GetSma(candles, lookbackPeriod).ToList();
         }
 
-        public static List<DpoResult> DpoData(CandlesList candleList, int lookbackPeriod)
-        {
-            List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles);
-            return Indicator.GetDpo(candles, lookbackPeriod).ToList();
-        }
+        //public static List<DpoResult> DpoData(CandlesList candleList, int lookbackPeriod)
+        //{
+        //    List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles);
+        //    return Indicator.GetDpo(candles, lookbackPeriod).ToList();
+        //}
 
-        public static List<DpoResult> DpoData(CandlesList candleList, decimal realPrise, int lookbackPeriod)
-        {
-            Log.Information("DPO set price = " + realPrise);
-            Log.Information("DPO set lookbackPeriod = " + lookbackPeriod);
-            List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles, realPrise);
-            List <DpoResult> dpoData = Indicator.GetDpo(candles, lookbackPeriod).ToList();
-            Log.Information("Last Dpo = " + dpoData.Last().Dpo + " " + dpoData.Last().Date);
-            return dpoData;
-        }
+        //public static List<DpoResult> DpoData(CandlesList candleList, decimal realPrise, int lookbackPeriod)
+        //{
+        //    Log.Information("DPO set price = " + realPrise);
+        //    Log.Information("DPO set lookbackPeriod = " + lookbackPeriod);
+        //    List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles, realPrise);
+        //    List <DpoResult> dpoData = Indicator.GetDpo(candles, lookbackPeriod).ToList();
+        //    Log.Information("Last Dpo = " + dpoData.Last().Dpo + " " + dpoData.Last().Date);
+        //    return dpoData;
+        //}
 
         public static List<SuperTrendResult> SuperTrendData(CandlesList candleList, int lookbackPeriod = 20, decimal multiplier = 2)
         {
