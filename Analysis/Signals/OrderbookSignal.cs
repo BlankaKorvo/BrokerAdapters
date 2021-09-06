@@ -15,7 +15,7 @@ namespace TradingAlgorithms.IndicatorSignals
     public partial class Signal : IndicatorSignalsHelper
     {
 
-        internal TradeOperation OrderbookLongSignal(Orderbook orderbook)
+        internal TradeOperation OrderbookSignal(Orderbook orderbook)
         {
             decimal asks = orderbook.Asks.Select(x => x.Quantity).Sum();
             decimal bids = orderbook.Bids.Select(x => x.Quantity).Sum();

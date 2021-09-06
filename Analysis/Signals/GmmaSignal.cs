@@ -62,6 +62,19 @@ namespace TradingAlgorithms.IndicatorSignals
 
             if //to Long
                 (
+                emaShort1[^2].Ema > emaShort1[^3].Ema
+                &&
+                emaShort2[^2].Ema > emaShort2[^3].Ema
+                &&
+                emaShort3[^2].Ema > emaShort3[^3].Ema
+                &&
+                emaShort4[^2].Ema > emaShort4[^3].Ema
+                &&
+                emaShort5[^2].Ema > emaShort5[^3].Ema
+                &&
+                emaShort6[^2].Ema > emaShort6[^3].Ema
+
+                &&
                 emaShort6.LastOrDefault().Ema > emaLong1.LastOrDefault().Ema
                 &&
                 emaShort6.LastOrDefault().Ema > emaLong6.LastOrDefault().Ema
@@ -94,6 +107,20 @@ namespace TradingAlgorithms.IndicatorSignals
             }
             else if // to short
                 (
+                emaShort1[^2].Ema < emaShort1[^3].Ema
+                &&
+                emaShort2[^2].Ema < emaShort2[^3].Ema
+                &&
+                emaShort3[^2].Ema < emaShort3[^3].Ema
+                &&
+                emaShort4[^2].Ema < emaShort4[^3].Ema
+                &&
+                emaShort5[^2].Ema < emaShort5[^3].Ema
+                &&
+                emaShort6[^2].Ema < emaShort6[^3].Ema
+
+
+                &&
                 emaShort6.LastOrDefault().Ema < emaLong1.LastOrDefault().Ema
                 &&
                 emaShort6.LastOrDefault().Ema < emaLong6.LastOrDefault().Ema

@@ -30,6 +30,8 @@ namespace Analysis.TradeDecision
             if
                 (
                 signal.GmmaSignal(candleList, bestAsk, bestBid) == TradeOperation.toLong
+                &&
+                signal.OrderbookSignal(orderbook) == TradeOperation.toLong
                 )
             {
                 return TradeOperation.toLong;
@@ -44,6 +46,8 @@ namespace Analysis.TradeDecision
             else if
                 (
                 signal.GmmaSignal(candleList, bestAsk, bestBid) == TradeOperation.toShort
+                &&
+                signal.OrderbookSignal(orderbook) == TradeOperation.toShort
                 )
             {
                 return TradeOperation.toShort;
