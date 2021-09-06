@@ -55,8 +55,8 @@ namespace Analysis.TradeDecision
 
                 &&
                 Signal.VolumeLongSignal(candleList)
-                &&
-                Signal.OrderbookSignal(candleList, orderbook)
+                //&&
+                //Signal.OrderbookSignal(candleList, orderbook)
                 )
             {
                 Log.Information("Mishmash Algoritms: Long - true " + candleList.Figi);

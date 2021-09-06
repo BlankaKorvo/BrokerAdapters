@@ -42,7 +42,7 @@ namespace Analysis.Screeners.CandlesScreener
                 Log.Information("Margin: " + transactionModel.Purchase);
                 Log.Information("Price: " + transactionModel.Price);
                 Log.Information("Quantity: " + transactionModel.Quantity);
-                Log.Information("Operation: " + transactionModel.Operation.ToString());
+                Log.Information("Operation: " + transactionModel.TradeOperation.ToString());
                 Log.Warning("Transaction is not correct for implementation");
                 Log.Information("Stop Transaction method. Figi: " + transactionModel.Figi);
                 return;
