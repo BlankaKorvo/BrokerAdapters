@@ -27,40 +27,52 @@ namespace Analysis.TradeDecision
 
         public TradeOperation TradeVariant()
         {
+            Log.Information("Start TradeVariant GmmaDecision. Figi: " + candleList.Figi);
+            TradeOperation gmmaSignal = signal.GmmaSignal(candleList, bestAsk, bestBid);
+            TradeOperation orderbookSignal = signal.OrderbookSignal(orderbook);
+
             if
                 (
-                signal.GmmaSignal(candleList, bestAsk, bestBid) == TradeOperation.toLong
+                gmmaSignal == TradeOperation.toLong
                 &&
-                signal.OrderbookSignal(orderbook) == TradeOperation.toLong
+                orderbookSignal == TradeOperation.toLong
                 )
             {
+                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeOperation.toLong");
                 return TradeOperation.toLong;
             }
             else if
                 (
-                signal.GmmaSignal(candleList, bestAsk, bestBid) == TradeOperation.fromLong
-                )
-            {
-                return TradeOperation.fromLong;
-            }
-            else if
-                (
-                signal.GmmaSignal(candleList, bestAsk, bestBid) == TradeOperation.toShort
+                gmmaSignal == TradeOperation.toShort
                 &&
-                signal.OrderbookSignal(orderbook) == TradeOperation.toShort
+                orderbookSignal == TradeOperation.toShort
                 )
             {
+                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeOperation.toShort");
                 return TradeOperation.toShort;
             }
             else if
                 (
-                signal.GmmaSignal(candleList, bestAsk, bestBid) == TradeOperation.fromShort
+                gmmaSignal == TradeOperation.fromLong
                 )
             {
+                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeOperation.fromLong");
+                return TradeOperation.fromLong;
+            }
+
+            else if
+                (
+                gmmaSignal == TradeOperation.fromShort
+                )
+            {
+                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeOperation.fromShort");
                 return TradeOperation.fromShort;
             }
             else
-                throw new Exception("Error in TradeVariant Gmma");
+            {
+                return TradeOperation.notTrading;
+            }
+//                throw new Exception("Error in TradeVariant GmmaDecision");
         }
 
     //    public bool Long()

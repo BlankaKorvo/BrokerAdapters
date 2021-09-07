@@ -17,15 +17,23 @@ namespace TradingAlgorithms.IndicatorSignals
 
         internal TradeOperation OrderbookSignal(Orderbook orderbook)
         {
+            Log.Information("Start OrderbookSignal. Figi: " + orderbook.Figi);
             decimal asks = orderbook.Asks.Select(x => x.Quantity).Sum();
             decimal bids = orderbook.Bids.Select(x => x.Quantity).Sum();
-
+            Log.Information("asksQuantity = " + asks);
+            Log.Information("bidsQuantity = " + bids);
             // decimal overAsk = 100 - (bids * 100 / asks);
 
             if (asks < bids)
+            {
+                Log.Information("Stop OrderbookSignal. Figi: " + orderbook.Figi + " asks < bids " + " TradeOperation.toLong");
                 return TradeOperation.toLong;
+            }
             else
+            {
+                Log.Information("Stop OrderbookSignal. Figi: " + orderbook.Figi + " asks > bids " + " TradeOperation.toShort");
                 return TradeOperation.toShort;
+            }
         }
 
 

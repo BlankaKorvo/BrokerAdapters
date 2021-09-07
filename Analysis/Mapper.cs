@@ -146,16 +146,21 @@ namespace TinkoffData
             return macdResult;
         }
 
-        public static List<EmaResult> EmaData(CandlesList candleList, int lookbackPeriod, CandleStruct candleStruct = CandleStruct.Close)
+        public static List<EmaResult> EmaData(CandlesList candleList, int lookbackPeriod)
         {
             List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles);
             return Indicator.GetEma(candles, lookbackPeriod).ToList();
         }
 
-        public static List<EmaResult> EmaData(CandlesList candleList, decimal realPrise, int lookbackPeriod, CandleStruct candleStruct = CandleStruct.Close)
+        public static List<EmaResult> EmaData(CandlesList candleList, decimal realPrise, int lookbackPeriod)
         {
             List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles, realPrise);
             return Indicator.GetEma(candles, lookbackPeriod).ToList();
+        }
+        public static List<EmaResult> EmaData(CandlesList candleList, decimal realPrise, int lookbackPeriod, CandleStruct candleStruct)
+        {
+            List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles, realPrise);
+            return Indicator.GetEma(candles, lookbackPeriod, candleStruct).ToList();
         }
 
         public static List<ObvResult> ObvData(CandlesList candleList, int? smaLookbackPeriod = null)
