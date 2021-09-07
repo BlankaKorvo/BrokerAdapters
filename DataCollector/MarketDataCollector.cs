@@ -13,6 +13,9 @@ using InstrumentType = MarketDataModules.InstrumentType;
 using Orderbook = MarketDataModules.Orderbook;
 using OrderbookEntry = MarketDataModules.OrderbookEntry;
 using TradeStatus = MarketDataModules.TradeStatus;
+using Portfolio = MarketDataModules.Models.Portfolio.Portfolio;
+using MoneyAmount = MarketDataModules.Models.Portfolio.MoneyAmount;
+
 
 namespace DataCollector
 {
@@ -21,6 +24,42 @@ namespace DataCollector
     public class MarketDataCollector// : GetTinkoffData // : ICandlesList
     {
         GetTinkoffData getTinkoffData = new GetTinkoffData();
+
+        public async Task<Portfolio> GetPortfolioAsync(Provider provider = Provider.Tinkoff)
+        {
+            if (provider == Provider.Tinkoff)
+            {
+                Tinkoff.Trading.OpenApi.Models.Portfolio portfolioTinkoff = await getTinkoffData.GetPortfolioAsync();
+                //Lis
+                //Portfolio.Position position = new Portfolio.Position(portfolioTinkoff.Positions.Select(x=> x.Name), 
+                List<Portfolio.Position> positions = new List<Portfolio.Position> { };
+                foreach (var item in portfolioTinkoff.Positions)
+                {
+                    string name = item.Name;
+                    string figi = item.Figi;
+                    string ticker = item.Ticker;
+                    string isin = item.Isin;
+                    InstrumentType instrumentType = (InstrumentType)item.InstrumentType;
+                    decimal balance = item.Balance;
+                    decimal blocked = item.Blocked;
+                    Currency currencyExpectedYield = (Currency)item.ExpectedYield.Currency;
+                    MoneyAmount ExpectedYield = new MoneyAmount (currencyExpectedYield, item.ExpectedYield.Value);
+                    int lots = item.Lots;
+                    Currency currencyAveragePositionPrice = (Currency)item.AveragePositionPrice.Currency;
+                    MoneyAmount AveragePositionPrice = new MoneyAmount(currencyAveragePositionPrice, item.AveragePositionPrice.Value);
+                    Currency currencyAveragePositionPriceNoNkd = (Currency)item.AveragePositionPriceNoNkd.Currency;
+                    MoneyAmount AveragePositionPriceNoNkd = new MoneyAmount(currencyAveragePositionPriceNoNkd, item.AveragePositionPriceNoNkd.Value);
+
+                    Portfolio.Position position = new Portfolio.Position(name, figi, ticker, isin, instrumentType, balance, blocked, ExpectedYield, lots, AveragePositionPrice, AveragePositionPriceNoNkd);
+
+                    positions.Add(position);
+                }
+                Portfolio portfolio = new Portfolio(positions);
+                return portfolio;
+            }
+            else
+                throw new NotImplementedException();
+        }
 
         public async Task<Instrument> GetInstrumentByFigi(string figi, Provider provider)
         {
@@ -31,7 +70,7 @@ namespace DataCollector
             return instrument;
         }
 
-        public async Task<Instrument> GetInstrumentByTicker(string ticker, Provider provider)
+        public async Task<Instrument> GetInstrumentByTickerAsync(string ticker, Provider provider)
         {
             if (provider == Provider.Tinkoff)
             {
@@ -121,7 +160,6 @@ namespace DataCollector
             CandlesList candlesList = new CandlesList(tinkoffCandles.Figi, candleInterval, candles);
             return candlesList;
         }
-
 
         async Task<InstrumentList> TinkoffInstrumentList()
         {

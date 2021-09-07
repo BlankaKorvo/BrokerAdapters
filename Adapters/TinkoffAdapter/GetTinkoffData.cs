@@ -181,10 +181,17 @@ namespace TinkoffAdapter.DataHelper
             Log.Information("Stop GetOrderbook method. Figi: " + figi);
             return orderbook;
         }
+
+        public async Task<Portfolio> GetPortfolioAsync()
+        {
+            Portfolio portfolio = await Model.Retry().ExecuteAsync(async () => await Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PortfolioAsync()));
+            return portfolio;
+        }
+
         public async Task<bool> PresentInPortfolioAsync(string figi)
         {
             Log.Information("Start PresentInPortfolio method. Figi: " + figi);
-            Portfolio portfolio = await RetryPolicy.Model.Retry().ExecuteAsync(async () => await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await Authority.Auth.Context.PortfolioAsync()));
+            Portfolio portfolio = await GetPortfolioAsync();
             foreach (Portfolio.Position item in portfolio.Positions)
             {
                 if (item.Figi == figi)

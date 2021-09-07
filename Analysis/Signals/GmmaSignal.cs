@@ -55,34 +55,34 @@ namespace TradingAlgorithms.IndicatorSignals
             List<EmaResult> emaLong6 = Mapper.EmaData(candleList, price, emaLong6Period, CandleStruct.Close);
 
             //Ema Low
-            List<EmaResult> emaShortLow1 = Mapper.EmaData(candleList, price, emaShort1Period, CandleStruct.Low);
-            List<EmaResult> emaShortLow2 = Mapper.EmaData(candleList, price, emaShort2Period, CandleStruct.Low);
-            List<EmaResult> emaShortLow3 = Mapper.EmaData(candleList, price, emaShort3Period, CandleStruct.Low);
-            List<EmaResult> emaShortLow4 = Mapper.EmaData(candleList, price, emaShort4Period, CandleStruct.Low);
-            List<EmaResult> emaShortLow5 = Mapper.EmaData(candleList, price, emaShort5Period, CandleStruct.Low);
-            List<EmaResult> emaShortLow6 = Mapper.EmaData(candleList, price, emaShort6Period, CandleStruct.Low);
+            List<EmaResult> emaShort1Low = Mapper.EmaData(candleList, price, emaShort1Period, CandleStruct.Low);
+            List<EmaResult> emaShort2Low = Mapper.EmaData(candleList, price, emaShort2Period, CandleStruct.Low);
+            List<EmaResult> emaShort3Low = Mapper.EmaData(candleList, price, emaShort3Period, CandleStruct.Low);
+            List<EmaResult> emaShort4Low = Mapper.EmaData(candleList, price, emaShort4Period, CandleStruct.Low);
+            List<EmaResult> emaShort5Low = Mapper.EmaData(candleList, price, emaShort5Period, CandleStruct.Low);
+            List<EmaResult> emaShort6Low = Mapper.EmaData(candleList, price, emaShort6Period, CandleStruct.Low);
 
-            List<EmaResult> emaLongLow1 = Mapper.EmaData(candleList, price, emaLong1Period, CandleStruct.Low);
-            List<EmaResult> emaLongLow2 = Mapper.EmaData(candleList, price, emaLong2Period, CandleStruct.Low);
-            List<EmaResult> emaLongLow3 = Mapper.EmaData(candleList, price, emaLong3Period, CandleStruct.Low);
-            List<EmaResult> emaLongLow4 = Mapper.EmaData(candleList, price, emaLong4Period, CandleStruct.Low);
-            List<EmaResult> emaLongLow5 = Mapper.EmaData(candleList, price, emaLong5Period, CandleStruct.Low);
-            List<EmaResult> emaLongLow6 = Mapper.EmaData(candleList, price, emaLong6Period, CandleStruct.Low);
+            List<EmaResult> emaLong1Low = Mapper.EmaData(candleList, price, emaLong1Period, CandleStruct.Low);
+            List<EmaResult> emaLong2Low = Mapper.EmaData(candleList, price, emaLong2Period, CandleStruct.Low);
+            List<EmaResult> emaLong3Low = Mapper.EmaData(candleList, price, emaLong3Period, CandleStruct.Low);
+            List<EmaResult> emaLong4Low = Mapper.EmaData(candleList, price, emaLong4Period, CandleStruct.Low);
+            List<EmaResult> emaLong5Low = Mapper.EmaData(candleList, price, emaLong5Period, CandleStruct.Low);
+            List<EmaResult> emaLong6Low = Mapper.EmaData(candleList, price, emaLong6Period, CandleStruct.Low);
 
             //Ema High
-            List<EmaResult> emaShortHigh1 = Mapper.EmaData(candleList, price, emaShort1Period, CandleStruct.High);
-            List<EmaResult> emaShortHigh2 = Mapper.EmaData(candleList, price, emaShort2Period, CandleStruct.High);
-            List<EmaResult> emaShortHigh3 = Mapper.EmaData(candleList, price, emaShort3Period, CandleStruct.High);
-            List<EmaResult> emaShortHigh4 = Mapper.EmaData(candleList, price, emaShort4Period, CandleStruct.High);
-            List<EmaResult> emaShortHigh5 = Mapper.EmaData(candleList, price, emaShort5Period, CandleStruct.High);
-            List<EmaResult> emaShortHigh6 = Mapper.EmaData(candleList, price, emaShort6Period, CandleStruct.High);
+            List<EmaResult> emaShort1High = Mapper.EmaData(candleList, price, emaShort1Period, CandleStruct.High);
+            List<EmaResult> emaShort2High = Mapper.EmaData(candleList, price, emaShort2Period, CandleStruct.High);
+            List<EmaResult> emaShort3High = Mapper.EmaData(candleList, price, emaShort3Period, CandleStruct.High);
+            List<EmaResult> emaShort4High = Mapper.EmaData(candleList, price, emaShort4Period, CandleStruct.High);
+            List<EmaResult> emaShort5High = Mapper.EmaData(candleList, price, emaShort5Period, CandleStruct.High);
+            List<EmaResult> emaShort6High = Mapper.EmaData(candleList, price, emaShort6Period, CandleStruct.High);
 
-            List<EmaResult> emaLongHigh1 = Mapper.EmaData(candleList, price, emaLong1Period, CandleStruct.High);
-            List<EmaResult> emaLongHigh2 = Mapper.EmaData(candleList, price, emaLong2Period, CandleStruct.High);
-            List<EmaResult> emaLongHigh3 = Mapper.EmaData(candleList, price, emaLong3Period, CandleStruct.High);
-            List<EmaResult> emaLongHigh4 = Mapper.EmaData(candleList, price, emaLong4Period, CandleStruct.High);
-            List<EmaResult> emaLongHigh5 = Mapper.EmaData(candleList, price, emaLong5Period, CandleStruct.High);
-            List<EmaResult> emaLongHigh6 = Mapper.EmaData(candleList, price, emaLong6Period, CandleStruct.High);
+            List<EmaResult> emaLong1High = Mapper.EmaData(candleList, price, emaLong1Period, CandleStruct.High);
+            List<EmaResult> emaLong2High = Mapper.EmaData(candleList, price, emaLong2Period, CandleStruct.High);
+            List<EmaResult> emaLong3High = Mapper.EmaData(candleList, price, emaLong3Period, CandleStruct.High);
+            List<EmaResult> emaLong4High = Mapper.EmaData(candleList, price, emaLong4Period, CandleStruct.High);
+            List<EmaResult> emaLong5High = Mapper.EmaData(candleList, price, emaLong5Period, CandleStruct.High);
+            List<EmaResult> emaLong6High = Mapper.EmaData(candleList, price, emaLong6Period, CandleStruct.High);
 
             ////Angle Count
             //double emaShort1Angle = AngleCalc((decimal)emaShort1[^2].Ema, (decimal)emaShort1[^1].Ema);
@@ -99,7 +99,7 @@ namespace TradingAlgorithms.IndicatorSignals
             //double emaLong5Angle = AngleCalc((decimal)emaLong5[^2].Ema, (decimal)emaLong5[^1].Ema);
             //double emaLong6Angle = AngleCalc((decimal)emaLong6[^2].Ema, (decimal)emaLong6[^1].Ema);
 
-            //LinearAngle Count
+            //LinearAngle Close
             double emaShort1LinearAngle = LinearAngle(emaShort1.Select(x => x.Ema).ToList(), 1);
             double emaShort2LinearAngle = LinearAngle(emaShort2.Select(x => x.Ema).ToList(), 1);
             double emaShort3LinearAngle = LinearAngle(emaShort3.Select(x => x.Ema).ToList(), 1);
@@ -113,14 +113,39 @@ namespace TradingAlgorithms.IndicatorSignals
             double emaLong4LinearAngle = LinearAngle(emaLong4.Select(x => x.Ema).ToList(), 1);
             double emaLong5LinearAngle = LinearAngle(emaLong5.Select(x => x.Ema).ToList(), 1);
             double emaLong6LinearAngle = LinearAngle(emaLong6.Select(x => x.Ema).ToList(), 1);
+            
+            //LinearAngle High
+            double emaShort1HighLinearAngle = LinearAngle(emaShort1High.Select(x => x.Ema).ToList(), 1);
+            double emaShort2HighLinearAngle = LinearAngle(emaShort2High.Select(x => x.Ema).ToList(), 1);
+            double emaShort3HighLinearAngle = LinearAngle(emaShort3High.Select(x => x.Ema).ToList(), 1);
+            double emaShort4HighLinearAngle = LinearAngle(emaShort4High.Select(x => x.Ema).ToList(), 1);
+            double emaShort5HighLinearAngle = LinearAngle(emaShort5High.Select(x => x.Ema).ToList(), 1);
+            double emaShort6HighLinearAngle = LinearAngle(emaShort6High.Select(x => x.Ema).ToList(), 1);
+
+            //LinearAngle Low
+            double emaShort1LowLinearAngle = LinearAngle(emaShort1Low.Select(x => x.Ema).ToList(), 1);
+            double emaShort2LowLinearAngle = LinearAngle(emaShort2Low.Select(x => x.Ema).ToList(), 1);
+            double emaShort3LowLinearAngle = LinearAngle(emaShort3Low.Select(x => x.Ema).ToList(), 1);
+            double emaShort4LowLinearAngle = LinearAngle(emaShort4Low.Select(x => x.Ema).ToList(), 1);
+            double emaShort5LowLinearAngle = LinearAngle(emaShort5Low.Select(x => x.Ema).ToList(), 1);
+            double emaShort6LowLinearAngle = LinearAngle(emaShort6Low.Select(x => x.Ema).ToList(), 1);
+
 
             //Ema Close Last
             Log.Information("emaShort1 = " + emaShort1.LastOrDefault().Ema + " emaLong1 = " + emaLong1.LastOrDefault().Ema + " date:" + emaLong1.LastOrDefault().Date.ToString());
-            Log.Information("emaShort2 = " + emaShort2.LastOrDefault().Ema + " emaLong2 = " + emaLong2.LastOrDefault().Ema + " date:" + emaLong1.LastOrDefault().Date.ToString());
-            Log.Information("emaShort3 = " + emaShort3.LastOrDefault().Ema + " emaLong3 = " + emaLong3.LastOrDefault().Ema + " date:" + emaLong1.LastOrDefault().Date.ToString());
-            Log.Information("emaShort4 = " + emaShort4.LastOrDefault().Ema + " emaLong4 = " + emaLong4.LastOrDefault().Ema + " date:" + emaLong1.LastOrDefault().Date.ToString());
-            Log.Information("emaShort5 = " + emaShort5.LastOrDefault().Ema + " emaLong5 = " + emaLong5.LastOrDefault().Ema + " date:" + emaLong1.LastOrDefault().Date.ToString());
-            Log.Information("emaShort6 = " + emaShort6.LastOrDefault().Ema + " emaLong6 = " + emaLong6.LastOrDefault().Ema + " date:" + emaLong1.LastOrDefault().Date.ToString());
+            Log.Information("emaShort2 = " + emaShort2.LastOrDefault().Ema + " emaLong2 = " + emaLong2.LastOrDefault().Ema + " date:" + emaLong2.LastOrDefault().Date.ToString());
+            Log.Information("emaShort3 = " + emaShort3.LastOrDefault().Ema + " emaLong3 = " + emaLong3.LastOrDefault().Ema + " date:" + emaLong3.LastOrDefault().Date.ToString());
+            Log.Information("emaShort4 = " + emaShort4.LastOrDefault().Ema + " emaLong4 = " + emaLong4.LastOrDefault().Ema + " date:" + emaLong4.LastOrDefault().Date.ToString());
+            Log.Information("emaShort5 = " + emaShort5.LastOrDefault().Ema + " emaLong5 = " + emaLong5.LastOrDefault().Ema + " date:" + emaLong5.LastOrDefault().Date.ToString());
+            Log.Information("emaShort6 = " + emaShort6.LastOrDefault().Ema + " emaLong6 = " + emaLong6.LastOrDefault().Ema + " date:" + emaLong6.LastOrDefault().Date.ToString());
+
+            //Ema High Last
+            Log.Information("emaShort1High = " + emaShort1High.LastOrDefault().Ema + " emaLong1High = " + emaLong1High.LastOrDefault().Ema + " date:" + emaLong1High.LastOrDefault().Date.ToString());
+            Log.Information("emaShort2High = " + emaShort2High.LastOrDefault().Ema + " emaLong2High = " + emaLong2High.LastOrDefault().Ema + " date:" + emaLong2High.LastOrDefault().Date.ToString());
+            Log.Information("emaShort3High = " + emaShort3High.LastOrDefault().Ema + " emaLong3High = " + emaLong3High.LastOrDefault().Ema + " date:" + emaLong3High.LastOrDefault().Date.ToString());
+            Log.Information("emaShort4High = " + emaShort4High.LastOrDefault().Ema + " emaLong4High = " + emaLong4High.LastOrDefault().Ema + " date:" + emaLong4High.LastOrDefault().Date.ToString());
+            Log.Information("emaShort5High = " + emaShort5High.LastOrDefault().Ema + " emaLong5High = " + emaLong5High.LastOrDefault().Ema + " date:" + emaLong5High.LastOrDefault().Date.ToString());
+            Log.Information("emaShort6High = " + emaShort6High.LastOrDefault().Ema + " emaLong6High = " + emaLong6High.LastOrDefault().Ema + " date:" + emaLong6High.LastOrDefault().Date.ToString());
 
             //Ema close ^2 && ^3
             Log.Information("emaShort1[^2].Ema = " + emaShort1[^2].Ema + " date:" + emaShort1[^2].Date.ToString() + " emaShort1[^3].Ema = " + emaShort1[^3].Ema + " date:" + emaShort1[^3].Date.ToString());
@@ -233,6 +258,8 @@ namespace TradingAlgorithms.IndicatorSignals
                 (
                 emaShort6LinearAngle < 0
                 ||
+                emaShort1High.LastOrDefault().Ema < emaShort2High.LastOrDefault().Ema
+                ||
                 emaShort1.LastOrDefault().Ema < emaShort2.LastOrDefault().Ema
                 )
             {
@@ -243,6 +270,8 @@ namespace TradingAlgorithms.IndicatorSignals
             else if // from Short
                 (
                 emaShort6LinearAngle > 0
+                ||
+                emaShort1High.LastOrDefault().Ema > emaShort2High.LastOrDefault().Ema
                 ||
                 emaShort1.LastOrDefault().Ema > emaShort2.LastOrDefault().Ema
                 )
