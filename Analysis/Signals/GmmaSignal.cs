@@ -38,6 +38,8 @@ namespace TradingAlgorithms.IndicatorSignals
 
             Log.Information("price = " + price);
 
+
+            //Ema Close
             List<EmaResult> emaShort1 = Mapper.EmaData(candleList, price, emaShort1Period, CandleStruct.Close);
             List<EmaResult> emaShort2 = Mapper.EmaData(candleList, price, emaShort2Period, CandleStruct.Close);
             List<EmaResult> emaShort3 = Mapper.EmaData(candleList, price, emaShort3Period, CandleStruct.Close);
@@ -52,6 +54,7 @@ namespace TradingAlgorithms.IndicatorSignals
             List<EmaResult> emaLong5 = Mapper.EmaData(candleList, price, emaLong5Period, CandleStruct.Close);
             List<EmaResult> emaLong6 = Mapper.EmaData(candleList, price, emaLong6Period, CandleStruct.Close);
 
+            //Ema Low
             List<EmaResult> emaShortLow1 = Mapper.EmaData(candleList, price, emaShort1Period, CandleStruct.Low);
             List<EmaResult> emaShortLow2 = Mapper.EmaData(candleList, price, emaShort2Period, CandleStruct.Low);
             List<EmaResult> emaShortLow3 = Mapper.EmaData(candleList, price, emaShort3Period, CandleStruct.Low);
@@ -66,6 +69,7 @@ namespace TradingAlgorithms.IndicatorSignals
             List<EmaResult> emaLongLow5 = Mapper.EmaData(candleList, price, emaLong5Period, CandleStruct.Low);
             List<EmaResult> emaLongLow6 = Mapper.EmaData(candleList, price, emaLong6Period, CandleStruct.Low);
 
+            //Ema High
             List<EmaResult> emaShortHigh1 = Mapper.EmaData(candleList, price, emaShort1Period, CandleStruct.High);
             List<EmaResult> emaShortHigh2 = Mapper.EmaData(candleList, price, emaShort2Period, CandleStruct.High);
             List<EmaResult> emaShortHigh3 = Mapper.EmaData(candleList, price, emaShort3Period, CandleStruct.High);
@@ -80,7 +84,22 @@ namespace TradingAlgorithms.IndicatorSignals
             List<EmaResult> emaLongHigh5 = Mapper.EmaData(candleList, price, emaLong5Period, CandleStruct.High);
             List<EmaResult> emaLongHigh6 = Mapper.EmaData(candleList, price, emaLong6Period, CandleStruct.High);
 
+            ////Angle Count
+            //double emaShort1Angle = AngleCalc((decimal)emaShort1[^2].Ema, (decimal)emaShort1[^1].Ema);
+            //double emaShort2Angle = AngleCalc((decimal)emaShort2[^2].Ema, (decimal)emaShort2[^1].Ema);
+            //double emaShort3Angle = AngleCalc((decimal)emaShort3[^2].Ema, (decimal)emaShort3[^1].Ema);
+            //double emaShort4Angle = AngleCalc((decimal)emaShort4[^2].Ema, (decimal)emaShort4[^1].Ema);
+            //double emaShort5Angle = AngleCalc((decimal)emaShort5[^2].Ema, (decimal)emaShort5[^1].Ema);
+            //double emaShort6Angle = AngleCalc((decimal)emaShort6[^2].Ema, (decimal)emaShort6[^1].Ema);
 
+            //double emaLong1Angle = AngleCalc((decimal)emaLong1[^2].Ema, (decimal)emaLong1[^1].Ema);
+            //double emaLong2Angle = AngleCalc((decimal)emaLong2[^2].Ema, (decimal)emaLong2[^1].Ema);
+            //double emaLong3Angle = AngleCalc((decimal)emaLong3[^2].Ema, (decimal)emaLong3[^1].Ema);
+            //double emaLong4Angle = AngleCalc((decimal)emaLong4[^2].Ema, (decimal)emaLong4[^1].Ema);
+            //double emaLong5Angle = AngleCalc((decimal)emaLong5[^2].Ema, (decimal)emaLong5[^1].Ema);
+            //double emaLong6Angle = AngleCalc((decimal)emaLong6[^2].Ema, (decimal)emaLong6[^1].Ema);
+
+            //LinearAngle Count
             double emaShort1LinearAngle = LinearAngle(emaShort1.Select(x => x.Ema).ToList(), 1);
             double emaShort2LinearAngle = LinearAngle(emaShort2.Select(x => x.Ema).ToList(), 1);
             double emaShort3LinearAngle = LinearAngle(emaShort3.Select(x => x.Ema).ToList(), 1);
@@ -95,33 +114,44 @@ namespace TradingAlgorithms.IndicatorSignals
             double emaLong5LinearAngle = LinearAngle(emaLong5.Select(x => x.Ema).ToList(), 1);
             double emaLong6LinearAngle = LinearAngle(emaLong6.Select(x => x.Ema).ToList(), 1);
 
-            Log.Information("emaShort1 = " + emaShort1.LastOrDefault().Ema + " emaLong1 = " + emaLong1.LastOrDefault().Ema);
-            Log.Information("emaShort2 = " + emaShort2.LastOrDefault().Ema + " emaLong2 = " + emaLong2.LastOrDefault().Ema);
-            Log.Information("emaShort3 = " + emaShort3.LastOrDefault().Ema + " emaLong3 = " + emaLong3.LastOrDefault().Ema);
-            Log.Information("emaShort4 = " + emaShort4.LastOrDefault().Ema + " emaLong4 = " + emaLong4.LastOrDefault().Ema);
-            Log.Information("emaShort5 = " + emaShort5.LastOrDefault().Ema + " emaLong5 = " + emaLong5.LastOrDefault().Ema);
-            Log.Information("emaShort6 = " + emaShort6.LastOrDefault().Ema + " emaLong6 = " + emaLong6.LastOrDefault().Ema);
+            //Ema Close Last
+            Log.Information("emaShort1 = " + emaShort1.LastOrDefault().Ema + " emaLong1 = " + emaLong1.LastOrDefault().Ema + " date:" + emaLong1.LastOrDefault().Date.ToString());
+            Log.Information("emaShort2 = " + emaShort2.LastOrDefault().Ema + " emaLong2 = " + emaLong2.LastOrDefault().Ema + " date:" + emaLong1.LastOrDefault().Date.ToString());
+            Log.Information("emaShort3 = " + emaShort3.LastOrDefault().Ema + " emaLong3 = " + emaLong3.LastOrDefault().Ema + " date:" + emaLong1.LastOrDefault().Date.ToString());
+            Log.Information("emaShort4 = " + emaShort4.LastOrDefault().Ema + " emaLong4 = " + emaLong4.LastOrDefault().Ema + " date:" + emaLong1.LastOrDefault().Date.ToString());
+            Log.Information("emaShort5 = " + emaShort5.LastOrDefault().Ema + " emaLong5 = " + emaLong5.LastOrDefault().Ema + " date:" + emaLong1.LastOrDefault().Date.ToString());
+            Log.Information("emaShort6 = " + emaShort6.LastOrDefault().Ema + " emaLong6 = " + emaLong6.LastOrDefault().Ema + " date:" + emaLong1.LastOrDefault().Date.ToString());
 
-            Log.Information("emaLong1 = " + emaLong1.LastOrDefault().Ema + " date:" + emaLong1.LastOrDefault().Date.ToString());
-            Log.Information("emaLong2 = " + emaLong2.LastOrDefault().Ema + " date:" + emaLong2.LastOrDefault().Date.ToString());
-            Log.Information("emaLong3 = " + emaLong3.LastOrDefault().Ema + " date:" + emaLong3.LastOrDefault().Date.ToString());
-            Log.Information("emaLong4 = " + emaLong4.LastOrDefault().Ema + " date:" + emaLong4.LastOrDefault().Date.ToString());
-            Log.Information("emaLong5 = " + emaLong5.LastOrDefault().Ema + " date:" + emaLong5.LastOrDefault().Date.ToString());
-            Log.Information("emaLong6 = " + emaLong6.LastOrDefault().Ema + " date:" + emaLong6.LastOrDefault().Date.ToString());
+            //Ema close ^2 && ^3
+            Log.Information("emaShort1[^2].Ema = " + emaShort1[^2].Ema + " date:" + emaShort1[^2].Date.ToString() + " emaShort1[^3].Ema = " + emaShort1[^3].Ema + " date:" + emaShort1[^3].Date.ToString());
+            Log.Information("emaShort2[^2].Ema = " + emaShort2[^2].Ema + " date:" + emaShort2[^2].Date.ToString() + " emaShort2[^3].Ema = " + emaShort2[^3].Ema + " date:" + emaShort2[^3].Date.ToString());
+            Log.Information("emaShort3[^2].Ema = " + emaShort3[^2].Ema + " date:" + emaShort3[^2].Date.ToString() + " emaShort3[^3].Ema = " + emaShort3[^3].Ema + " date:" + emaShort3[^3].Date.ToString());
+            Log.Information("emaShort4[^2].Ema = " + emaShort4[^2].Ema + " date:" + emaShort4[^2].Date.ToString() + " emaShort4[^3].Ema = " + emaShort4[^3].Ema + " date:" + emaShort4[^3].Date.ToString());
+            Log.Information("emaShort5[^2].Ema = " + emaShort5[^2].Ema + " date:" + emaShort5[^2].Date.ToString() + " emaShort5[^3].Ema = " + emaShort5[^3].Ema + " date:" + emaShort5[^3].Date.ToString());
+            Log.Information("emaShort6[^2].Ema = " + emaShort6[^2].Ema + " date:" + emaShort6[^2].Date.ToString() + " emaShort6[^3].Ema = " + emaShort6[^3].Ema + " date:" + emaShort6[^3].Date.ToString());
 
-            Log.Information("emaShort1[^2].Ema = " + emaShort1[^2].Ema + " emaShort1[^3].Ema = " + emaShort1[^3].Ema);
-            Log.Information("emaShort2[^2].Ema = " + emaShort2[^2].Ema + " emaShort2[^3].Ema = " + emaShort2[^3].Ema);
-            Log.Information("emaShort3[^2].Ema = " + emaShort3[^2].Ema + " emaShort3[^3].Ema = " + emaShort3[^3].Ema);
-            Log.Information("emaShort4[^2].Ema = " + emaShort4[^2].Ema + " emaShort4[^3].Ema = " + emaShort4[^3].Ema);
-            Log.Information("emaShort5[^2].Ema = " + emaShort5[^2].Ema + " emaShort5[^3].Ema = " + emaShort5[^3].Ema);
-            Log.Information("emaShort6[^2].Ema = " + emaShort6[^2].Ema + " emaShort6[^3].Ema = " + emaShort6[^3].Ema);
+            Log.Information("emaLong1[^2].Ema = " + emaLong1[^2].Ema + " date:" + emaLong1[^2].Date.ToString() + " emaLong1[^3].Ema = " + emaLong1[^3].Ema + " date:" + emaLong1[^3].Date.ToString());
+            Log.Information("emaLong2[^2].Ema = " + emaLong2[^2].Ema + " date:" + emaLong2[^2].Date.ToString() + " emaLong2[^3].Ema = " + emaLong2[^3].Ema + " date:" + emaLong2[^3].Date.ToString());
+            Log.Information("emaLong3[^2].Ema = " + emaLong3[^2].Ema + " date:" + emaLong3[^2].Date.ToString() + " emaLong3[^3].Ema = " + emaLong3[^3].Ema + " date:" + emaLong3[^3].Date.ToString());
+            Log.Information("emaLong4[^2].Ema = " + emaLong4[^2].Ema + " date:" + emaLong4[^2].Date.ToString() + " emaLong4[^3].Ema = " + emaLong4[^3].Ema + " date:" + emaLong4[^3].Date.ToString());
+            Log.Information("emaLong5[^2].Ema = " + emaLong5[^2].Ema + " date:" + emaLong5[^2].Date.ToString() + " emaLong5[^3].Ema = " + emaLong5[^3].Ema + " date:" + emaLong5[^3].Date.ToString());
+            Log.Information("emaLong6[^2].Ema = " + emaLong6[^2].Ema + " date:" + emaLong6[^2].Date.ToString() + " emaLong6[^3].Ema = " + emaLong6[^3].Ema + " date:" + emaLong6[^3].Date.ToString());
 
+            //Ema Linear Angles
             Log.Information("emaShort1LinearAngle(1) = " + emaShort1LinearAngle);
             Log.Information("emaShort2LinearAngle(1) = " + emaShort2LinearAngle);
             Log.Information("emaShort3LinearAngle(1) = " + emaShort3LinearAngle);
             Log.Information("emaShort4LinearAngle(1) = " + emaShort4LinearAngle);
             Log.Information("emaShort5LinearAngle(1) = " + emaShort5LinearAngle);
             Log.Information("emaShort6LinearAngle(1) = " + emaShort6LinearAngle);
+
+            //Ema Angles 
+            //Log.Information("emaShort1Angle(1) = " + emaShort1Angle);
+            //Log.Information("emaShort2Angle(1) = " + emaShort2Angle);
+            //Log.Information("emaShort3Angle(1) = " + emaShort3Angle);
+            //Log.Information("emaShort4Angle(1) = " + emaShort4Angle);
+            //Log.Information("emaShort5Angle(1) = " + emaShort5Angle);
+            //Log.Information("emaShort6Angle(1) = " + emaShort6Angle);
 
             if //to Long
                 (
