@@ -38,7 +38,7 @@ namespace Analysis.TradeDecision
                 orderbookSignal == TradeTarget.toLong
                 )
             {
-                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeOperation.toLong");
+                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeTarget.toLong");
                 return TradeTarget.toLong;
             }
             else if
@@ -48,7 +48,7 @@ namespace Analysis.TradeDecision
                 orderbookSignal == TradeTarget.toShort
                 )
             {
-                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeOperation.toShort");
+                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeTarget.toShort");
                 return TradeTarget.toShort;
             }
             else if
@@ -56,7 +56,7 @@ namespace Analysis.TradeDecision
                 gmmaSignal == TradeTarget.fromLong
                 )
             {
-                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeOperation.fromLong");
+                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeTarget.fromLong");
                 return TradeTarget.fromLong;
             }
 
@@ -65,14 +65,14 @@ namespace Analysis.TradeDecision
                 gmmaSignal == TradeTarget.fromShort
                 )
             {
-                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeOperation.fromShort");
+                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeTarget.fromShort");
                 return TradeTarget.fromShort;
             }
             else
             {
-                return TradeTarget.notTrading;
+                throw new Exception("Error in TradeVariant GmmaDecision");
             }
-//                throw new Exception("Error in TradeVariant GmmaDecision");
+
         }
 
     //    public bool Long()

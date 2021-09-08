@@ -22,6 +22,7 @@ namespace Trader
         MarketDataCollector marketDataCollector = new MarketDataCollector();
         public async Task AutoTradingInstruments(InstrumentList instrumentList, int countStocks)
         {
+            Log.Information("Start AutoTradingInstruments. countStocks = " + countStocks);
             while (true)
             {
 
@@ -30,7 +31,7 @@ namespace Trader
 
                 foreach (var item in instrumentList.Instruments)
                 {
-
+                    Log.Information("Start AutoTradingInstruments Figi: " + item.Figi);
                     var orderbook = await marketDataCollector.GetOrderbookAsync(item.Figi, Provider.Tinkoff, 20);
 
                     if (orderbook == null)
@@ -41,12 +42,21 @@ namespace Trader
                     else
                     {
                         var candleList = await marketDataCollector.GetCandlesAsync(item.Figi, CandleInterval, CandlesCount);
-
+                        Log.Information("candleList.Candles.Count" + candleList.Candles.Count);
                         var bestAsk = orderbook.Asks.FirstOrDefault().Price;
                         var bestBid = orderbook.Bids.FirstOrDefault().Price;
                         int currentLots = CountStoksInPortfolioByFigi(portfolio, item.Figi);
 
-                        TradeTarget tradeTarget = (new GmmaDecision() { candleList = candleList, orderbook = orderbook, bestAsk = bestAsk, bestBid = bestBid }).TradeVariant();
+                        Log.Information("bestAsk: " + bestAsk);
+                        Log.Information("bestBid: " + bestBid);
+                        Log.Information("currentLots: " + currentLots);
+
+
+                        TradeTarget tradeTarget = (new GmmaDecision() 
+                            { candleList = candleList, orderbook = orderbook, bestAsk = bestAsk, bestBid = bestBid })
+                            .TradeVariant();
+
+                        Log.Information("tradeTarget: " + tradeTarget + "figi: " + item.Figi);
 
                         if
                             (
@@ -60,7 +70,7 @@ namespace Trader
                                 new TransactionModel() 
                                 { Figi = item.Figi, Price = bestAsk, TradeOperation = TradeOperation.Buy, Quantity = countStocks - currentLots }
                             }.TransactStoksAsyncs();
-                          
+
                         }
                         else if
                             (
@@ -101,8 +111,8 @@ namespace Trader
                             new TransactionModel() { Figi = item.Figi, Price = bestAsk, TradeOperation = TradeOperation.Buy, Quantity = 0 - currentLots }
                             }.TransactStoksAsyncs();
                         }
-
                     }
+                    Log.Information("Start AutoTradingInstruments Figi: " + item.Figi);
                 }
             }
         }
