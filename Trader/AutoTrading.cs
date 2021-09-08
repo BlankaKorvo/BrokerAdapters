@@ -57,59 +57,66 @@ namespace Trader
                             .TradeVariant();
 
                         Log.Information("tradeTarget: " + tradeTarget + "figi: " + item.Figi);
+                        try
+                        {
+                            if
+                                (
+                                tradeTarget == TradeTarget.toLong
+                                &&
+                                countStocks > currentLots
+                                )
+                            {
+                                await new TinkoffTrading()
+                                {
+                                    transactionModel =
+                                    new TransactionModel()
+                                    { Figi = item.Figi, Price = bestAsk, TradeOperation = TradeOperation.Buy, Quantity = countStocks - currentLots }
+                                }.TransactStoksAsyncs();
 
-                        if
-                            (
-                            tradeTarget == TradeTarget.toLong
-                            &&
-                            countStocks > currentLots
-                            )
-                        {
-                            await new TinkoffTrading() 
-                            {transactionModel =  
-                                new TransactionModel() 
-                                { Figi = item.Figi, Price = bestAsk, TradeOperation = TradeOperation.Buy, Quantity = countStocks - currentLots }
-                            }.TransactStoksAsyncs();
-
-                        }
-                        else if
-                            (
-                            tradeTarget == TradeTarget.fromLong
-                            &&
-                            currentLots > 0
-                            )
-                        {
-                            await new TinkoffTrading()
+                            }
+                            else if
+                                (
+                                tradeTarget == TradeTarget.fromLong
+                                &&
+                                currentLots > 0
+                                )
                             {
-                                transactionModel =
-                            new TransactionModel() { Figi = item.Figi, Price = bestBid, TradeOperation = TradeOperation.Sell, Quantity = currentLots }
-                            }.TransactStoksAsyncs();
-                        }
-                        else if
-                            (
-                            tradeTarget == TradeTarget.toShort
-                            &&
-                            0 - countStocks < currentLots
-                            )
-                        {
-                            await new TinkoffTrading()
+                                await new TinkoffTrading()
+                                {
+                                    transactionModel =
+                                new TransactionModel() { Figi = item.Figi, Price = bestBid, TradeOperation = TradeOperation.Sell, Quantity = currentLots }
+                                }.TransactStoksAsyncs();
+                            }
+                            else if
+                                (
+                                tradeTarget == TradeTarget.toShort
+                                &&
+                                0 - countStocks < currentLots
+                                )
                             {
-                                transactionModel =
-                            new TransactionModel() { Figi = item.Figi, Price = bestBid, TradeOperation = TradeOperation.Sell, Quantity = currentLots + countStocks }
-                            }.TransactStoksAsyncs();
-                        }
-                        else if
-                            (
-                            tradeTarget == TradeTarget.fromShort
-                            &&
-                            currentLots < 0
-                            )
-                        {
-                            await new TinkoffTrading()
+                                await new TinkoffTrading()
+                                {
+                                    transactionModel =
+                                new TransactionModel() { Figi = item.Figi, Price = bestBid, TradeOperation = TradeOperation.Sell, Quantity = currentLots + countStocks }
+                                }.TransactStoksAsyncs();
+                            }
+                            else if
+                                (
+                                tradeTarget == TradeTarget.fromShort
+                                &&
+                                currentLots < 0
+                                )
                             {
-                                transactionModel =
-                            new TransactionModel() { Figi = item.Figi, Price = bestAsk, TradeOperation = TradeOperation.Buy, Quantity = 0 - currentLots }
-                            }.TransactStoksAsyncs();
+                                await new TinkoffTrading()
+                                {
+                                    transactionModel =
+                                new TransactionModel() { Figi = item.Figi, Price = bestAsk, TradeOperation = TradeOperation.Buy, Quantity = 0 - currentLots }
+                                }.TransactStoksAsyncs();
+                            }
+                        }
+                        catch(Exception exception)
+                        {
+                            Log.Information(exception.Message);
                         }
                     }
                     Log.Information("Start AutoTradingInstruments Figi: " + item.Figi);
