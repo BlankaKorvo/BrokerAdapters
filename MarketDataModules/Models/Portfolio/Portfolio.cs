@@ -23,10 +23,10 @@ namespace MarketDataModules.Models.Portfolio
             public InstrumentType InstrumentType { get; }
             public decimal Balance { get; }
             public decimal Blocked { get; }
-            public MoneyAmount ExpectedYield { get; }
+            //public MoneyAmount ExpectedYield { get; }
             public int Lots { get; }
-            public MoneyAmount AveragePositionPrice { get; }
-            public MoneyAmount AveragePositionPriceNoNkd { get; }
+            //public MoneyAmount AveragePositionPrice { get; }
+            //public MoneyAmount AveragePositionPriceNoNkd { get; }
 
             public Position(
                 string name,
@@ -36,10 +36,11 @@ namespace MarketDataModules.Models.Portfolio
                 InstrumentType instrumentType,
                 decimal balance,
                 decimal blocked,
-                MoneyAmount expectedYield,
-                int lots,
-                MoneyAmount averagePositionPrice,
-                MoneyAmount averagePositionPriceNoNkd)
+                //MoneyAmount expectedYield,
+                int lots//,
+                //MoneyAmount averagePositionPrice,
+                //MoneyAmount averagePositionPriceNoNkd
+                )
             {
                 Name = name;
                 Figi = figi;
@@ -48,10 +49,10 @@ namespace MarketDataModules.Models.Portfolio
                 InstrumentType = instrumentType;
                 Balance = balance;
                 Blocked = blocked;
-                ExpectedYield = expectedYield;
+                //ExpectedYield = expectedYield;
                 Lots = lots;
-                AveragePositionPrice = averagePositionPrice;
-                AveragePositionPriceNoNkd = averagePositionPriceNoNkd;
+                //AveragePositionPrice = averagePositionPrice;
+                //AveragePositionPriceNoNkd = averagePositionPriceNoNkd;
             }
         }
     }

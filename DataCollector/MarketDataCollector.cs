@@ -42,15 +42,15 @@ namespace DataCollector
                     InstrumentType instrumentType = (InstrumentType)item.InstrumentType;
                     decimal balance = item.Balance;
                     decimal blocked = item.Blocked;
-                    Currency currencyExpectedYield = (Currency)item.ExpectedYield.Currency;
-                    MoneyAmount ExpectedYield = new MoneyAmount (currencyExpectedYield, item.ExpectedYield.Value);
+                    //Currency currencyExpectedYield = (Currency)item.ExpectedYield.Currency;
+                    //MoneyAmount ExpectedYield = new MoneyAmount(currencyExpectedYield, item.ExpectedYield.Value);
                     int lots = item.Lots;
-                    Currency currencyAveragePositionPrice = (Currency)item.AveragePositionPrice.Currency;
-                    MoneyAmount AveragePositionPrice = new MoneyAmount(currencyAveragePositionPrice, item.AveragePositionPrice.Value);
-                    Currency currencyAveragePositionPriceNoNkd = (Currency)item.AveragePositionPriceNoNkd.Currency;
-                    MoneyAmount AveragePositionPriceNoNkd = new MoneyAmount(currencyAveragePositionPriceNoNkd, item.AveragePositionPriceNoNkd.Value);
+                    //Currency currencyAveragePositionPrice = (Currency)item.AveragePositionPrice.Currency;
+                    //MoneyAmount AveragePositionPrice = new MoneyAmount(currencyAveragePositionPrice, item.AveragePositionPrice.Value);
+                    //Currency currencyAveragePositionPriceNoNkd = (Currency)item.AveragePositionPriceNoNkd.Currency;
+                    //MoneyAmount AveragePositionPriceNoNkd = new MoneyAmount(currencyAveragePositionPriceNoNkd, item.AveragePositionPriceNoNkd.Value);
 
-                    Portfolio.Position position = new Portfolio.Position(name, figi, ticker, isin, instrumentType, balance, blocked, ExpectedYield, lots, AveragePositionPrice, AveragePositionPriceNoNkd);
+                    Portfolio.Position position = new Portfolio.Position(name, figi, ticker, isin, instrumentType, balance, blocked, lots);
 
                     positions.Add(position);
                 }
@@ -70,7 +70,7 @@ namespace DataCollector
             return instrument;
         }
 
-        public async Task<Instrument> GetInstrumentByTickerAsync(string ticker, Provider provider)
+        public async Task<Instrument> GetInstrumentByTickerAsync(string ticker, Provider provider = Provider.Tinkoff)
         {
             if (provider == Provider.Tinkoff)
             {

@@ -15,8 +15,8 @@ namespace Trader
 {
     public class AutoTrading
     {
-        CandleInterval CandleInterval { get; set; }
-        int CandlesCount { get; set; }
+        public CandleInterval CandleInterval { get; set; }
+        public int CandlesCount { get; set; }
 
         TinkoffTrading tinkoffTrading = new TinkoffTrading(); 
         MarketDataCollector marketDataCollector = new MarketDataCollector();
