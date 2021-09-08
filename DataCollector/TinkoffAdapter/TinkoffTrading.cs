@@ -17,7 +17,7 @@ namespace TinkoffAdapter.TinkoffTrade
 {
     public class TinkoffTrading //: TransactionModel
     {
-
+        public TransactionModel transactionModel { get; set; }
 
         //public async Task BuyStoksByMarginAsync(TransactionModel transactionModel)
         //{
@@ -49,8 +49,53 @@ namespace TinkoffAdapter.TinkoffTrade
         //    Log.Information("Stop BuyStoks: " + transactionModel.Figi);
         //}
 
+        public async Task TransactStoksAsyncs()
+        {
+            Log.Information("Start TransactStoksAsyncs: " + transactionModel.Figi);
+            if (
+                transactionModel.Quantity == 0
+                ||
+                transactionModel.Figi == null
+                ||
+                transactionModel.Price == 0
+                )
+            {
+                Log.Information("The operation is not possible. Not enough data: " + "transactionModel.Quantity = " + transactionModel.Quantity + " transactionModel.Figi =" + transactionModel.Figi + " transactionModel.Price = " + transactionModel.Price);
+                Log.Information("Stop TransactStoksAsyncs: " + transactionModel.Figi);
+                return;
+            }
 
-        public async Task BuyStoksAsyncs(TransactionModel transactionModel)
+            List<Order> orders = await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.OrdersAsync());
+            foreach (Order order in orders)
+            {
+                if (order.Figi == transactionModel.Figi)
+                {
+                    await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.CancelOrderAsync(order.OrderId));
+                    Log.Information("Delete order by figi: " + transactionModel.Figi + " RequestedLots " + order.RequestedLots + " ExecutedLots " + order.ExecutedLots + " Price " + order.Price + " Operation " + order.Operation + " Status " + order.Status + " Type " + order.Type);
+                }
+            }
+
+            await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, GetOperationType(), transactionModel.Price)));
+
+            using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
+            {
+                sw.WriteLine(DateTime.Now + " " + GetOperationType().ToString() + " " + transactionModel.Figi + " " /*+ instrument.Ticker */+ " Quantity: " + transactionModel.Quantity + " price: " + transactionModel.Price + " mzda: " + (transactionModel.Price * 0.025m) / 100m);
+                sw.WriteLine();
+            }
+            Log.Information("Create order for Buy " + transactionModel.Quantity + " lots " + "figi: " + transactionModel.Figi + "price: " + transactionModel.Price);
+            Log.Information("Stop TransactStoksAsyncs: " + transactionModel.Figi);
+        }
+
+        private OperationType GetOperationType()
+        {
+            if (transactionModel.TradeOperation == TradeOperation.Buy)
+                return OperationType.Buy;
+            else if (transactionModel.TradeOperation == TradeOperation.Sell)
+                return OperationType.Sell;
+            else
+                throw new NotImplementedException();
+        }
+        public async Task BuyStoksAsyncs()
         {
             Log.Information("Start BuyStoksAsyncs: " + transactionModel.Figi);
             if (
@@ -66,28 +111,28 @@ namespace TinkoffAdapter.TinkoffTrade
                 return;
             }
 
-            List<Order> orders = await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.OrdersAsync());
+            List<Order> orders = await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.OrdersAsync());
             foreach (Order order in orders)
             {
                 if (order.Figi == transactionModel.Figi)
                 {
-                    await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.CancelOrderAsync(order.OrderId));
+                    await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.CancelOrderAsync(order.OrderId));
                     Log.Information("Delete order by figi: " + transactionModel.Figi + " RequestedLots " + order.RequestedLots + " ExecutedLots " + order.ExecutedLots + " Price " + order.Price + " Operation " + order.Operation + " Status " + order.Status + " Type " + order.Type);
                 }
             }
 
-            await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, OperationType.Buy, transactionModel.Price)));
+            await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, OperationType.Buy, transactionModel.Price)));
 
             using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
             {
-                sw.WriteLine(DateTime.Now + @" Buy " + transactionModel.Figi + " " /*+ instrument.Ticker */+ " Quantity: " + transactionModel.Quantity + " price: " + transactionModel.Price + " mzda: " + (transactionModel.Price * 0.02m) / 100m);
+                sw.WriteLine(DateTime.Now + @" Buy " + transactionModel.Figi + " " /*+ instrument.Ticker */+ " Quantity: " + transactionModel.Quantity + " price: " + transactionModel.Price + " mzda: " + (transactionModel.Price * 0.025m) / 100m);
                 sw.WriteLine();
             }
             Log.Information("Create order for Buy " + transactionModel.Quantity + " lots " + "figi: " + transactionModel.Figi + "price: " + transactionModel.Price);
             Log.Information("Stop BuyStoksAsyncs: " + transactionModel.Figi);
         }
 
-        public async Task SellStoksAsyncs(TransactionModel transactionModel)
+        public async Task SellStoksAsyncs()
         {
             Log.Information("Start SellStoksAsyncs: " + transactionModel.Figi);
             if (
@@ -103,21 +148,21 @@ namespace TinkoffAdapter.TinkoffTrade
                 return;
             }
 
-            List<Order> orders = await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.OrdersAsync());
+            List<Order> orders = await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.OrdersAsync());
             foreach (Order order in orders)
             {
                 if (order.Figi == transactionModel.Figi)
                 {
-                    await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.CancelOrderAsync(order.OrderId));
+                    await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.CancelOrderAsync(order.OrderId));
                     Log.Information("Delete order by figi: " + transactionModel.Figi + " RequestedLots " + order.RequestedLots + " ExecutedLots " + order.ExecutedLots + " Price " + order.Price + " Operation " + order.Operation + " Status " + order.Status + " Type " + order.Type);
                 }
             }
 
-            await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, OperationType.Sell, transactionModel.Price)));
+            await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, OperationType.Sell, transactionModel.Price)));
 
             using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
             {
-                sw.WriteLine(DateTime.Now + @" Sell " + transactionModel.Figi + " " /*+ instrument.Ticker */+ " Quantity: " + transactionModel.Quantity + " price: " + transactionModel.Price + " mzda: " + (transactionModel.Price * 0.02m) / 100m);
+                sw.WriteLine(DateTime.Now + @" Sell " + transactionModel.Figi + " " /*+ instrument.Ticker */+ " Quantity: " + transactionModel.Quantity + " price: " + transactionModel.Price + " mzda: " + (transactionModel.Price * 0.025m) / 100m);
                 sw.WriteLine();
             }
             Log.Information("Create order for Sell " + transactionModel.Quantity + " lots " + "figi: " + transactionModel.Figi + "price: " + transactionModel.Price);

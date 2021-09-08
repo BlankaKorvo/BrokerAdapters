@@ -1,4 +1,5 @@
-﻿using DataCollector;
+﻿using Analysis.TradeDecision;
+using DataCollector;
 using MarketDataModules;
 using MarketDataModules.Models.Portfolio;
 using Serilog;
@@ -7,103 +8,114 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TinkoffAdapter.TinkoffTrade;
+using TradingAlgorithms.IndicatorSignals;
 
 namespace Trader
 {
     public class AutoTrading
     {
-        //InstrumentList instrumentList { get; set; }
+        CandleInterval CandleInterval { get; set; }
+        int CandlesCount { get; set; }
 
+        TinkoffTrading tinkoffTrading = new TinkoffTrading(); 
         MarketDataCollector marketDataCollector = new MarketDataCollector();
         public async Task AutoTradingInstruments(InstrumentList instrumentList, int countStocks)
         {
             while (true)
             {
+
+                Portfolio portfolio = await marketDataCollector.GetPortfolioAsync();
+                List<Portfolio.Position> positions = portfolio.Positions;
+
                 foreach (var item in instrumentList.Instruments)
                 {
-                    Portfolio portfolio = await marketDataCollector.GetPortfolioAsync();
 
-                    TradeTarget tradeTarget = await PurchaseDecision(item);
+                    var orderbook = await marketDataCollector.GetOrderbookAsync(item.Figi, Provider.Tinkoff, 20);
 
-                }            
+                    if (orderbook == null)
+                    {
+                        Log.Information("Orderbook null");
+                        Log.Information("Stop AutoTradingInstruments: " + item.Figi);
+                    }
+                    else
+                    {
+                        var candleList = await marketDataCollector.GetCandlesAsync(item.Figi, CandleInterval, CandlesCount);
+
+                        var bestAsk = orderbook.Asks.FirstOrDefault().Price;
+                        var bestBid = orderbook.Bids.FirstOrDefault().Price;
+                        int currentLots = CountStoksInPortfolioByFigi(portfolio, item.Figi);
+
+                        TradeTarget tradeTarget = (new GmmaDecision() { candleList = candleList, orderbook = orderbook, bestAsk = bestAsk, bestBid = bestBid }).TradeVariant();
+
+                        if
+                            (
+                            tradeTarget == TradeTarget.toLong
+                            &&
+                            countStocks > currentLots
+                            )
+                        {
+                            await new TinkoffTrading() 
+                            {transactionModel =  
+                                new TransactionModel() 
+                                { Figi = item.Figi, Price = bestAsk, TradeOperation = TradeOperation.Buy, Quantity = countStocks - currentLots }
+                            }.TransactStoksAsyncs();
+                          
+                        }
+                        else if
+                            (
+                            tradeTarget == TradeTarget.fromLong
+                            &&
+                            currentLots > 0
+                            )
+                        {
+                            await new TinkoffTrading()
+                            {
+                                transactionModel =
+                            new TransactionModel() { Figi = item.Figi, Price = bestBid, TradeOperation = TradeOperation.Sell, Quantity = currentLots }
+                            }.TransactStoksAsyncs();
+                        }
+                        else if
+                            (
+                            tradeTarget == TradeTarget.toShort
+                            &&
+                            0 - countStocks < currentLots
+                            )
+                        {
+                            await new TinkoffTrading()
+                            {
+                                transactionModel =
+                            new TransactionModel() { Figi = item.Figi, Price = bestBid, TradeOperation = TradeOperation.Sell, Quantity = currentLots + countStocks }
+                            }.TransactStoksAsyncs();
+                        }
+                        else if
+                            (
+                            tradeTarget == TradeTarget.fromShort
+                            &&
+                            currentLots < 0
+                            )
+                        {
+                            await new TinkoffTrading()
+                            {
+                                transactionModel =
+                            new TransactionModel() { Figi = item.Figi, Price = bestAsk, TradeOperation = TradeOperation.Buy, Quantity = 0 - currentLots }
+                            }.TransactStoksAsyncs();
+                        }
+
+                    }
+                }
             }
         }
-        private async Task<TradeTarget> PurchaseDecision(Instrument instrument)
+
+        private int CountStoksInPortfolioByFigi (Portfolio portfolio, string figi)
         {
-            return TradeTarget.notTrading;
-            //Log.Information("Start TradeOperation: " + figi);
-            //var orderbook = await marketDataCollector.GetOrderbookAsync(figi, Provider.Tinkoff, 20);
+            var lots = from position in portfolio.Positions
+                       where position.Figi == figi
+                       select position.Lots;
 
-            //if (orderbook == null)
-            //{
-            //    Log.Information("Orderbook null");
-            //    return;
-            //}
-
-            //var candleList = await marketDataCollector.GetCandlesAsync(figi, candleInterval, candlesCount);
-
-            //var bestAsk = orderbook.Asks.FirstOrDefault().Price;
-            //var bestBid = orderbook.Bids.FirstOrDefault().Price;
-
-            //GmmaDecision gmmaDecision = new GmmaDecision() { candleList = candleList, orderbook = orderbook, bestAsk = bestAsk, bestBid = bestBid };
-
-            ////var gmmaSignalResult = signal.GmmaSignal(candleList, bestAsk , bestBid);
-
-            //if (gmmaDecision.TradeVariant() == TradeOperation.toLong
-            //    &&
-            //    (lastOperation == TradeOperation.fromLong || lastOperation == TradeOperation.fromShort)
-            //    )
-            //{
-            //    lastOperation = TradeOperation.toLong;
-            //    using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
-            //    {
-            //        sw.WriteLine(DateTime.Now + @" Long " + item + "price " + bestAsk);
-            //        sw.WriteLine();
-            //    }
-            //    Log.Information("Stop trade: " + item + " TradeOperation.toLong");
-            //}
-
-            //if (gmmaDecision.TradeVariant() == TradeOperation.fromLong
-            //    &&
-            //    (lastOperation == TradeOperation.toLong)
-            //    )
-            //{
-            //    lastOperation = TradeOperation.fromLong;
-            //    using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
-            //    {
-            //        sw.WriteLine(DateTime.Now + @" FromLong " + item + "price " + bestBid);
-            //        sw.WriteLine();
-            //    }
-            //    Log.Information("Stop trade: " + item + " TradeOperation.fromLong");
-            //}
-
-            //if (gmmaDecision.TradeVariant() == TradeOperation.toShort
-            //    &&
-            //    (lastOperation == TradeOperation.fromLong || lastOperation == TradeOperation.fromShort)
-            //    )
-            //{
-            //    lastOperation = TradeOperation.toShort;
-            //    using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
-            //    {
-            //        sw.WriteLine(DateTime.Now + @" ToShort " + item + "price " + bestBid);
-            //        sw.WriteLine();
-            //    }
-            //    Log.Information("Stop trade: " + item + " TradeOperation.toShort");
-            //}
-
-            //if (gmmaDecision.TradeVariant() == TradeOperation.fromShort
-            //    &&
-            //    (lastOperation == TradeOperation.toShort)
-            //    )
-            //{
-            //    lastOperation = TradeOperation.fromShort;
-            //    using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
-            //    {
-            //        sw.WriteLine(DateTime.Now + @" FromShort " + item + "price " + bestAsk);
-            //        sw.WriteLine();
-            //    }
-            //    Log.Information("Stop trade: " + item + " TradeOperation.fromShort");
-            //}
+            return lots.Sum();
         }
+       
     }
+    
 }

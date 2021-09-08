@@ -13,9 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Adapters\TinkoffAdapter\TinkoffAdapter.csproj" />
     <ProjectReference Include="..\DataCollector\DataCollector.csproj" />
-    <ProjectReference Include="..\RetryPolicyModel\RetryPolicyModel.csproj" />
     <ProjectReference Include="..\Stock.Indicators\src\Indicators.csproj" />
   </ItemGroup>
 

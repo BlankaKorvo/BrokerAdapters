@@ -22,7 +22,7 @@ namespace Analysis.Screeners.Helpers
         {
             Log.Information("Start AllUsdStocks method");
             List<Instrument> usdStocks = new List<Instrument>();
-            InstrumentList stocks = await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await dataCollector.GetInstrumentListAsync(Provider.Tinkoff));
+            InstrumentList stocks = await dataCollector.GetInstrumentListAsync(Provider.Tinkoff);
             Log.Information("Get All MarketInstruments. Count =  " + stocks.Instruments.Count);
             foreach (Instrument item in stocks.Instruments)
             {
@@ -45,7 +45,7 @@ namespace Analysis.Screeners.Helpers
         {
             Log.Information("Start AllStocks method");
             List<Instrument> usdStocks = new List<Instrument>();
-            InstrumentList stocks = await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await dataCollector.GetInstrumentListAsync(Provider.Tinkoff));
+            InstrumentList stocks = await dataCollector.GetInstrumentListAsync(Provider.Tinkoff);
             Log.Information("Get All MarketInstruments. Count =  " + stocks.Instruments.Count);
             foreach (Instrument item in stocks.Instruments)
             {

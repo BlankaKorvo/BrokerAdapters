@@ -24,29 +24,29 @@ namespace Analysis.Screeners.CandlesScreener
         MarketDataCollector marketDataCollector = new MarketDataCollector();
         TinkoffTrading TinkoffTrading = new TinkoffTrading();
 
-        async public Task TransactionAsync(TransactionModel transactionModel)
-        {
-            Log.Information("Start Transaction method. Figi: " + transactionModel.Figi);
-            if (
-                transactionModel == null
-                ||
-                transactionModel.Figi == null
-                ||
-                transactionModel.Purchase == 0
-                ||
-                transactionModel.Price == 0
-                ||
-                transactionModel.Quantity == 0)
-            {
-                Log.Information("Figi: " + transactionModel.Figi);
-                Log.Information("Margin: " + transactionModel.Purchase);
-                Log.Information("Price: " + transactionModel.Price);
-                Log.Information("Quantity: " + transactionModel.Quantity);
-                //Log.Information("Operation: " + transactionModel.TradeTarget.ToString());
-                Log.Warning("Transaction is not correct for implementation");
-                Log.Information("Stop Transaction method. Figi: " + transactionModel.Figi);
-                return;
-            }
+        //async public Task TransactionAsync(TransactionModel transactionModel)
+        //{
+            //Log.Information("Start Transaction method. Figi: " + transactionModel.Figi);
+            //if (
+            //    transactionModel == null
+            //    ||
+            //    transactionModel.Figi == null
+            //    ||
+            //    //transactionModel.Purchase == 0
+            //    //||
+            //    transactionModel.Price == 0
+            //    ||
+            //    transactionModel.Quantity == 0)
+            //{
+            //    Log.Information("Figi: " + transactionModel.Figi);
+            //    //Log.Information("Margin: " + transactionModel.Purchase);
+            //    Log.Information("Price: " + transactionModel.Price);
+            //    Log.Information("Quantity: " + transactionModel.Quantity);
+            //    //Log.Information("Operation: " + transactionModel.TradeTarget.ToString());
+            //    Log.Warning("Transaction is not correct for implementation");
+            //    Log.Information("Stop Transaction method. Figi: " + transactionModel.Figi);
+            //    return;
+            //}
 
             //    switch (transactionModel.Operation)
             //    {
@@ -358,5 +358,5 @@ namespace Analysis.Screeners.CandlesScreener
         //    Log.Information("Stop SortUsdCandles");
         //    return validCandleLists;
         //}
-    }
+    
     }

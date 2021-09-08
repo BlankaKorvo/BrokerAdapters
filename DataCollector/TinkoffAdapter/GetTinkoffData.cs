@@ -156,7 +156,7 @@ namespace TinkoffAdapter.DataHelper
         public async Task<Orderbook> GetOrderbookAsync(string figi, int depth)
         {
             Log.Information("Start GetOrderbook method. Figi: " + figi);
-            Orderbook orderbook = await Model.Retry().ExecuteAsync(async () => await Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketOrderbookAsync(figi, depth)));
+            Orderbook orderbook = await PollyRetray.Retry().ExecuteAsync(async () => await PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketOrderbookAsync(figi, depth)));
 
             if (orderbook.Asks.Count == 0 || orderbook.Bids.Count == 0)
             {
@@ -184,7 +184,7 @@ namespace TinkoffAdapter.DataHelper
 
         public async Task<Portfolio> GetPortfolioAsync()
         {
-            Portfolio portfolio = await Model.Retry().ExecuteAsync(async () => await Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PortfolioAsync()));
+            Portfolio portfolio = await PollyRetray.Retry().ExecuteAsync(async () => await PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PortfolioAsync()));
             return portfolio;
         }
 
@@ -220,12 +220,18 @@ namespace TinkoffAdapter.DataHelper
 
         public async Task<MarketInstrument> GetMarketInstrumentByFigi(string figi)
         {
-            MarketInstrument instrument =  await Model.Retry().ExecuteAsync(async () => await Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketSearchByFigiAsync(figi)));
+            MarketInstrument instrument =  await PollyRetray.Retry().ExecuteAsync(async () => await PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketSearchByFigiAsync(figi)));
             return instrument;
         }
         public async Task<MarketInstrumentList> GetMarketInstrumentListByTicker(string ticker)
         {
-            MarketInstrumentList instruments = await Model.Retry().ExecuteAsync(async () => await Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketSearchByTickerAsync(ticker)));
+            MarketInstrumentList instruments = await PollyRetray.Retry().ExecuteAsync(async () => await PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketSearchByTickerAsync(ticker)));
+            return instruments;
+        }
+
+        public async Task<MarketInstrumentList> GetMarketInstrumentList()
+        {
+            MarketInstrumentList instruments = await PollyRetray.Retry().ExecuteAsync(async () => await PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketStocksAsync()));
             return instruments;
         }
 
@@ -275,7 +281,7 @@ namespace TinkoffAdapter.DataHelper
             Log.Information("Time periods for candles with figi: " + figi + " = " + from + " - " + to);
             try
             {
-                CandleList candle = await Model.Retry().ExecuteAsync(async () => await Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketCandlesAsync(figi, from, to, interval)));
+                CandleList candle = await PollyRetray.Retry().ExecuteAsync(async () => await PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketCandlesAsync(figi, from, to, interval)));
                 Log.Information("Return " + candle.Candles.Count + " candles by figi: " + figi + " with " + interval + " lenth. Date: " + from + " " + to);
                 Log.Information("Stop GetCandleByFigiAsync method whith figi: " + figi);
                 return candle;

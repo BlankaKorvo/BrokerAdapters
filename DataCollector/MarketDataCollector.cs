@@ -163,7 +163,7 @@ namespace DataCollector
 
         async Task<InstrumentList> TinkoffInstrumentList()
         {
-            MarketInstrumentList tinkoffStocks = await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketStocksAsync());
+            MarketInstrumentList tinkoffStocks = await getTinkoffData.GetMarketInstrumentList();
             InstrumentList stocks = 
                 new InstrumentList(tinkoffStocks.Total, tinkoffStocks.Instruments.Select(x => 
                     new Instrument(x.Figi, x.Ticker, x.Isin, x.MinPriceIncrement, x.Lot, (Currency)x.Currency, x.Name, (InstrumentType)x.Type)).ToList());

@@ -5,7 +5,7 @@ using Serilog;
 
 namespace RetryPolicy
 {
-    static public class Model
+    static public class PollyRetray
     {
         public static Polly.Retry.AsyncRetryPolicy RetryToManyReq()
         {
