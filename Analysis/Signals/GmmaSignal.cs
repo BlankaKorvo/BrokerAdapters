@@ -26,7 +26,7 @@ namespace TradingAlgorithms.IndicatorSignals
         int emaLong4Period = 45;
         int emaLong5Period = 50;
         int emaLong6Period = 60;
-        public TradeOperation GmmaSignal(CandlesList candleList, decimal bestAsk, decimal bestBid)
+        public TradeTarget GmmaSignal(CandlesList candleList, decimal bestAsk, decimal bestBid)
         {
             Log.Information("Start GmmaSignal. Figi: " + candleList.Figi);
             Log.Information("CondleList count = " + candleList.Candles.Count);
@@ -214,7 +214,7 @@ namespace TradingAlgorithms.IndicatorSignals
                )
             {
                 Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeOperation.toLong");
-                return TradeOperation.toLong;
+                return TradeTarget.toLong;
             }
             else if // to short
                 (
@@ -252,7 +252,7 @@ namespace TradingAlgorithms.IndicatorSignals
                 )
             {
                 Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeOperation.toShort");
-                return TradeOperation.toShort;
+                return TradeTarget.toShort;
             }
             else if // from Long
                 (
@@ -264,7 +264,7 @@ namespace TradingAlgorithms.IndicatorSignals
                 )
             {
                 Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeOperation.fromLong");
-                return TradeOperation.fromLong;
+                return TradeTarget.fromLong;
             }
 
             else if // from Short
@@ -277,7 +277,7 @@ namespace TradingAlgorithms.IndicatorSignals
                 )
             {
                 Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeOperation.fromShort");
-                return TradeOperation.fromShort;
+                return TradeTarget.fromShort;
             }
             else
             {

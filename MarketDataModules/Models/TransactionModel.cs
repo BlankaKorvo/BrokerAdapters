@@ -16,16 +16,22 @@ namespace MarketDataModules
     {
         public string Figi { get; set; }
         public decimal Price { get; set; }
-        public TradeOperation TradeOperation { get; set; }
+        //public TradeTarget TradeTarget { get; set; }
 
     }
-    public enum TradeOperation
+    public enum TradeTarget
     {
         notTrading,
         toLong,
         fromLong,
         toShort,
         fromShort        
+    }
+
+    public enum TradeOperation
+    { 
+    Buy,
+    Sell
     }
 }
 

@@ -22,16 +22,15 @@ namespace Trader
                 foreach (var item in instrumentList.Instruments)
                 {
                     Portfolio portfolio = await marketDataCollector.GetPortfolioAsync();
-                    
-                    //int countItemInPortfolio = 
-                    TradeOperation tradeOperation = await PurchaseDecision(item);
+
+                    TradeTarget tradeTarget = await PurchaseDecision(item);
 
                 }            
             }
         }
-        private async Task<TradeOperation> PurchaseDecision(Instrument instrument)
+        private async Task<TradeTarget> PurchaseDecision(Instrument instrument)
         {
-            return TradeOperation.notTrading;
+            return TradeTarget.notTrading;
             //Log.Information("Start TradeOperation: " + figi);
             //var orderbook = await marketDataCollector.GetOrderbookAsync(figi, Provider.Tinkoff, 20);
 
