@@ -113,6 +113,10 @@ namespace Trader
                                 new TransactionModel() { Figi = item.Figi, Price = bestAsk, TradeOperation = TradeOperation.Buy, Quantity = 0 - currentLots }
                                 }.TransactStoksAsyncs();
                             }
+                            else 
+                            {
+                                continue;
+                            }
                         }
                         catch(Exception exception)
                         {

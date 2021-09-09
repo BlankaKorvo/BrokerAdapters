@@ -70,7 +70,8 @@ namespace Analysis.TradeDecision
             }
             else
             {
-                throw new Exception("Error in TradeVariant GmmaDecision");
+                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeTarget.notTrading");
+                return TradeTarget.notTrading;
             }
 
         }
