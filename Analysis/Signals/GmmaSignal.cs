@@ -26,6 +26,8 @@ namespace TradingAlgorithms.IndicatorSignals
         int emaLong4Period = 45;
         int emaLong5Period = 50;
         int emaLong6Period = 60;
+
+        int emaMaxPeriod = 200;
         public TradeTarget GmmaSignal(CandlesList candleList, decimal bestAsk, decimal bestBid)
         {
             Log.Information("Start GmmaSignal. Figi: " + candleList.Figi);
@@ -53,6 +55,8 @@ namespace TradingAlgorithms.IndicatorSignals
             List<EmaResult> emaLong4 = Mapper.EmaData(candleList, price, emaLong4Period, CandleStruct.Close);
             List<EmaResult> emaLong5 = Mapper.EmaData(candleList, price, emaLong5Period, CandleStruct.Close);
             List<EmaResult> emaLong6 = Mapper.EmaData(candleList, price, emaLong6Period, CandleStruct.Close);
+
+            //List<EmaResult> emaMax = Mapper.EmaData(candleList, price, emaMaxPeriod, CandleStruct.Close);
 
             //Ema Low
             List<EmaResult> emaShort1Low = Mapper.EmaData(candleList, price, emaShort1Period, CandleStruct.Low);
@@ -139,6 +143,8 @@ namespace TradingAlgorithms.IndicatorSignals
             Log.Information("emaShort5 = " + emaShort5.LastOrDefault().Ema + " emaLong5 = " + emaLong5.LastOrDefault().Ema + " date:" + emaLong5.LastOrDefault().Date.ToString());
             Log.Information("emaShort6 = " + emaShort6.LastOrDefault().Ema + " emaLong6 = " + emaLong6.LastOrDefault().Ema + " date:" + emaLong6.LastOrDefault().Date.ToString());
 
+            //Log.Information("emaMax = " + emaMax.LastOrDefault().Ema + " date:" + emaMax.LastOrDefault().Date.ToString());
+
             //Ema High Last
             Log.Information("emaShort1High = " + emaShort1High.LastOrDefault().Ema + " emaLong1High = " + emaLong1High.LastOrDefault().Ema + " date:" + emaLong1High.LastOrDefault().Date.ToString());
             Log.Information("emaShort2High = " + emaShort2High.LastOrDefault().Ema + " emaLong2High = " + emaLong2High.LastOrDefault().Ema + " date:" + emaLong2High.LastOrDefault().Date.ToString());
@@ -162,13 +168,29 @@ namespace TradingAlgorithms.IndicatorSignals
             Log.Information("emaLong5[^2].Ema = " + emaLong5[^2].Ema + " date:" + emaLong5[^2].Date.ToString() + " emaLong5[^3].Ema = " + emaLong5[^3].Ema + " date:" + emaLong5[^3].Date.ToString());
             Log.Information("emaLong6[^2].Ema = " + emaLong6[^2].Ema + " date:" + emaLong6[^2].Date.ToString() + " emaLong6[^3].Ema = " + emaLong6[^3].Ema + " date:" + emaLong6[^3].Date.ToString());
 
-            //Ema Linear Angles
+            //Ema Linear Angles Close
             Log.Information("emaShort1LinearAngle(1) = " + emaShort1LinearAngle);
             Log.Information("emaShort2LinearAngle(1) = " + emaShort2LinearAngle);
             Log.Information("emaShort3LinearAngle(1) = " + emaShort3LinearAngle);
             Log.Information("emaShort4LinearAngle(1) = " + emaShort4LinearAngle);
             Log.Information("emaShort5LinearAngle(1) = " + emaShort5LinearAngle);
             Log.Information("emaShort6LinearAngle(1) = " + emaShort6LinearAngle);
+
+            //Ema Linear Angles High
+            Log.Information("emaShort1HighLinearAngle(1) = " + emaShort1HighLinearAngle);
+            Log.Information("emaShort2HighLinearAngle(1) = " + emaShort2HighLinearAngle);
+            Log.Information("emaShort3HighLinearAngle(1) = " + emaShort3HighLinearAngle);
+            Log.Information("emaShort4HighLinearAngle(1) = " + emaShort4HighLinearAngle);
+            Log.Information("emaShort5HighLinearAngle(1) = " + emaShort5HighLinearAngle);
+            Log.Information("emaShort6HighLinearAngle(1) = " + emaShort6HighLinearAngle);
+
+            //Ema Linear Angles Low
+            Log.Information("emaShort1LowLinearAngle(1) = " + emaShort1LowLinearAngle);
+            Log.Information("emaShort2LowLinearAngle(1) = " + emaShort2LowLinearAngle);
+            Log.Information("emaShort3LowLinearAngle(1) = " + emaShort3LowLinearAngle);
+            Log.Information("emaShort4LowLinearAngle(1) = " + emaShort4LowLinearAngle);
+            Log.Information("emaShort5LowLinearAngle(1) = " + emaShort5LowLinearAngle);
+            Log.Information("emaShort6LowLinearAngle(1) = " + emaShort6LowLinearAngle);
 
             //Ema Angles 
             //Log.Information("emaShort1Angle(1) = " + emaShort1Angle);
@@ -179,7 +201,7 @@ namespace TradingAlgorithms.IndicatorSignals
             //Log.Information("emaShort6Angle(1) = " + emaShort6Angle);
 
             if //to Long
-                (
+                (// Преверка на зигзаг
                 emaShort1[^2].Ema > emaShort1[^3].Ema
                 &&
                 emaShort2[^2].Ema > emaShort2[^3].Ema
@@ -192,12 +214,13 @@ namespace TradingAlgorithms.IndicatorSignals
                 &&
                 emaShort6[^2].Ema > emaShort6[^3].Ema
 
-                &&
+                &&// Проверка на пересечение длинных EMA
                 emaShort6.LastOrDefault().Ema > emaLong1.LastOrDefault().Ema
                 &&
                 emaShort6.LastOrDefault().Ema > emaLong6.LastOrDefault().Ema
-                                
-                &&
+
+
+                &&//Все линии по порядку
                 emaShort1.LastOrDefault().Ema > emaShort2.LastOrDefault().Ema
                 &&
                 emaShort2.LastOrDefault().Ema > emaShort3.LastOrDefault().Ema
@@ -207,17 +230,25 @@ namespace TradingAlgorithms.IndicatorSignals
                 emaShort4.LastOrDefault().Ema > emaShort5.LastOrDefault().Ema
                 &&
                 emaShort5.LastOrDefault().Ema > emaShort6.LastOrDefault().Ema
-                &&
+
+
+
+                &&// Проверка углов по Close
                 emaShort1LinearAngle > 0
                 &&
-                emaShort6LinearAngle > 5
+                emaShort6LinearAngle > 0
+
+                &&// Проверка углов по High
+                emaShort1HighLinearAngle > 2
+
                )
             {
-                Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeOperation.toLong");
+                Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeTarget.toLong");
                 return TradeTarget.toLong;
             }
             else if // to short
                 (
+                // Преверка на зигзаг
                 emaShort1[^2].Ema < emaShort1[^3].Ema
                 &&
                 emaShort2[^2].Ema < emaShort2[^3].Ema
@@ -231,7 +262,12 @@ namespace TradingAlgorithms.IndicatorSignals
                 emaShort6[^2].Ema < emaShort6[^3].Ema
 
 
+                &&// Проверка на пересечение длинных EMA
+                emaShort6.LastOrDefault().Ema < emaLong1.LastOrDefault().Ema
                 &&
+                emaShort6.LastOrDefault().Ema < emaLong6.LastOrDefault().Ema
+
+                && //Все линии по порядку
                 emaShort6.LastOrDefault().Ema < emaLong1.LastOrDefault().Ema
                 &&
                 emaShort6.LastOrDefault().Ema < emaLong6.LastOrDefault().Ema
@@ -245,44 +281,78 @@ namespace TradingAlgorithms.IndicatorSignals
                 emaShort4.LastOrDefault().Ema < emaShort5.LastOrDefault().Ema
                 &&
                 emaShort5.LastOrDefault().Ema < emaShort6.LastOrDefault().Ema
-                &&
+
+
+                && // Проверка углов по Close
                 emaShort1LinearAngle < 0
                 &&
-                emaShort6LinearAngle < 5
+                emaShort6LinearAngle < 0
+
+                &&// Проверка углов по Low
+                emaShort1LowLinearAngle < 0 
                 )
             {
-                Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeOperation.toShort");
+                Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeTarget.toShort");
                 return TradeTarget.toShort;
             }
             else if // from Long
                 (
-                emaShort6LinearAngle < 0
-                ||
-                emaShort1High.LastOrDefault().Ema < emaShort2High.LastOrDefault().Ema
-                ||
-                emaShort1.LastOrDefault().Ema < emaShort2.LastOrDefault().Ema
+                emaShort1LinearAngle < emaLong1LinearAngle
+                                &&
+                emaShort1LinearAngle < emaLong2LinearAngle
+                                &&
+                emaShort1LinearAngle < emaLong3LinearAngle
+                                &&
+                emaShort1LinearAngle < emaLong4LinearAngle
+                                &&
+                emaShort1LinearAngle < emaLong5LinearAngle
+                                &&
+                emaShort1LinearAngle < emaLong6LinearAngle
+
+
+                //emaShort6LinearAngle < 0
+                //||
+                //emaShort1High.LastOrDefault().Ema < emaShort2High.LastOrDefault().Ema
+                //||
+                //emaShort1.LastOrDefault().Ema < emaShort2.LastOrDefault().Ema
+                //||// Проверка углов по High
+                //emaShort1HighLinearAngle < 2
                 )
             {
-                Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeOperation.fromLong");
+                Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeTarget.fromLong");
                 return TradeTarget.fromLong;
             }
 
             else if // from Short
                 (
-                emaShort6LinearAngle > 0
-                ||
-                emaShort1High.LastOrDefault().Ema > emaShort2High.LastOrDefault().Ema
-                ||
-                emaShort1.LastOrDefault().Ema > emaShort2.LastOrDefault().Ema
+                emaShort1LinearAngle > emaLong1LinearAngle
+                                &&
+                emaShort1LinearAngle > emaLong2LinearAngle
+                                &&
+                emaShort1LinearAngle > emaLong3LinearAngle
+                                &&
+                emaShort1LinearAngle > emaLong4LinearAngle
+                                &&
+                emaShort1LinearAngle > emaLong5LinearAngle
+                                &&
+                emaShort1LinearAngle > emaLong6LinearAngle
+
+                //emaShort6LinearAngle > 0
+                //||
+                //emaShort1High.LastOrDefault().Ema > emaShort2High.LastOrDefault().Ema
+                //||
+                //emaShort1.LastOrDefault().Ema > emaShort2.LastOrDefault().Ema
+                //||// Проверка углов по High
+                //emaShort1LowLinearAngle > 2
                 )
             {
-                Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeOperation.fromShort");
+                Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeTarget.fromShort");
                 return TradeTarget.fromShort;
             }
             else
             {
-                throw new Exception("GmmaSignal Error");
-                //return TradeOperation.notTrading;
+                Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeTarget.notTrading");
+                return TradeTarget.notTrading;
             }
         }
     }

@@ -61,13 +61,18 @@ namespace DataCollector
                 throw new NotImplementedException();
         }
 
-        public async Task<Instrument> GetInstrumentByFigi(string figi, Provider provider)
+        public async Task<Instrument> GetInstrumentByFigi(string figi, Provider provider = Provider.Tinkoff)
         {
-            MarketInstrument instrumentT = await getTinkoffData.GetMarketInstrumentByFigi(figi);
-            Instrument instrument = new Instrument(instrumentT.Figi, instrumentT.Ticker,
-                instrumentT.Isin, instrumentT.MinPriceIncrement, instrumentT.Lot,
-                (Currency)instrumentT.Currency, instrumentT.Name, (InstrumentType)instrumentT.Type);
-            return instrument;
+            if (provider == Provider.Tinkoff)
+            {
+                MarketInstrument instrumentT = await getTinkoffData.GetMarketInstrumentByFigi(figi);
+                Instrument instrument = new Instrument(instrumentT.Figi, instrumentT.Ticker,
+                    instrumentT.Isin, instrumentT.MinPriceIncrement, instrumentT.Lot,
+                    (Currency)instrumentT.Currency, instrumentT.Name, (InstrumentType)instrumentT.Type);
+                return instrument;
+            }
+            else
+                throw new NotImplementedException();
         }
 
         public async Task<Instrument> GetInstrumentByTickerAsync(string ticker, Provider provider = Provider.Tinkoff)
@@ -92,7 +97,7 @@ namespace DataCollector
             else
                 throw new NotImplementedException();
         }
-        public async Task<InstrumentList> GetInstrumentListAsync(Provider provider)
+        public async Task<InstrumentList> GetInstrumentListAsync(Provider provider = Provider.Tinkoff)
         {
             if (provider == Provider.Tinkoff)
                 return await TinkoffInstrumentList();
@@ -101,7 +106,7 @@ namespace DataCollector
 
         }
 
-        public async Task<Orderbook> GetOrderbookAsync(string figi, Provider provider, int depth = 20)
+        public async Task<Orderbook> GetOrderbookAsync(string figi, Provider provider = Provider.Tinkoff, int depth = 20)
         {
             if (provider == Provider.Tinkoff)
                 return await TinkoffOrderbook(figi, depth);

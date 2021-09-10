@@ -38,7 +38,7 @@ namespace Analysis.TradeDecision
                 orderbookSignal == TradeTarget.toLong
                 )
             {
-                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeTarget.toLong");
+                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.toLong. Figi: " + candleList.Figi + " Price: " + bestAsk);
                 return TradeTarget.toLong;
             }
             else if
@@ -48,7 +48,7 @@ namespace Analysis.TradeDecision
                 orderbookSignal == TradeTarget.toShort
                 )
             {
-                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeTarget.toShort");
+                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.toShort. Figi: " + candleList.Figi + " Price: " + bestAsk);
                 return TradeTarget.toShort;
             }
             else if
@@ -56,7 +56,7 @@ namespace Analysis.TradeDecision
                 gmmaSignal == TradeTarget.fromLong
                 )
             {
-                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeTarget.fromLong");
+                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromLong. Figi: " + candleList.Figi + " Price: " + bestAsk);
                 return TradeTarget.fromLong;
             }
 
@@ -65,7 +65,7 @@ namespace Analysis.TradeDecision
                 gmmaSignal == TradeTarget.fromShort
                 )
             {
-                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeTarget.fromShort");
+                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromShort. Figi: " + candleList.Figi + " Price: " + bestAsk);
                 return TradeTarget.fromShort;
             }
             else

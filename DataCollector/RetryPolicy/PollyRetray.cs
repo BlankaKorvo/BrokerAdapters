@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Polly;
 using Serilog;
+using TinkoffAdapter.Authority;
 
 namespace RetryPolicy
 {
@@ -25,12 +26,11 @@ namespace RetryPolicy
         {
             Polly.Retry.AsyncRetryPolicy retryPolicy = Policy
                 .Handle<Exception>()
-                .WaitAndRetryForeverAsync(retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(2, retryAttempt)),
-                (exception, timespan) =>
+                .RetryAsync(3, (exception, attemt) =>
                 {
                     Log.Error(exception.Message);
                     Log.Error(exception.StackTrace);
-                    Log.Warning("Start retray. Timespan = " + timespan);
+                    Log.Warning("Start retray. attemt = " + attemt);
                 });
 
             return retryPolicy;

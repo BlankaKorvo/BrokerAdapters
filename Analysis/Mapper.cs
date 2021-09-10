@@ -48,6 +48,32 @@ namespace TinkoffData
             return quotes;
         }
 
+        public static List<Quote> ConvertThisCandlesToQuote(List<CandleStructure> candles, decimal realClose, bool AllRealClose = false)
+        {
+            List<Quote> quotes = new List<Quote>();
+
+            foreach (var candle in candles)
+            {
+                Quote quote = new Quote();
+                quote.Close = candle.Close;
+                quote.Date = candle.Time;
+                quote.Open = candle.Open;
+                quote.High = candle.High;
+                quote.Low = candle.Low;
+                quote.Volume = candle.Volume;
+                quotes.Add(quote);
+            }
+            quotes.Last().Close = realClose;
+
+            if (AllRealClose)
+            {
+                quotes.Last().High = realClose;
+                quotes.Last().Low = realClose;
+                quotes.Last().Open = realClose;
+            }
+            return quotes;
+        }
+
         internal static List<StochResult> StochData(CandlesList candleList, decimal deltaPrice, int stochLookbackPeriod, int stochSignalPeriod, int stochSmoothPeriod)
         {
             Log.Information("Start mapping Stoch");
@@ -157,9 +183,9 @@ namespace TinkoffData
             List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles, realPrise);
             return Indicator.GetEma(candles, lookbackPeriod).ToList();
         }
-        public static List<EmaResult> EmaData(CandlesList candleList, decimal realPrise, int lookbackPeriod, CandleStruct candleStruct)
+        public static List<EmaResult> EmaData(CandlesList candleList, decimal realPrise, int lookbackPeriod, CandleStruct candleStruct, bool AllRealClose = false)
         {
-            List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles, realPrise);
+            List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles, realPrise, AllRealClose);
             return Indicator.GetEma(candles, lookbackPeriod, candleStruct).ToList();
         }
 

@@ -75,13 +75,14 @@ namespace TinkoffAdapter.TinkoffTrade
                 }
             }
 
-            await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, GetOperationType(), transactionModel.Price)));
-
             using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
             {
                 sw.WriteLine(DateTime.Now + " " + GetOperationType().ToString() + " " + transactionModel.Figi + " " /*+ instrument.Ticker */+ " Quantity: " + transactionModel.Quantity + " price: " + transactionModel.Price + " mzda: " + (transactionModel.Price * 0.025m) / 100m);
                 sw.WriteLine();
             }
+
+            await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, GetOperationType(), transactionModel.Price)));
+
             Log.Information("Create order for Buy " + transactionModel.Quantity + " lots " + "figi: " + transactionModel.Figi + "price: " + transactionModel.Price);
             Log.Information("Stop TransactStoksAsyncs: " + transactionModel.Figi);
         }

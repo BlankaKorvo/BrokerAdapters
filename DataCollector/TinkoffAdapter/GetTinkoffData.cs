@@ -156,30 +156,37 @@ namespace TinkoffAdapter.DataHelper
         public async Task<Orderbook> GetOrderbookAsync(string figi, int depth)
         {
             Log.Information("Start GetOrderbook method. Figi: " + figi);
-            Orderbook orderbook = await PollyRetray.Retry().ExecuteAsync(async () => await PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketOrderbookAsync(figi, depth)));
-
-            if (orderbook.Asks.Count == 0 || orderbook.Bids.Count == 0)
+            try
             {
-                Log.Warning("Exchange by instrument " + figi + " not working");
+                Orderbook orderbook = await PollyRetray.Retry().ExecuteAsync(async () => await PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketOrderbookAsync(figi, depth)));
+                if (orderbook.Asks.Count == 0 || orderbook.Bids.Count == 0)
+                {
+                    Log.Warning("Exchange by instrument " + figi + " not working");
+                    Log.Information("Stop GetOrderbook method. Figi: " + figi);
+                    return null;
+                }
+                Log.Information("Orderbook Figi: " + orderbook.Figi);
+                Log.Information("Orderbook Depth: " + orderbook.Depth);
+                Log.Information("Orderbook Asks Price: " + orderbook.Asks.FirstOrDefault().Price);
+                Log.Information("Orderbook Asks Quantity: " + orderbook.Asks.FirstOrDefault().Quantity);
+
+                Log.Information("Orderbook Bids Price: " + orderbook.Bids.Last().Price);
+                Log.Information("Orderbook Bids Quantity: " + orderbook.Bids.Last().Quantity);
+
+                Log.Information("Orderbook ClosePrice: " + orderbook.ClosePrice);
+                Log.Information("Orderbook LastPrice: " + orderbook.LastPrice);
+                Log.Information("Orderbook LimitDown: " + orderbook.LimitDown);
+                Log.Information("Orderbook LimitUp: " + orderbook.LimitUp);
+                Log.Information("Orderbook TradeStatus: " + orderbook.TradeStatus);
+                Log.Information("Orderbook MinPriceIncrement: " + orderbook.MinPriceIncrement);
                 Log.Information("Stop GetOrderbook method. Figi: " + figi);
+                return orderbook;
+            }
+            catch(Exception ex)
+            {
+                Log.Information(ex.Message);
                 return null;
             }
-            Log.Information("Orderbook Figi: " + orderbook.Figi);
-            Log.Information("Orderbook Depth: " + orderbook.Depth);
-            Log.Information("Orderbook Asks Price: " + orderbook.Asks.FirstOrDefault().Price);
-            Log.Information("Orderbook Asks Quantity: " + orderbook.Asks.FirstOrDefault().Quantity);
-
-            Log.Information("Orderbook Bids Price: " + orderbook.Bids.Last().Price);
-            Log.Information("Orderbook Bids Quantity: " + orderbook.Bids.Last().Quantity);
-
-            Log.Information("Orderbook ClosePrice: " + orderbook.ClosePrice);
-            Log.Information("Orderbook LastPrice: " + orderbook.LastPrice);
-            Log.Information("Orderbook LimitDown: " + orderbook.LimitDown);
-            Log.Information("Orderbook LimitUp: " + orderbook.LimitUp);
-            Log.Information("Orderbook TradeStatus: " + orderbook.TradeStatus);
-            Log.Information("Orderbook MinPriceIncrement: " + orderbook.MinPriceIncrement);
-            Log.Information("Stop GetOrderbook method. Figi: " + figi);
-            return orderbook;
         }
 
         public async Task<Portfolio> GetPortfolioAsync()
