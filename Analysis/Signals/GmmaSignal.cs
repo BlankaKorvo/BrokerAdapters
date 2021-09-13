@@ -150,9 +150,7 @@ namespace TradingAlgorithms.IndicatorSignals
             double emaShort5LowLinearAngle = LinearAngle(emaShort5Low.Select(x => x.Ema).ToList(), 1);
             double emaShort6LowLinearAngle = LinearAngle(emaShort6Low.Select(x => x.Ema).ToList(), 1);
 
-            decimal? deltaLongEma = (emaLong1.LastOrDefault().Ema + emaLong2.LastOrDefault().Ema + emaLong3.LastOrDefault().Ema + emaLong4.LastOrDefault().Ema + emaLong5.LastOrDefault().Ema + emaLong6.LastOrDefault().Ema) / 2;
-            decimal incPrice = (price * 100) / (decimal)deltaLongEma - 100;
-
+            decimal incPrice = IncreasePrice(price, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6);
 
             Log.Information("incPriceLong: " + incPrice);
 
@@ -278,6 +276,8 @@ namespace TradingAlgorithms.IndicatorSignals
                )
             {
                 Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeTarget.toLong");
+                Log.Information("bestAsk = " + bestAsk);
+                Log.Information("bestBid = " + bestBid);
                 return TradeTarget.toLong;
             }
             else if // to short
@@ -325,72 +325,191 @@ namespace TradingAlgorithms.IndicatorSignals
                 &&// Проверка углов по Low
                 emaShort1LowLinearAngle < 0
 
-                //  &&// Проверка на резкий скачек цены
-                //incPrice > - 0.5m
+                //&&// Проверка на резкий скачек цены
+                //incPrice > -0.5m
                 )
             {
                 Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeTarget.toShort");
+                Log.Information("bestAsk = " + bestAsk);
+                Log.Information("bestBid = " + bestBid);
                 return TradeTarget.toShort;
             }
             else if // from Long
                 (
-                price < emaLong1.LastOrDefault().Ema
-                                &&
-                price < emaLong1.LastOrDefault().Ema
-                                &&
-                price < emaLong1.LastOrDefault().Ema
-                                &&
-                price < emaLong1.LastOrDefault().Ema
-                                &&
-                price < emaLong1.LastOrDefault().Ema
-                                &&
-                price < emaLong1.LastOrDefault().Ema
-
-
-                //emaShort6LinearAngle < 0
-                //||
-                //emaShort1High.LastOrDefault().Ema < emaShort2High.LastOrDefault().Ema
-                //||
-                //emaShort1.LastOrDefault().Ema < emaShort2.LastOrDefault().Ema
-                //||// Проверка углов по High
-                //emaShort1HighLinearAngle < 2
+                    (
+                    PositionEntryRangeForLong(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == true
+                        &&
+                    price < emaLong1.LastOrDefault().Ema
+                                    ||
+                    price < emaLong2.LastOrDefault().Ema
+                                    ||
+                    price < emaLong3.LastOrDefault().Ema
+                                    ||
+                    price < emaLong4.LastOrDefault().Ema
+                                    ||
+                    price < emaLong5.LastOrDefault().Ema
+                                    ||
+                    price < emaLong6.LastOrDefault().Ema
+                    )
+                ||
+                    (
+                    PositionEntryRangeForLong(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == false
+                    &&
+                    price < emaLong1.LastOrDefault().Ema
+                                    &&
+                    price < emaLong2.LastOrDefault().Ema
+                                    &&
+                    price < emaLong3.LastOrDefault().Ema
+                                    &&
+                    price < emaLong4.LastOrDefault().Ema
+                                    &&
+                    price < emaLong5.LastOrDefault().Ema
+                                    &&
+                    price < emaLong6.LastOrDefault().Ema
+                    )
+                 ||
+                    (
+                    emaShort1HighLinearAngle < -50
+                    )
                 )
             {
                 Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeTarget.fromLong");
+                Log.Information("bestAsk = " + bestAsk);
+                Log.Information("bestBid = " + bestBid);
                 return TradeTarget.fromLong;
             }
 
             else if // from Short
-                (
-                price > emaLong1.LastOrDefault().Ema
-                                &&
-                price > emaLong1.LastOrDefault().Ema
-                                &&
-                price > emaLong1.LastOrDefault().Ema
-                                &&
-                price > emaLong1.LastOrDefault().Ema
-                                &&
-                price > emaLong1.LastOrDefault().Ema
-                                &&
-                price > emaLong1.LastOrDefault().Ema
-
-                //emaShort6LinearAngle > 0
-                //||
-                //emaShort1High.LastOrDefault().Ema > emaShort2High.LastOrDefault().Ema
-                //||
-                //emaShort1.LastOrDefault().Ema > emaShort2.LastOrDefault().Ema
-                //||// Проверка углов по High
-                //emaShort1LowLinearAngle > 2
+                                (
+                    (
+                    PositionEntryRangeForShort(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == true
+                        &&
+                    price > emaLong1.LastOrDefault().Ema
+                                    ||
+                    price > emaLong2.LastOrDefault().Ema
+                                    ||
+                    price > emaLong3.LastOrDefault().Ema
+                                    ||
+                    price > emaLong4.LastOrDefault().Ema
+                                    ||
+                    price > emaLong5.LastOrDefault().Ema
+                                    ||
+                    price > emaLong6.LastOrDefault().Ema
+                    )
+                ||
+                    (
+                    PositionEntryRangeForShort(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == false
+                    &&
+                    price > emaLong1.LastOrDefault().Ema
+                                    &&
+                    price > emaLong2.LastOrDefault().Ema
+                                    &&
+                    price > emaLong3.LastOrDefault().Ema
+                                    &&
+                    price > emaLong4.LastOrDefault().Ema
+                                    &&
+                    price > emaLong5.LastOrDefault().Ema
+                                    &&
+                    price > emaLong6.LastOrDefault().Ema
+                    )
+                 ||
+                    (
+                    emaShort1LowLinearAngle > 50
+                    )
                 )
+            //(
+            //price > emaLong1.LastOrDefault().Ema
+            //                &&
+            //price > emaLong1.LastOrDefault().Ema
+            //                &&
+            //price > emaLong1.LastOrDefault().Ema
+            //                &&
+            //price > emaLong1.LastOrDefault().Ema
+            //                &&
+            //price > emaLong1.LastOrDefault().Ema
+            //                &&
+            //price > emaLong1.LastOrDefault().Ema
+
+
+            //)
             {
-                Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeTarget.fromShort");
+                Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeTarget.fromShort"); 
+                Log.Information("bestAsk = " + bestAsk);
+                Log.Information("bestBid = " + bestBid);
                 return TradeTarget.fromShort;
             }
             else
             {
                 Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeTarget.notTrading");
+                Log.Information("bestAsk = " + bestAsk);
+                Log.Information("bestBid = " + bestBid);
                 return TradeTarget.notTrading;
             }
+        }
+
+        private decimal IncreasePrice(decimal price, List<EmaResult> emaLong1, List<EmaResult> emaLong2, List<EmaResult> emaLong3, List<EmaResult> emaLong4, List<EmaResult> emaLong5, List<EmaResult> emaLong6)
+        {
+            decimal? deltaLongEma = (emaLong1.LastOrDefault().Ema + emaLong2.LastOrDefault().Ema + emaLong3.LastOrDefault().Ema + emaLong4.LastOrDefault().Ema + emaLong5.LastOrDefault().Ema + emaLong6.LastOrDefault().Ema) / 6;
+            decimal incPrice = (price * 100) / (decimal)deltaLongEma - 100;
+            return incPrice;
+        }
+
+        private bool PositionEntryRangeForLong(List<EmaResult> emaShort6, List<EmaResult> emaLong1, List<EmaResult> emaLong2, List<EmaResult> emaLong3, List<EmaResult> emaLong4, List<EmaResult> emaLong5, List<EmaResult> emaLong6, int count)
+        {
+            Log.Information("Start PositionEntryRangeForLong");
+            for (int i = 1; i <= count; i++)
+            {
+                if
+                    (
+                    emaShort6[^i].Ema < emaLong1[^i].Ema
+                    ||
+                    emaShort6[^i].Ema < emaLong2[^i].Ema
+                    ||
+                    emaShort6[^i].Ema < emaLong3[^i].Ema
+                    ||
+                    emaShort6[^i].Ema < emaLong4[^i].Ema
+                    ||
+                    emaShort6[^i].Ema < emaLong5[^i].Ema
+                    ||
+                    emaShort6[^i].Ema < emaLong6[^i].Ema
+                    )
+                {
+                    Log.Information("emaShort6(" + i + ") = " + emaShort6[^i].Ema + " emaLong1(" + i + ") = " + emaLong1[^i].Ema + " emaLong2(" + i + ") = " + emaLong2[^i].Ema + " emaLong3(" + i + ") = " + emaLong3[^i].Ema + " emaLong4(" + i + ") = " + emaLong4[^i].Ema + " emaLong5(" + i + ") = " + emaLong5[^i].Ema + " emaLong6(" + i + ") = " + emaLong6[^i].Ema);
+                    Log.Information("Stop PositionEntryRangeForLong");
+                    return true;
+                }
+            }
+            Log.Information("Stop PositionEntryRangeForLong");
+            return false;
+        }
+
+        private bool PositionEntryRangeForShort(List<EmaResult> emaShort6, List<EmaResult> emaLong1, List<EmaResult> emaLong2, List<EmaResult> emaLong3, List<EmaResult> emaLong4, List<EmaResult> emaLong5, List<EmaResult> emaLong6, int count)
+        {
+            Log.Information("Stop PositionEntryRangeForShort");
+            for (int i = 1; i <= count; i++)
+            {
+                if
+                    (
+                    emaShort6[^i].Ema > emaLong1[^i].Ema
+                    ||
+                    emaShort6[^i].Ema > emaLong2[^i].Ema
+                    ||
+                    emaShort6[^i].Ema > emaLong3[^i].Ema
+                    ||
+                    emaShort6[^i].Ema > emaLong4[^i].Ema
+                    ||
+                    emaShort6[^i].Ema > emaLong5[^i].Ema
+                    ||
+                    emaShort6[^i].Ema > emaLong6[^i].Ema
+                    )
+                {
+                    Log.Information("emaShort6(" + i + ") = " + emaShort6[^i].Ema + " emaLong1(" + i + ") = " + emaLong1[^i].Ema + " emaLong2(" + i + ") = " + emaLong2[^i].Ema + " emaLong3(" + i + ") = " + emaLong3[^i].Ema + " emaLong4(" + i + ") = " + emaLong4[^i].Ema + " emaLong5(" + i + ") = " + emaLong5[^i].Ema + " emaLong6(" + i + ") = " + emaLong6[^i].Ema);
+                    Log.Information("Stop PositionEntryRangeForShort");
+                    return true;
+                }
+            }
+            Log.Information("Stop PositionEntryRangeForShort");
+            return false;
         }
     }
 }
