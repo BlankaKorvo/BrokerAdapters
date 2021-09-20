@@ -74,6 +74,30 @@ namespace TinkoffData
             return quotes;
         }
 
+        public static List<Quote> ConvertThisCandlesToQuote(List<CandleStructure> candles, bool AllRealClose = false)
+        {
+            List<Quote> quotes = new List<Quote>();
+
+            foreach (var candle in candles)
+            {
+                Quote quote = new Quote();
+                quote.Close = candle.Close;
+                quote.Date = candle.Time;
+                quote.Open = candle.Open;
+                quote.High = candle.High;
+                quote.Low = candle.Low;
+                quote.Volume = candle.Volume;
+                quotes.Add(quote);
+            }
+            if (AllRealClose)
+            {
+                quotes.Last().High = quotes.Last().Close;
+                quotes.Last().Low = quotes.Last().Close;
+                quotes.Last().Open = quotes.Last().Close;
+            }
+            return quotes;
+        }
+
         internal static List<StochResult> StochData(CandlesList candleList, decimal deltaPrice, int stochLookbackPeriod, int stochSignalPeriod, int stochSmoothPeriod)
         {
             Log.Information("Start mapping Stoch");
@@ -172,20 +196,58 @@ namespace TinkoffData
             return macdResult;
         }
 
-        public static List<EmaResult> EmaData(CandlesList candleList, int lookbackPeriod)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candleList"></param>
+        /// <param name="lookbackPeriod"></param>
+        /// <param name="candleStruct"></param>
+        /// <returns></returns>
+        public static List<EmaResult> EmaData(CandlesList candleList, int lookbackPeriod, CandleStruct candleStruct = CandleStruct.Close)
         {
             List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles);
-            return Indicator.GetEma(candles, lookbackPeriod).ToList();
+            return Indicator.GetEma(candles, lookbackPeriod, candleStruct).ToList();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candleList"></param>
+        /// <param name="realPrise"></param>
+        /// <param name="lookbackPeriod"></param>
+        /// <returns></returns>
         public static List<EmaResult> EmaData(CandlesList candleList, decimal realPrise, int lookbackPeriod)
         {
             List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles, realPrise);
             return Indicator.GetEma(candles, lookbackPeriod).ToList();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candleList"></param>
+        /// <param name="realPrise"></param>
+        /// <param name="lookbackPeriod"></param>
+        /// <param name="candleStruct"></param>
+        /// <param name="AllRealClose"></param>
+        /// <returns></returns>
         public static List<EmaResult> EmaData(CandlesList candleList, decimal realPrise, int lookbackPeriod, CandleStruct candleStruct, bool AllRealClose = false)
         {
             List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles, realPrise, AllRealClose);
+            return Indicator.GetEma(candles, lookbackPeriod, candleStruct).ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="candleList"></param>
+        /// <param name="lookbackPeriod"></param>
+        /// <param name="candleStruct"></param>
+        /// <param name="AllRealClose"></param>
+        /// <returns></returns>
+        public static List<EmaResult> EmaData(CandlesList candleList, int lookbackPeriod, CandleStruct candleStruct, bool AllRealClose = false)
+        {
+            List<Quote> candles = ConvertThisCandlesToQuote(candleList.Candles, AllRealClose);
             return Indicator.GetEma(candles, lookbackPeriod, candleStruct).ToList();
         }
 

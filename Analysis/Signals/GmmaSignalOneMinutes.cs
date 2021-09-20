@@ -13,22 +13,22 @@ namespace TradingAlgorithms.IndicatorSignals
 {
     public partial class Signal : IndicatorSignalsHelper
     {
-        int emaShort1Period = 3;
-        int emaShort2Period = 5;
-        int emaShort3Period = 8;
-        int emaShort4Period = 10;
-        int emaShort5Period = 12;
-        int emaShort6Period = 15;
+        int emaShort1OneMinutesPeriod = 3;
+        int emaShort2OneMinutesPeriod = 5;
+        int emaShort3OneMinutesPeriod = 8;
+        int emaShort4OneMinutesPeriod = 10;
+        int emaShort5OneMinutesPeriod = 12;
+        int emaShort6OneMinutesPeriod = 15;
 
-        int emaLong1Period = 30;
-        int emaLong2Period = 35;
-        int emaLong3Period = 40;
-        int emaLong4Period = 45;
-        int emaLong5Period = 50;
-        int emaLong6Period = 60;
+        int emaLong1OneMinutesPeriod = 30;
+        int emaLong2OneMinutesPeriod = 35;
+        int emaLong3OneMinutesPeriod = 40;
+        int emaLong4OneMinutesPeriod = 45;
+        int emaLong5OneMinutesPeriod = 50;
+        int emaLong6OneMinutesPeriod = 60;
 
-        int emaMaxPeriod = 200;
-        public TradeTarget GmmaSignal(CandlesList candleList, decimal bestAsk, decimal bestBid)
+        int emaMaxOneMinutesPeriod = 200;
+        public TradeTarget GmmaSignalOneMinutes(CandlesList candleList, decimal bestAsk, decimal bestBid)
         {
             Log.Information("Start GmmaSignal. Figi: " + candleList.Figi);
             Log.Information("CondleList count = " + candleList.Candles.Count);
@@ -36,57 +36,57 @@ namespace TradingAlgorithms.IndicatorSignals
             Log.Information("bestAsk = " + bestAsk);
             Log.Information("bestBid = " + bestBid);
 
-            decimal price = (bestAsk + bestBid) / 2;
+            decimal price = candleList.Candles.Last().Close;
 
             Log.Information("price = " + price);
 
 
             //Ema Close
-            List<EmaResult> emaShort1 = Mapper.EmaData(candleList, price, emaShort1Period, CandleStruct.Close);
-            List<EmaResult> emaShort2 = Mapper.EmaData(candleList, price, emaShort2Period, CandleStruct.Close);
-            List<EmaResult> emaShort3 = Mapper.EmaData(candleList, price, emaShort3Period, CandleStruct.Close);
-            List<EmaResult> emaShort4 = Mapper.EmaData(candleList, price, emaShort4Period, CandleStruct.Close);
-            List<EmaResult> emaShort5 = Mapper.EmaData(candleList, price, emaShort5Period, CandleStruct.Close);
-            List<EmaResult> emaShort6 = Mapper.EmaData(candleList, price, emaShort6Period, CandleStruct.Close);
+            List<EmaResult> emaShort1 = Mapper.EmaData(candleList, emaShort1OneMinutesPeriod, CandleStruct.Close);
+            List<EmaResult> emaShort2 = Mapper.EmaData(candleList, emaShort2OneMinutesPeriod, CandleStruct.Close);
+            List<EmaResult> emaShort3 = Mapper.EmaData(candleList, emaShort3OneMinutesPeriod, CandleStruct.Close);
+            List<EmaResult> emaShort4 = Mapper.EmaData(candleList, emaShort4OneMinutesPeriod, CandleStruct.Close);
+            List<EmaResult> emaShort5 = Mapper.EmaData(candleList, emaShort5OneMinutesPeriod, CandleStruct.Close);
+            List<EmaResult> emaShort6 = Mapper.EmaData(candleList, emaShort6OneMinutesPeriod, CandleStruct.Close);
 
-            List<EmaResult> emaLong1 = Mapper.EmaData(candleList, price, emaLong1Period, CandleStruct.Close);
-            List<EmaResult> emaLong2 = Mapper.EmaData(candleList, price, emaLong2Period, CandleStruct.Close);
-            List<EmaResult> emaLong3 = Mapper.EmaData(candleList, price, emaLong3Period, CandleStruct.Close);
-            List<EmaResult> emaLong4 = Mapper.EmaData(candleList, price, emaLong4Period, CandleStruct.Close);
-            List<EmaResult> emaLong5 = Mapper.EmaData(candleList, price, emaLong5Period, CandleStruct.Close);
-            List<EmaResult> emaLong6 = Mapper.EmaData(candleList, price, emaLong6Period, CandleStruct.Close);
+            List<EmaResult> emaLong1 = Mapper.EmaData(candleList, emaLong1OneMinutesPeriod, CandleStruct.Close);
+            List<EmaResult> emaLong2 = Mapper.EmaData(candleList, emaLong2OneMinutesPeriod, CandleStruct.Close);
+            List<EmaResult> emaLong3 = Mapper.EmaData(candleList, emaLong3OneMinutesPeriod, CandleStruct.Close);
+            List<EmaResult> emaLong4 = Mapper.EmaData(candleList, emaLong4OneMinutesPeriod, CandleStruct.Close);
+            List<EmaResult> emaLong5 = Mapper.EmaData(candleList, emaLong5OneMinutesPeriod, CandleStruct.Close);
+            List<EmaResult> emaLong6 = Mapper.EmaData(candleList, emaLong6OneMinutesPeriod, CandleStruct.Close);
 
             //List<EmaResult> emaMax = Mapper.EmaData(candleList, price, emaMaxPeriod, CandleStruct.Close);
 
             //Ema Low
-            List<EmaResult> emaShort1Low = Mapper.EmaData(candleList, price, emaShort1Period, CandleStruct.Low, true);
-            List<EmaResult> emaShort2Low = Mapper.EmaData(candleList, price, emaShort2Period, CandleStruct.Low, true);
-            List<EmaResult> emaShort3Low = Mapper.EmaData(candleList, price, emaShort3Period, CandleStruct.Low, true);
-            List<EmaResult> emaShort4Low = Mapper.EmaData(candleList, price, emaShort4Period, CandleStruct.Low, true);
-            List<EmaResult> emaShort5Low = Mapper.EmaData(candleList, price, emaShort5Period, CandleStruct.Low, true);
-            List<EmaResult> emaShort6Low = Mapper.EmaData(candleList, price, emaShort6Period, CandleStruct.Low, true);
+            List<EmaResult> emaShort1Low = Mapper.EmaData(candleList, emaShort1OneMinutesPeriod, CandleStruct.Low, true);
+            List<EmaResult> emaShort2Low = Mapper.EmaData(candleList, emaShort2OneMinutesPeriod, CandleStruct.Low, true);
+            List<EmaResult> emaShort3Low = Mapper.EmaData(candleList, emaShort3OneMinutesPeriod, CandleStruct.Low, true);
+            List<EmaResult> emaShort4Low = Mapper.EmaData(candleList, emaShort4OneMinutesPeriod, CandleStruct.Low, true);
+            List<EmaResult> emaShort5Low = Mapper.EmaData(candleList, emaShort5OneMinutesPeriod, CandleStruct.Low, true);
+            List<EmaResult> emaShort6Low = Mapper.EmaData(candleList, emaShort6OneMinutesPeriod, CandleStruct.Low, true);
 
-            List<EmaResult> emaLong1Low = Mapper.EmaData(candleList, price, emaLong1Period, CandleStruct.Low, true);
-            List<EmaResult> emaLong2Low = Mapper.EmaData(candleList, price, emaLong2Period, CandleStruct.Low, true);
-            List<EmaResult> emaLong3Low = Mapper.EmaData(candleList, price, emaLong3Period, CandleStruct.Low, true);
-            List<EmaResult> emaLong4Low = Mapper.EmaData(candleList, price, emaLong4Period, CandleStruct.Low, true);
-            List<EmaResult> emaLong5Low = Mapper.EmaData(candleList, price, emaLong5Period, CandleStruct.Low, true);
-            List<EmaResult> emaLong6Low = Mapper.EmaData(candleList, price, emaLong6Period, CandleStruct.Low, true);
+            List<EmaResult> emaLong1Low = Mapper.EmaData(candleList, emaLong1OneMinutesPeriod, CandleStruct.Low, true);
+            List<EmaResult> emaLong2Low = Mapper.EmaData(candleList, emaLong2OneMinutesPeriod, CandleStruct.Low, true);
+            List<EmaResult> emaLong3Low = Mapper.EmaData(candleList, emaLong3OneMinutesPeriod, CandleStruct.Low, true);
+            List<EmaResult> emaLong4Low = Mapper.EmaData(candleList, emaLong4OneMinutesPeriod, CandleStruct.Low, true);
+            List<EmaResult> emaLong5Low = Mapper.EmaData(candleList, emaLong5OneMinutesPeriod, CandleStruct.Low, true);
+            List<EmaResult> emaLong6Low = Mapper.EmaData(candleList, emaLong6OneMinutesPeriod, CandleStruct.Low, true);
 
             //Ema High
-            List<EmaResult> emaShort1High = Mapper.EmaData(candleList, price, emaShort1Period, CandleStruct.High, true);
-            List<EmaResult> emaShort2High = Mapper.EmaData(candleList, price, emaShort2Period, CandleStruct.High, true);
-            List<EmaResult> emaShort3High = Mapper.EmaData(candleList, price, emaShort3Period, CandleStruct.High, true);
-            List<EmaResult> emaShort4High = Mapper.EmaData(candleList, price, emaShort4Period, CandleStruct.High, true);
-            List<EmaResult> emaShort5High = Mapper.EmaData(candleList, price, emaShort5Period, CandleStruct.High, true);
-            List<EmaResult> emaShort6High = Mapper.EmaData(candleList, price, emaShort6Period, CandleStruct.High, true);
+            List<EmaResult> emaShort1High = Mapper.EmaData(candleList, emaShort1OneMinutesPeriod, CandleStruct.High, true);
+            List<EmaResult> emaShort2High = Mapper.EmaData(candleList, emaShort2OneMinutesPeriod, CandleStruct.High, true);
+            List<EmaResult> emaShort3High = Mapper.EmaData(candleList, emaShort3OneMinutesPeriod, CandleStruct.High, true);
+            List<EmaResult> emaShort4High = Mapper.EmaData(candleList, emaShort4OneMinutesPeriod, CandleStruct.High, true);
+            List<EmaResult> emaShort5High = Mapper.EmaData(candleList, emaShort5OneMinutesPeriod, CandleStruct.High, true);
+            List<EmaResult> emaShort6High = Mapper.EmaData(candleList, emaShort6OneMinutesPeriod, CandleStruct.High, true);
 
-            List<EmaResult> emaLong1High = Mapper.EmaData(candleList, price, emaLong1Period, CandleStruct.High, true);
-            List<EmaResult> emaLong2High = Mapper.EmaData(candleList, price, emaLong2Period, CandleStruct.High, true);
-            List<EmaResult> emaLong3High = Mapper.EmaData(candleList, price, emaLong3Period, CandleStruct.High, true);
-            List<EmaResult> emaLong4High = Mapper.EmaData(candleList, price, emaLong4Period, CandleStruct.High, true);
-            List<EmaResult> emaLong5High = Mapper.EmaData(candleList, price, emaLong5Period, CandleStruct.High, true);
-            List<EmaResult> emaLong6High = Mapper.EmaData(candleList, price, emaLong6Period, CandleStruct.High, true);
+            List<EmaResult> emaLong1High = Mapper.EmaData(candleList, emaLong1OneMinutesPeriod, CandleStruct.High, true);
+            List<EmaResult> emaLong2High = Mapper.EmaData(candleList, emaLong2OneMinutesPeriod, CandleStruct.High, true);
+            List<EmaResult> emaLong3High = Mapper.EmaData(candleList, emaLong3OneMinutesPeriod, CandleStruct.High, true);
+            List<EmaResult> emaLong4High = Mapper.EmaData(candleList, emaLong4OneMinutesPeriod, CandleStruct.High, true);
+            List<EmaResult> emaLong5High = Mapper.EmaData(candleList, emaLong5OneMinutesPeriod, CandleStruct.High, true);
+            List<EmaResult> emaLong6High = Mapper.EmaData(candleList, emaLong6OneMinutesPeriod, CandleStruct.High, true);
 
 
             //LinearAngle Close
@@ -136,7 +136,7 @@ namespace TradingAlgorithms.IndicatorSignals
             double emaShort5LowLinearAngle = LinearAngle(emaShort5Low.Select(x => x.Ema).ToList(), 1);
             double emaShort6LowLinearAngle = LinearAngle(emaShort6Low.Select(x => x.Ema).ToList(), 1);
 
-            decimal incPrice = IncreasePrice(price, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6);
+            decimal incPrice = IncreasePriceOneMinutes(price, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6);
 
             Log.Information("incPriceLong: " + incPrice);
 
@@ -292,8 +292,8 @@ namespace TradingAlgorithms.IndicatorSignals
                 &&// Проверка углов по High
                 emaShort1HighLinearAngle > 0
 
-               //&&// Проверка на резкий скачек цены
-               //incPrice < 0.5m
+                //&&// Проверка на резкий скачек цены
+                //incPrice < 0.5m
 
                )
             {
@@ -318,7 +318,7 @@ namespace TradingAlgorithms.IndicatorSignals
                 emaShort6[^2].Ema < emaShort6[^3].Ema
 
 
-                &&// Проверка на то, что короткие Close больше длинных EMA Close
+                &&// Проверка на то, что короткие EMA Close больше длинных EMA Close
                 emaShort6.LastOrDefault().Ema < emaLong1.LastOrDefault().Ema
                 &&
                 emaShort6.LastOrDefault().Ema < emaLong2.LastOrDefault().Ema
@@ -332,7 +332,7 @@ namespace TradingAlgorithms.IndicatorSignals
                 emaShort6.LastOrDefault().Ema < emaLong6.LastOrDefault().Ema
 
 
-                &&// Проверка на то, что короткие Close больше длинных EMA High
+                &&// Проверка на то, что короткие EMA Close больше длинных EMA High
                 emaShort6.LastOrDefault().Ema < emaLong1Low.LastOrDefault().Ema
                 &&
                 emaShort6.LastOrDefault().Ema < emaLong2Low.LastOrDefault().Ema
@@ -346,7 +346,7 @@ namespace TradingAlgorithms.IndicatorSignals
                 emaShort6.LastOrDefault().Ema < emaLong6Low.LastOrDefault().Ema
 
 
-                &&// Проверка на то, что короткие High больше длинных EMA High
+                &&// Проверка на то, что короткие EMA High больше длинных EMA High
                 emaShort6Low.LastOrDefault().Ema < emaLong1High.LastOrDefault().Ema
                 &&
                 emaShort6Low.LastOrDefault().Ema < emaLong2Low.LastOrDefault().Ema
@@ -399,7 +399,7 @@ namespace TradingAlgorithms.IndicatorSignals
             else if // from Long
                 (
                     (
-                    PositionEntryRangeForLong(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == true
+                    PositionEntryRangeOneMinutesForLong(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == true
                         &&
                     price < emaLong1.LastOrDefault().Ema
                                     ||
@@ -415,7 +415,7 @@ namespace TradingAlgorithms.IndicatorSignals
                     )
                 ||
                     (
-                    PositionEntryRangeForLong(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == false
+                    PositionEntryRangeOneMinutesForLong(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == false
                     &&
                     price < emaLong1.LastOrDefault().Ema
                                     &&
@@ -444,7 +444,7 @@ namespace TradingAlgorithms.IndicatorSignals
             else if // from Short
                                 (
                     (
-                    PositionEntryRangeForShort(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == true
+                    PositionEntryRangeOneMinutesForShort(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == true
                         &&
                     price > emaLong1.LastOrDefault().Ema
                                     ||
@@ -460,7 +460,7 @@ namespace TradingAlgorithms.IndicatorSignals
                     )
                 ||
                     (
-                    PositionEntryRangeForShort(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == false
+                    PositionEntryRangeOneMinutesForShort(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == false
                     &&
                     price > emaLong1.LastOrDefault().Ema
                                     &&
@@ -495,7 +495,7 @@ namespace TradingAlgorithms.IndicatorSignals
 
             //)
             {
-                Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeTarget.fromShort");
+                Log.Information("Stop GmmaSignal. Figi: " + candleList.Figi + " TradeTarget.fromShort"); 
                 Log.Information("bestAsk = " + bestAsk);
                 Log.Information("bestBid = " + bestBid);
                 return TradeTarget.fromShort;
@@ -509,14 +509,14 @@ namespace TradingAlgorithms.IndicatorSignals
             }
         }
 
-        private decimal IncreasePrice(decimal price, List<EmaResult> emaLong1, List<EmaResult> emaLong2, List<EmaResult> emaLong3, List<EmaResult> emaLong4, List<EmaResult> emaLong5, List<EmaResult> emaLong6)
+        private decimal IncreasePriceOneMinutes(decimal price, List<EmaResult> emaLong1, List<EmaResult> emaLong2, List<EmaResult> emaLong3, List<EmaResult> emaLong4, List<EmaResult> emaLong5, List<EmaResult> emaLong6)
         {
             decimal? deltaLongEma = (emaLong1.LastOrDefault().Ema + emaLong2.LastOrDefault().Ema + emaLong3.LastOrDefault().Ema + emaLong4.LastOrDefault().Ema + emaLong5.LastOrDefault().Ema + emaLong6.LastOrDefault().Ema) / 6;
             decimal incPrice = (price * 100) / (decimal)deltaLongEma - 100;
             return incPrice;
         }
 
-        private bool PositionEntryRangeForLong(List<EmaResult> emaShort6, List<EmaResult> emaLong1, List<EmaResult> emaLong2, List<EmaResult> emaLong3, List<EmaResult> emaLong4, List<EmaResult> emaLong5, List<EmaResult> emaLong6, int count)
+        private bool PositionEntryRangeOneMinutesForLong(List<EmaResult> emaShort6, List<EmaResult> emaLong1, List<EmaResult> emaLong2, List<EmaResult> emaLong3, List<EmaResult> emaLong4, List<EmaResult> emaLong5, List<EmaResult> emaLong6, int count)
         {
             Log.Information("Start PositionEntryRangeForLong");
             for (int i = 1; i <= count; i++)
@@ -545,7 +545,7 @@ namespace TradingAlgorithms.IndicatorSignals
             return false;
         }
 
-        private bool PositionEntryRangeForShort(List<EmaResult> emaShort6, List<EmaResult> emaLong1, List<EmaResult> emaLong2, List<EmaResult> emaLong3, List<EmaResult> emaLong4, List<EmaResult> emaLong5, List<EmaResult> emaLong6, int count)
+        private bool PositionEntryRangeOneMinutesForShort(List<EmaResult> emaShort6, List<EmaResult> emaLong1, List<EmaResult> emaLong2, List<EmaResult> emaLong3, List<EmaResult> emaLong4, List<EmaResult> emaLong5, List<EmaResult> emaLong6, int count)
         {
             Log.Information("Stop PositionEntryRangeForShort");
             for (int i = 1; i <= count; i++)

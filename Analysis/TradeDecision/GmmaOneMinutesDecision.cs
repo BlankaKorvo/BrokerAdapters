@@ -1,0 +1,122 @@
+﻿using MarketDataModules;
+using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//using Tinkoff.Trading.OpenApi.Models;
+using TradingAlgorithms.IndicatorSignals;
+
+namespace Analysis.TradeDecision
+{
+    public class GmmaDecisionOneMinutes
+    {
+        Signal signal = new Signal();
+
+
+        //Передаваемые при создании объекта параметры
+        public CandlesList candleList { get; set; }
+        public decimal bestAsk { get; set; }
+        public decimal bestBid { get; set; }
+        public Orderbook orderbook { get; set; }
+        
+
+        //Тюнинг индикаторов
+
+
+        public TradeTarget TradeVariant()
+        {
+            Log.Information("Start TradeVariant GmmaDecision. Figi: " + candleList.Figi);
+            TradeTarget gmmaSignalOneMinutes = signal.GmmaSignalOneMinutes(candleList, bestAsk, bestBid);
+            TradeTarget orderbookSignal = signal.OrderbookSignal(orderbook);
+
+            if
+                (
+                gmmaSignalOneMinutes == TradeTarget.toLong
+                &&
+                orderbookSignal == TradeTarget.toLong
+                )
+            {
+                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.toLong. Figi: " + candleList.Figi + " Price: " + bestAsk);
+                return TradeTarget.toLong;
+            }
+            else if
+                (
+                gmmaSignalOneMinutes == TradeTarget.toShort
+                &&
+                orderbookSignal == TradeTarget.toShort
+                )
+            {
+                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.toShort. Figi: " + candleList.Figi + " Price: " + bestAsk);
+                return TradeTarget.toShort;
+            }
+            else if
+                (
+                gmmaSignalOneMinutes == TradeTarget.fromLong
+                )
+            {
+                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromLong. Figi: " + candleList.Figi + " Price: " + bestAsk);
+                return TradeTarget.fromLong;
+            }
+
+            else if
+                (
+                gmmaSignalOneMinutes == TradeTarget.fromShort
+                )
+            {
+                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromShort. Figi: " + candleList.Figi + " Price: " + bestAsk);
+                return TradeTarget.fromShort;
+            }
+            else
+            {
+                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeTarget.notTrading");
+                return TradeTarget.notTrading;
+            }
+
+        }
+
+    //    public bool Long()
+    //    {
+    //        if (
+    //            signal.StochGapSignalLongSignal(candleList, price)
+    //            )
+    //        {
+    //            Log.Information("StochFiveMinutes Algoritms: Long - true " + candleList.Figi);
+    //            return true; 
+    //        }
+    //        else 
+    //        {
+    //            Log.Information("StochFiveMinutes Algoritms: Long - false " + candleList.Figi);
+    //            return false;
+    //        }
+    //    }
+    //    //public bool FromLong()
+    //    //{
+    //    //    if (
+    //    //        signal.AdxFromLongSignal(candleList, deltaPrice)
+    //    //        ||
+    //    //        signal.AroonFromLongSignal(candleList, deltaPrice)
+    //    //        )
+    //    //    {
+    //    //        Log.Information("StochFiveMinutes Algoritms: FromLong - true " + candleList.Figi);
+    //    //        return true; 
+    //    //    }
+    //    //    else
+    //    //    {
+    //    //        Log.Information("StochFiveMinutes Algoritms: FromLong - false " + candleList.Figi);
+    //    //        return false; 
+    //    //    }
+    //    //}
+
+    //    public bool Short()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public bool FromShort()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    }
+}
