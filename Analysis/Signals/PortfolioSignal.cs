@@ -1,6 +1,7 @@
 ﻿using MarketDataModules;
 using MarketDataModules.Models;
 using MarketDataModules.Models.Orderbooks;
+using MarketDataModules.Models.Portfolio;
 using Serilog;
 using Skender.Stock.Indicators;
 using System;
@@ -17,16 +18,16 @@ namespace TradingAlgorithms.IndicatorSignals
     public partial class Signal : IndicatorSignalsHelper
     {
 
-        internal TradeTarget OrderbookSignal(Orderbook orderbook)
+        internal TradeTarget PortfolioSignal(Orderbook orderbook, Portfolio portfolio)
         {
-            Log.Information("Start OrderbookSignal. Figi: " + orderbook.Figi);
-            decimal asks = orderbook.Asks.Select(x => x.Quantity).Sum();
-            decimal bids = orderbook.Bids.Select(x => x.Quantity).Sum();
-            Log.Information("asksQuantity = " + asks);
-            Log.Information("bidsQuantity = " + bids);
+            Log.Information("Start PortfolioSignal. Figi: " + orderbook.Figi);
+            decimal ask = orderbook.Asks.First().Price;
+            decimal bid = orderbook.Bids.First().Price;
+            Log.Information("asksQuantity = " + ask);
+            Log.Information("bidsQuantity = " + bid);
             // decimal overAsk = 100 - (bids * 100 / asks);
 
-            if (asks < bids)
+            if (ask < bid)
             {
                 Log.Information("Stop OrderbookSignal. Figi: " + orderbook.Figi + " asks < bids " + " TradeOperation.toLong");
                 return TradeTarget.toLong;

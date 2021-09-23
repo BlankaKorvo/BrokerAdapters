@@ -1,4 +1,6 @@
-namespace MarketDataModules
+using MarketDataModules.Models.Candles;
+
+namespace MarketDataModules.Models.Instruments
 {
     public class Instrument
     {

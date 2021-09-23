@@ -1,6 +1,6 @@
 using System;
 
-namespace MarketDataModules
+namespace MarketDataModules.Models.Candles
 {
     public class CandleStructure
     {

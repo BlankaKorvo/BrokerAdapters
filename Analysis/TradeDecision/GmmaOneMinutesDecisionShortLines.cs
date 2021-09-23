@@ -2,6 +2,7 @@
 using MarketDataModules.Models;
 using MarketDataModules.Models.Candles;
 using MarketDataModules.Models.Orderbooks;
+using MarketDataModules.Models.Portfolio;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ using TradingAlgorithms.IndicatorSignals;
 
 namespace Analysis.TradeDecision
 {
-    public class GmmaDecision
+    public class GmmaDecisionOneMinutesShortLines
     {
         Signal signal = new Signal();
 
@@ -23,7 +24,8 @@ namespace Analysis.TradeDecision
         public decimal bestAsk { get; set; }
         public decimal bestBid { get; set; }
         public Orderbook orderbook { get; set; }
-        
+        public Portfolio portfolio { get; set; }
+
 
         //Тюнинг индикаторов
 
@@ -31,12 +33,12 @@ namespace Analysis.TradeDecision
         public TradeTarget TradeVariant()
         {
             Log.Information("Start TradeVariant GmmaDecision. Figi: " + candleList.Figi);
-            TradeTarget gmmaSignal = signal.GmmaSignal(candleList, bestAsk, bestBid);
+            TradeTarget gmmaSignalOneMinutesShortLines = signal.GmmaSignalOneMinutesShortLines(candleList, bestAsk, bestBid);
             TradeTarget orderbookSignal = signal.OrderbookSignal(orderbook);
 
             if
                 (
-                gmmaSignal == TradeTarget.toLong
+                gmmaSignalOneMinutesShortLines == TradeTarget.toLong
                 &&
                 orderbookSignal == TradeTarget.toLong
                 )
@@ -46,7 +48,7 @@ namespace Analysis.TradeDecision
             }
             else if
                 (
-                gmmaSignal == TradeTarget.toShort
+                gmmaSignalOneMinutesShortLines == TradeTarget.toShort
                 &&
                 orderbookSignal == TradeTarget.toShort
                 )
@@ -56,7 +58,7 @@ namespace Analysis.TradeDecision
             }
             else if
                 (
-                gmmaSignal == TradeTarget.fromLong
+                gmmaSignalOneMinutesShortLines == TradeTarget.fromLong
                 )
             {
                 Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromLong. Figi: " + candleList.Figi + " Price: " + bestAsk);
@@ -65,7 +67,7 @@ namespace Analysis.TradeDecision
 
             else if
                 (
-                gmmaSignal == TradeTarget.fromShort
+                gmmaSignalOneMinutesShortLines == TradeTarget.fromShort
                 )
             {
                 Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromShort. Figi: " + candleList.Figi + " Price: " + bestAsk);

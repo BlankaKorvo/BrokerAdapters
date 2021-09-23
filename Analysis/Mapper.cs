@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Tinkoff.Trading.OpenApi.Models;
 using MarketDataModules;
+using MarketDataModules.Models.Candles;
 
 namespace TinkoffData
 {

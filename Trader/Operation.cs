@@ -1,5 +1,6 @@
 ﻿using DataCollector;
 using MarketDataModules;
+using MarketDataModules.Models;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,7 @@ using TinkoffAdapter;
 using TinkoffAdapter.Authority;
 using TinkoffAdapter.DataHelper;
 using TinkoffAdapter.TinkoffTrade;
-using CandleInterval = MarketDataModules.CandleInterval;
-
+using CandleInterval = MarketDataModules.Models.Candles.CandleInterval;
 namespace Analysis.Screeners.CandlesScreener
 {
     public class Operation : TransactionModel //: GetStocksHistory

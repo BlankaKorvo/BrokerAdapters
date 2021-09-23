@@ -8,10 +8,11 @@ using TinkoffAdapter.Authority;
 using Tinkoff.Trading.OpenApi.Models;
 using Tinkoff.Trading.OpenApi.Network;
 using TinkoffAdapter.DataHelper;
-using Operation = MarketDataModules.TradeTarget;
-using Orderbook = MarketDataModules.Orderbook;
-using CandleInterval = MarketDataModules.CandleInterval;
+using Operation = MarketDataModules.Models.TradeTarget;
+using Orderbook = MarketDataModules.Models.Orderbooks;
+using CandleInterval = MarketDataModules.Models.Candles.CandleInterval;
 using MarketDataModules;
+using MarketDataModules.Models;
 
 namespace TinkoffAdapter.TinkoffTrade
 {

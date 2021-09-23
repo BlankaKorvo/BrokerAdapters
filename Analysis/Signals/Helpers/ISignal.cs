@@ -1,4 +1,5 @@
 ﻿using MarketDataModules;
+using MarketDataModules.Models.Candles;
 using System;
 using System.Collections.Generic;
 using System.Linq;

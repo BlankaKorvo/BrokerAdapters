@@ -1,6 +1,9 @@
 ﻿using Analysis.TradeDecision;
 using DataCollector;
 using MarketDataModules;
+using MarketDataModules.Models;
+using MarketDataModules.Models.Candles;
+using MarketDataModules.Models.Instruments;
 using MarketDataModules.Models.Portfolio;
 using Serilog;
 using System;

@@ -7,15 +7,17 @@ using Serilog;
 using Tinkoff.Trading.OpenApi.Models;
 using TinkoffAdapter.Authority;
 using TinkoffAdapter.DataHelper;
-using CandleInterval = MarketDataModules.CandleInterval;
-using Currency = MarketDataModules.Currency;
-using InstrumentType = MarketDataModules.InstrumentType;
-using Orderbook = MarketDataModules.Orderbook;
-using OrderbookEntry = MarketDataModules.OrderbookEntry;
-using TradeStatus = MarketDataModules.TradeStatus;
+using CandleInterval = MarketDataModules.Models.Candles.CandleInterval;
+using Currency = MarketDataModules.Models.Candles.Currency;
+using InstrumentType = MarketDataModules.Models.Instruments.InstrumentType;
+using Orderbook = MarketDataModules.Models.Orderbooks.Orderbook;
+using OrderbookEntry = MarketDataModules.Models.Orderbooks.OrderbookEntry;
+using TradeStatus = MarketDataModules.Models.Orderbooks.TradeStatus;
 using Portfolio = MarketDataModules.Models.Portfolio.Portfolio;
 using MoneyAmount = MarketDataModules.Models.Portfolio.MoneyAmount;
-
+using MarketDataModules.Models.Candles;
+using MarketDataModules.Models;
+using MarketDataModules.Models.Instruments;
 
 namespace DataCollector
 {
@@ -42,15 +44,15 @@ namespace DataCollector
                     InstrumentType instrumentType = (InstrumentType)item.InstrumentType;
                     decimal balance = item.Balance;
                     decimal blocked = item.Blocked;
-                    //Currency currencyExpectedYield = (Currency)item.ExpectedYield.Currency;
-                    //MoneyAmount ExpectedYield = new MoneyAmount(currencyExpectedYield, item.ExpectedYield.Value);
+                    Currency currencyExpectedYield = (Currency)item.ExpectedYield.Currency;
+                    MoneyAmount ExpectedYield = new MoneyAmount(currencyExpectedYield, item.ExpectedYield.Value);
                     int lots = item.Lots;
-                    //Currency currencyAveragePositionPrice = (Currency)item.AveragePositionPrice.Currency;
-                    //MoneyAmount AveragePositionPrice = new MoneyAmount(currencyAveragePositionPrice, item.AveragePositionPrice.Value);
-                    //Currency currencyAveragePositionPriceNoNkd = (Currency)item.AveragePositionPriceNoNkd.Currency;
-                    //MoneyAmount AveragePositionPriceNoNkd = new MoneyAmount(currencyAveragePositionPriceNoNkd, item.AveragePositionPriceNoNkd.Value);
+                    Currency currencyAveragePositionPrice = (Currency)item.AveragePositionPrice.Currency;
+                    MoneyAmount AveragePositionPrice = new MoneyAmount(currencyAveragePositionPrice, item.AveragePositionPrice.Value);
+                    Currency currencyAveragePositionPriceNoNkd = (Currency)item.AveragePositionPriceNoNkd.Currency;
+                    MoneyAmount AveragePositionPriceNoNkd = new MoneyAmount(currencyAveragePositionPriceNoNkd, item.AveragePositionPriceNoNkd.Value);
 
-                    Portfolio.Position position = new Portfolio.Position(name, figi, ticker, isin, instrumentType, balance, blocked, lots);
+                    Portfolio.Position position = new Portfolio.Position(name, figi, ticker, isin, instrumentType, balance, blocked, ExpectedYield, lots, AveragePositionPrice, AveragePositionPriceNoNkd);
 
                     positions.Add(position);
                 }

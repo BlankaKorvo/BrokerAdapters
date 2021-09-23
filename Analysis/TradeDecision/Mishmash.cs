@@ -1,4 +1,6 @@
 ﻿using MarketDataModules;
+using MarketDataModules.Models.Candles;
+using MarketDataModules.Models.Orderbooks;
 using Serilog;
 using System;
 using System.Collections.Generic;

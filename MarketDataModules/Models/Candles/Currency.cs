@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace MarketDataModules
+namespace MarketDataModules.Models.Candles
 {
     public enum Currency
     {

@@ -1,4 +1,5 @@
 ﻿using MarketDataModules;
+using MarketDataModules.Models.Candles;
 using Serilog;
 using Skender.Stock.Indicators;
 using System;

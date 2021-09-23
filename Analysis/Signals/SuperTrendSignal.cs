@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MarketDataModules;
+using MarketDataModules.Models.Candles;
 using Serilog;
 using Skender.Stock.Indicators;
 using TinkoffData;

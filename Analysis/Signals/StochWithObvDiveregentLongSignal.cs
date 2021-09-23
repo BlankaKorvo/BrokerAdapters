@@ -1,4 +1,5 @@
 ﻿using MarketDataModules;
+using MarketDataModules.Models.Candles;
 using Serilog;
 using Skender.Stock.Indicators;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TinkoffData;
 using TradingAlgorithms.IndicatorSignals.Helpers;
-using static MarketDataModules.CandleStructure;
+using static MarketDataModules.Models.Candles.CandleStructure;
 
 namespace TradingAlgorithms.IndicatorSignals
 {
