@@ -12,6 +12,12 @@ namespace MarketDataModules.Models
         //public decimal Purchase { get; set; } //объем покупки в валюте
     }
 
+    public class LastTransactionModel : TransactionModel
+    {
+        public DateTime Date { get; set; } //дата последней тарнзакции
+        //public decimal Purchase { get; set; } //объем покупки в валюте
+    }
+
     public class TransactionModelBase
     {
         public string Figi { get; set; }

@@ -2,6 +2,7 @@
 using MarketDataModules.Models;
 using MarketDataModules.Models.Candles;
 using MarketDataModules.Models.Orderbooks;
+using MarketDataModules.Models.Portfolio;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,8 @@ namespace Analysis.TradeDecision
         public decimal bestAsk { get; set; }
         public decimal bestBid { get; set; }
         public Orderbook orderbook { get; set; }
-        
+        public Portfolio.Position portfolioPosition { get; set; }
+
 
         //Тюнинг индикаторов
 
@@ -33,6 +35,10 @@ namespace Analysis.TradeDecision
             Log.Information("Start TradeVariant GmmaDecision. Figi: " + candleList.Figi);
             TradeTarget gmmaSignalOneMinutes = signal.GmmaSignalOneMinutes(candleList, bestAsk, bestBid);
             TradeTarget orderbookSignal = signal.OrderbookSignal(orderbook);
+
+            //MoneyAmount averagePositionPrice = portfolioPosition.AveragePositionPrice; //не будет работать в песочнице
+
+            TradeTarget portfolioSignal = signal.PortfolioSignal(orderbook, portfolioPosition);
 
             if
                 (
@@ -57,6 +63,8 @@ namespace Analysis.TradeDecision
             else if
                 (
                 gmmaSignalOneMinutes == TradeTarget.fromLong
+                ||
+                portfolioSignal == TradeTarget.fromLong
                 )
             {
                 Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromLong. Figi: " + candleList.Figi + " Price: " + bestAsk);
@@ -66,6 +74,8 @@ namespace Analysis.TradeDecision
             else if
                 (
                 gmmaSignalOneMinutes == TradeTarget.fromShort
+                ||
+                portfolioSignal == TradeTarget.fromShort
                 )
             {
                 Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromShort. Figi: " + candleList.Figi + " Price: " + bestAsk);
