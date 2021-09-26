@@ -21,6 +21,13 @@ namespace TradingAlgorithms.IndicatorSignals
 
         internal TradeTarget PortfolioSignal(Orderbook orderbook, Portfolio.Position portfolioPosition/*, LastTransactionModel lastTransactionModel, CandleInterval candleInterval*/)
         {
+            if (portfolioPosition == null
+                ||
+                portfolioPosition?.AveragePositionPrice?.Value == null)
+            {
+                return TradeTarget.notTrading;
+            }
+            TradeTarget tradeTarget  = TradeTarget.notTrading;
             Log.Information("Start PortfolioSignal. Figi: " + orderbook.Figi);
             decimal ask = orderbook.Asks.First().Price;
             decimal bid = orderbook.Bids.First().Price;
@@ -34,20 +41,17 @@ namespace TradingAlgorithms.IndicatorSignals
                 (
                 bid < fromLongPrice
                 )
-            { 
-                return TradeTarget.fromLong; 
+            {
+                tradeTarget = TradeTarget.fromLong; 
             }
             else if
                 (
                 ask > fromShortPrice
                 )
             {
-                return TradeTarget.fromShort;
+                tradeTarget = TradeTarget.fromShort;
             }
-            else
-            {
-                return TradeTarget.notTrading;
-            }
+            return tradeTarget;
 
         }
 

@@ -14,11 +14,11 @@ namespace TinkoffAdapter.Authority
             {
                 if (_context == null)
                 {
-#if DEBUG
+
                     _context = GetSanboxContext();
-#else
-                    _context = GetSanboxContext();
-#endif
+
+                    //_context = GetContext();
+
                 }
                 return _context;
             }
