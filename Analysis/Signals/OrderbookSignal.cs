@@ -1,5 +1,7 @@
 ﻿using MarketDataModules;
 using MarketDataModules.Models;
+using MarketDataModules.Models.Candles;
+using MarketDataModules.Models.Operation;
 using MarketDataModules.Models.Orderbooks;
 using Serilog;
 using Skender.Stock.Indicators;
@@ -17,7 +19,7 @@ namespace TradingAlgorithms.IndicatorSignals
     public partial class Signal : IndicatorSignalsHelper
     {
 
-        internal TradeTarget OrderbookSignal(Orderbook orderbook)
+        internal TradeTarget OrderbookSignal(Orderbook orderbook) 
         {
             Log.Information("Start OrderbookSignal. Figi: " + orderbook.Figi);
             decimal asks = orderbook.Asks.Select(x => x.Quantity).Sum();

@@ -5,6 +5,7 @@ using MarketDataModules.Models;
 using MarketDataModules.Models.Candles;
 using MarketDataModules.Models.Instruments;
 using MarketDataModules.Models.Portfolio;
+using MarketDataModules.Models.Trading;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -73,7 +74,7 @@ namespace Trader
                                 {
                                     transactionModel =
                                     new TransactionModel()
-                                    { Figi = item.Figi, Price = bestAsk, TradeOperation = TradeOperation.Buy, Quantity = countStocks - currentLots }
+                                    { Figi = item.Figi, Price = bestAsk, TradeOperation = TradingOperationType.Buy, Quantity = countStocks - currentLots }
                                 }.TransactStoksAsyncs();
 
                             }
@@ -87,7 +88,7 @@ namespace Trader
                                 await new TinkoffTrading()
                                 {
                                     transactionModel =
-                                new TransactionModel() { Figi = item.Figi, Price = bestBid, TradeOperation = TradeOperation.Sell, Quantity = currentLots }
+                                new TransactionModel() { Figi = item.Figi, Price = bestBid, TradeOperation = TradingOperationType.Sell, Quantity = currentLots }
                                 }.TransactStoksAsyncs();
                             }
                             else if
@@ -100,7 +101,7 @@ namespace Trader
                                 await new TinkoffTrading()
                                 {
                                     transactionModel =
-                                new TransactionModel() { Figi = item.Figi, Price = bestBid, TradeOperation = TradeOperation.Sell, Quantity = currentLots + countStocks }
+                                new TransactionModel() { Figi = item.Figi, Price = bestBid, TradeOperation = TradingOperationType.Sell, Quantity = currentLots + countStocks }
                                 }.TransactStoksAsyncs();
                             }
                             else if
@@ -113,7 +114,7 @@ namespace Trader
                                 await new TinkoffTrading()
                                 {
                                     transactionModel =
-                                new TransactionModel() { Figi = item.Figi, Price = bestAsk, TradeOperation = TradeOperation.Buy, Quantity = 0 - currentLots }
+                                new TransactionModel() { Figi = item.Figi, Price = bestAsk, TradeOperation = TradingOperationType.Buy, Quantity = 0 - currentLots }
                                 }.TransactStoksAsyncs();
                             }
                             else 

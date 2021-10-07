@@ -18,6 +18,7 @@ using MoneyAmount = MarketDataModules.Models.Portfolio.MoneyAmount;
 using MarketDataModules.Models.Candles;
 using MarketDataModules.Models;
 using MarketDataModules.Models.Instruments;
+using MarketDataModules.Models.Operation;
 
 namespace DataCollector
 {
@@ -150,6 +151,40 @@ namespace DataCollector
             }
             return listCandlesList;
         }
+
+        /// <summary>
+        /// Получени истории операций по инструменту
+        /// </summary>
+        /// <param name="figi"></param>
+        /// <param name="dateFrom"></param>
+        /// <param name="dateTo"></param>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        public async Task<List<TradeOperation>> GetOperationsAsync(string figi, DateTime dateFrom, DateTime dateTo, Provider provider = Provider.Tinkoff)
+        {
+            if (provider == Provider.Tinkoff)
+                return await TinkoffGetOperationAsync(figi, dateFrom, dateTo);
+            else
+                throw new NotImplementedException();
+        }
+
+        private async Task<List<TradeOperation>> TinkoffGetOperationAsync(string figi, DateTime dateFrom, DateTime dateTo)
+        {
+            List<Operation> operations = await getTinkoffData.GetOperations(figi, dateFrom, dateTo);
+            List<TradeOperation> resultOperations = operations.Select
+                (x => 
+                    new TradeOperation(x.Id, 
+                        (MarketDataModules.Models.Operation.OperationStatus)x.Status, 
+                        (List<MarketDataModules.Models.Operation.Trade>)x.Trades.Select(y => 
+                            new MarketDataModules.Models.Operation.Trade(y.TradeId, y.Date, y.Price, y.Quantity)),
+                        new MoneyAmount ((Currency)x.Commission.Currency, x.Commission.Value),
+                        (Currency)x.Currency, x.Payment, x.Price, x.Quantity, x.QuantityExecuted, x.Figi,
+                        (InstrumentType)x.InstrumentType, x.IsMarginCall, x.Date, 
+                        (MarketDataModules.Models.Operation.ExtendedOperationType)x.OperationType)
+                ).ToList();
+            return resultOperations;
+        }
+
         async Task<CandlesList> TinkoffCandles(string figi, CandleInterval candleInterval, int candlesCount)
         {
             Tinkoff.Trading.OpenApi.Models.CandleInterval interval = (Tinkoff.Trading.OpenApi.Models.CandleInterval)candleInterval;

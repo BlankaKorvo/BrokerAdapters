@@ -88,12 +88,12 @@ namespace TinkoffAdapter.TinkoffTrade
             Log.Information("Stop TransactStoksAsyncs: " + transactionModel.Figi);
         }
 
-        private OperationType GetOperationType()
+        private Tinkoff.Trading.OpenApi.Models.OperationType GetOperationType()
         {
-            if (transactionModel.TradeOperation == TradeOperation.Buy)
-                return OperationType.Buy;
-            else if (transactionModel.TradeOperation == TradeOperation.Sell)
-                return OperationType.Sell;
+            if (transactionModel.TradeOperation == MarketDataModules.Models.Trading.TradingOperationType.Buy)
+                return Tinkoff.Trading.OpenApi.Models.OperationType.Buy;
+            else if (transactionModel.TradeOperation == MarketDataModules.Models.Trading.TradingOperationType.Sell)
+                return Tinkoff.Trading.OpenApi.Models.OperationType.Sell;
             else
                 throw new NotImplementedException();
         }
@@ -123,7 +123,7 @@ namespace TinkoffAdapter.TinkoffTrade
                 }
             }
 
-            await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, OperationType.Buy, transactionModel.Price)));
+            await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, Tinkoff.Trading.OpenApi.Models.OperationType.Buy, transactionModel.Price)));
 
             using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
             {
@@ -160,7 +160,7 @@ namespace TinkoffAdapter.TinkoffTrade
                 }
             }
 
-            await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, OperationType.Sell, transactionModel.Price)));
+            await RetryPolicy.PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, Tinkoff.Trading.OpenApi.Models.OperationType.Sell, transactionModel.Price)));
 
             using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
             {

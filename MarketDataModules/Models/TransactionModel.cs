@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MarketDataModules.Models.Trading;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,17 +13,11 @@ namespace MarketDataModules.Models
         //public decimal Purchase { get; set; } //объем покупки в валюте
     }
 
-    public class LastTransactionModel : TransactionModel
-    {
-        public DateTime Date { get; set; } //дата последней тарнзакции
-        //public decimal Purchase { get; set; } //объем покупки в валюте
-    }
-
     public class TransactionModelBase
     {
         public string Figi { get; set; }
         public decimal Price { get; set; }
-        public TradeOperation TradeOperation { get; set; }
+        public TradingOperationType TradeOperation { get; set; }
 
     }
     public enum TradeTarget
@@ -32,12 +27,6 @@ namespace MarketDataModules.Models
         fromLong,
         toShort,
         fromShort        
-    }
-
-    public enum TradeOperation
-    { 
-    Buy,
-    Sell
     }
 }
 

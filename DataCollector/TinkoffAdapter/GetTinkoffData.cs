@@ -189,6 +189,12 @@ namespace TinkoffAdapter.DataHelper
             }
         }
 
+        internal async Task<List<Operation>> GetOperations(string figi, DateTime dateFrom, DateTime dateTo)
+        {
+            List<Operation> operations = await PollyRetray.Retry().ExecuteAsync(async () => await PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.OperationsAsync(dateFrom, dateTo, figi)));
+            return operations;
+        }
+
         public async Task<Portfolio> GetPortfolioAsync()
         {
             Portfolio portfolio = await PollyRetray.Retry().ExecuteAsync(async () => await PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PortfolioAsync()));

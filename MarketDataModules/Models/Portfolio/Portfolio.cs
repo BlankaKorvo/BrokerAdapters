@@ -56,5 +56,6 @@ namespace MarketDataModules.Models.Portfolio
                 AveragePositionPriceNoNkd = averagePositionPriceNoNkd;
             }
         }
+
     }
 }
