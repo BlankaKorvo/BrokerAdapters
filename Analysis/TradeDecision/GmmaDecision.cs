@@ -37,8 +37,8 @@ namespace Analysis.TradeDecision
             Log.Information("Start TradeVariant GmmaDecision. Figi: " + candleList.Figi);
             TradeTarget gmmaSignal = signal.GmmaSignal(candleList, bestAsk, bestBid);
             TradeTarget orderbookSignal = signal.OrderbookSignal(orderbook);
-            TradeTarget safeMoneySignal = signal.SafeMoneySignal(orderbook, portfolioPosition, tradeOperations, candleList);
-
+            //TradeTarget safeMoneySignal = signal.SafeMoneySignal(orderbook, portfolioPosition, tradeOperations, candleList, 3);
+            TradeTarget stochOutTradeSignal = signal.StochOutTradeSignal(candleList, orderbook);
             if
                 (
                 gmmaSignal == TradeTarget.toLong
@@ -63,18 +63,19 @@ namespace Analysis.TradeDecision
                 (
                 gmmaSignal == TradeTarget.fromLong
                 ||
-                safeMoneySignal == TradeTarget.fromLong
+                stochOutTradeSignal == TradeTarget.fromLong
+                //safeMoneySignal == TradeTarget.fromLong
                 )
             {
                 Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromLong. Figi: " + candleList.Figi + " Price: " + bestAsk);
                 return TradeTarget.fromLong;
             }
-
             else if
                 (
                 gmmaSignal == TradeTarget.fromShort
                 ||
-                safeMoneySignal == TradeTarget.fromShort
+                stochOutTradeSignal == TradeTarget.fromShort
+                //safeMoneySignal == TradeTarget.fromShort
                 )
             {
                 Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromShort. Figi: " + candleList.Figi + " Price: " + bestAsk);
@@ -85,50 +86,6 @@ namespace Analysis.TradeDecision
                 Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeTarget.notTrading");
                 return TradeTarget.notTrading;
             }
-
         }
-
-    //    public bool Long()
-    //    {
-    //        if (
-    //            signal.StochGapSignalLongSignal(candleList, price)
-    //            )
-    //        {
-    //            Log.Information("StochFiveMinutes Algoritms: Long - true " + candleList.Figi);
-    //            return true; 
-    //        }
-    //        else 
-    //        {
-    //            Log.Information("StochFiveMinutes Algoritms: Long - false " + candleList.Figi);
-    //            return false;
-    //        }
-    //    }
-    //    //public bool FromLong()
-    //    //{
-    //    //    if (
-    //    //        signal.AdxFromLongSignal(candleList, deltaPrice)
-    //    //        ||
-    //    //        signal.AroonFromLongSignal(candleList, deltaPrice)
-    //    //        )
-    //    //    {
-    //    //        Log.Information("StochFiveMinutes Algoritms: FromLong - true " + candleList.Figi);
-    //    //        return true; 
-    //    //    }
-    //    //    else
-    //    //    {
-    //    //        Log.Information("StochFiveMinutes Algoritms: FromLong - false " + candleList.Figi);
-    //    //        return false; 
-    //    //    }
-    //    //}
-
-    //    public bool Short()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public bool FromShort()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
     }
 }

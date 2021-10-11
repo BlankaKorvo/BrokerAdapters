@@ -20,7 +20,7 @@ namespace TradingAlgorithms.IndicatorSignals
     public partial class Signal : IndicatorSignalsHelper
     {
 
-        internal TradeTarget SafeMoneySignal(Orderbook orderbook, Portfolio.Position portfolioPosition, List<TradeOperation> tradeOperations, CandlesList candlesList)
+        internal TradeTarget SafeMoneySignal(Orderbook orderbook, Portfolio.Position portfolioPosition, List<TradeOperation> tradeOperations, CandlesList candlesList, int candelsCountParam)
         {
             Log.Information("Start SafeMoneySignal MethodFigi: " + orderbook.Figi);
 
@@ -56,36 +56,37 @@ namespace TradingAlgorithms.IndicatorSignals
             Log.Information("countCandlesAfterTrade = " + countCandlesAfterTrade);
 
 
-            if ( countCandlesAfterTrade > 0 && countCandlesAfterTrade <= 3)
+            if ( countCandlesAfterTrade > 0 && countCandlesAfterTrade <= candelsCountParam)
             {
-                decimal procent = 0.08m;
-                decimal delta = portfolioPosition.AveragePositionPrice.Value * procent / 100;
-                decimal fromLongPrice = portfolioPosition.AveragePositionPrice.Value - delta;
-                decimal fromShortPrice = portfolioPosition.AveragePositionPrice.Value + delta;
+                //decimal procent = 0.08m;
+                //decimal delta = portfolioPosition.AveragePositionPrice.Value * procent / 100;
+                //decimal fromLongPrice = portfolioPosition.AveragePositionPrice.Value - delta;
+                //decimal fromShortPrice = portfolioPosition.AveragePositionPrice.Value + delta;
 
-                Log.Information("procent = " + procent);                
-                Log.Information("delta = " + delta);                
-                Log.Information("fromLongPrice = " + fromLongPrice);                
-                Log.Information("fromShortPrice = " + fromShortPrice);
+                //Log.Information("procent = " + procent);                
+                //Log.Information("delta = " + delta);                
+                //Log.Information("fromLongPrice = " + fromLongPrice);                
+                //Log.Information("fromShortPrice = " + fromShortPrice);
 
-                if
-                    (
-                    bid < fromLongPrice
-                    )
-                {
-                    Log.Information("bid < fromLongPrice. tradeTarget = TradeTarget.fromLong;");
-                    tradeTarget = TradeTarget.fromLong;
-                }
-                else if
-                    (
-                    ask > fromShortPrice
-                    )
-                {
-                    Log.Information("ask > fromShortPrice. tradeTarget = TradeTarget.fromShort;");
-                    tradeTarget = TradeTarget.fromShort;
-                }
-                Log.Information("Start SafeMoneySignal MethodFigi: " + orderbook.Figi + " TradeTarget= " + tradeTarget);
-                return tradeTarget;
+                //if
+                //    (
+                //    bid < fromLongPrice
+                //    )
+                //{
+                //    Log.Information("bid < fromLongPrice. tradeTarget = TradeTarget.fromLong;");
+                //    tradeTarget = TradeTarget.fromLong;
+                //}
+                //else if
+                //    (
+                //    ask > fromShortPrice
+                //    )
+                //{
+                //    Log.Information("ask > fromShortPrice. tradeTarget = TradeTarget.fromShort;");
+                //    tradeTarget = TradeTarget.fromShort;
+                //}
+                //Log.Information("Start SafeMoneySignal MethodFigi: " + orderbook.Figi + " TradeTarget= " + tradeTarget);
+                //return tradeTarget;
+                return TradeTarget.notTrading;
             }
             else
             {
@@ -124,8 +125,10 @@ namespace TradingAlgorithms.IndicatorSignals
         {
             Log.Information("Start CountCandlesAfterTrade method");
             Log.Information("tradeOperations.Last().Date = " + tradeOperations.Last().Date);
-            for (int i = 1; i < candlesList.Candles.Count; i++)
+
+            for (int i = 1; i <= candlesList.Candles.Count; i++)
             {
+                Log.Information("candlesList.Candles[^i].Time = " + candlesList.Candles[^i].Time);
                 if (candlesList.Candles[^i].Time <= tradeOperations.Last().Date)
                 {
                     Log.Information("Stop CountCandlesAfterTrade method. Return " + i);
