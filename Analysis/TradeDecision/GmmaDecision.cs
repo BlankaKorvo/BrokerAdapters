@@ -39,6 +39,9 @@ namespace Analysis.TradeDecision
             TradeTarget orderbookSignal = signal.OrderbookSignal(orderbook);
             //TradeTarget safeMoneySignal = signal.SafeMoneySignal(orderbook, portfolioPosition, tradeOperations, candleList, 3);
             TradeTarget stochOutTradeSignal = signal.StochOutTradeSignal(candleList, orderbook);
+            Log.Information("gmmaSignal = " + gmmaSignal);
+            Log.Information("orderbookSignal = " + orderbookSignal);
+            Log.Information("stochOutTradeSignal = " + stochOutTradeSignal);
             if
                 (
                 gmmaSignal == TradeTarget.toLong
@@ -64,7 +67,6 @@ namespace Analysis.TradeDecision
                 gmmaSignal == TradeTarget.fromLong
                 ||
                 stochOutTradeSignal == TradeTarget.fromLong
-                //safeMoneySignal == TradeTarget.fromLong
                 )
             {
                 Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromLong. Figi: " + candleList.Figi + " Price: " + bestAsk);
@@ -75,7 +77,6 @@ namespace Analysis.TradeDecision
                 gmmaSignal == TradeTarget.fromShort
                 ||
                 stochOutTradeSignal == TradeTarget.fromShort
-                //safeMoneySignal == TradeTarget.fromShort
                 )
             {
                 Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromShort. Figi: " + candleList.Figi + " Price: " + bestAsk);

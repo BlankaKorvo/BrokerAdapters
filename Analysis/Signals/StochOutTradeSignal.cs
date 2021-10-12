@@ -19,36 +19,38 @@ namespace TradingAlgorithms.IndicatorSignals
 
         internal TradeTarget StochOutTradeSignal(CandlesList candleList, Orderbook orderbook)
         {
-
-            decimal deltaPrice = (orderbook.Asks.FirstOrDefault().Price + orderbook.Bids.FirstOrDefault().Price) / 2;
             Log.Information("Start StochOutTradeSignal. Figi: " + candleList.Figi);
+            decimal deltaPrice = (orderbook.Asks.FirstOrDefault().Price + orderbook.Bids.FirstOrDefault().Price) / 2;
             List<StochResult> stoch = Mapper.StochData(candleList, deltaPrice, stochLookbackPeriod, stochSignalPeriod, stochSmoothPeriod);
-            Log.Information("Oscillator (%K) = " + stoch.Last().Oscillator);
-            Log.Information("Signal (%D) = " + stoch.Last().Signal);
-            Log.Information("PercentJ = " + stoch.Last().PercentJ);
+            decimal? stochOscillator = stoch.Last().Oscillator;
+            //decimal? stochSignal = stoch.Last().Signal;            
 
-            Log.Information("PreLast Oscillator (%K) = " + stoch[^2].Oscillator);
-            Log.Information("PreLast Signal (%D) = " + stoch[^2].Signal);
-            Log.Information("PreLast PercentJ = " + stoch[^2].PercentJ);
+            Log.Information("Oscillator (%K) = " + stochOscillator);
+            //Log.Information("Signal (%D) = " + stochSignal);
+            //Log.Information("PercentJ = " + stoch.Last().PercentJ);
 
-            var OscillatorDegreeAverageAngle = StochDegreeAverageAngle(stoch, 1, Stoch.Oscillator);
-            var SignalDegreeAverageAngle = StochDegreeAverageAngle(stoch, 1, Stoch.Signal);
-            var PercentJDegreeAverageAngle = StochDegreeAverageAngle(stoch, 1, Stoch.PercentJ);
+            //Log.Information("PreLast Oscillator (%K) = " + stoch[^2].Oscillator);
+            //Log.Information("PreLast Signal (%D) = " + stoch[^2].Signal);
+            //Log.Information("PreLast PercentJ = " + stoch[^2].PercentJ);
 
-            Log.Information("OscillatorDegreeAverageAngle = " + OscillatorDegreeAverageAngle);
-            Log.Information("SignalDegreeAverageAngle = " + SignalDegreeAverageAngle);
-            Log.Information("PercentJDegreeAverageAngle = " + PercentJDegreeAverageAngle);
+            //var OscillatorDegreeAverageAngle = StochDegreeAverageAngle(stoch, 1, Stoch.Oscillator);
+            //var SignalDegreeAverageAngle = StochDegreeAverageAngle(stoch, 1, Stoch.Signal);
+            //var PercentJDegreeAverageAngle = StochDegreeAverageAngle(stoch, 1, Stoch.PercentJ);
+
+            //Log.Information("OscillatorDegreeAverageAngle = " + OscillatorDegreeAverageAngle);
+            //Log.Information("SignalDegreeAverageAngle = " + SignalDegreeAverageAngle);
+            //Log.Information("PercentJDegreeAverageAngle = " + PercentJDegreeAverageAngle);
 
 
-            if(stoch.Last().Oscillator < 20)
+            if(stochOscillator < 25)
             {
 
-                Log.Information("Stoch = FromLong - true for: " + candleList.Figi);
+                Log.Information("Stop StochOutTradeSignal. Figi: " + candleList.Figi + " TradeTarget.fromLong");
                 return TradeTarget.fromLong;
             }
-            else if(stoch.Last().Oscillator > 80)
+            else if(stochOscillator > 75)
             {
-                Log.Information("Stoch = FromShort - false for: " + candleList.Figi);
+                Log.Information("Stop StochOutTradeSignal. Figi: " + candleList.Figi + " TradeTarget.fromShort");
                 return TradeTarget.fromShort;
             }
             return TradeTarget.notTrading;
