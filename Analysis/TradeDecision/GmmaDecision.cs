@@ -66,7 +66,7 @@ namespace Analysis.TradeDecision
                 (
                 (gmmaSignal == TradeTarget.fromLong && stochOutTradeSignal != TradeTarget.fromShort) ///пиздецкий костыль. переделать
                 ||
-                stochOutTradeSignal == TradeTarget.fromLong
+                (stochOutTradeSignal == TradeTarget.fromLong && gmmaSignal != TradeTarget.fromShort)
                 )
             {
                 Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromLong. Figi: " + candleList.Figi + " Price: " + bestAsk);
