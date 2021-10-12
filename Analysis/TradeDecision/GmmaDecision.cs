@@ -64,7 +64,7 @@ namespace Analysis.TradeDecision
             }
             else if
                 (
-                gmmaSignal == TradeTarget.fromLong
+                (gmmaSignal == TradeTarget.fromLong && stochOutTradeSignal != TradeTarget.fromShort) ///пиздецкий костыль. переделать
                 ||
                 stochOutTradeSignal == TradeTarget.fromLong
                 )
