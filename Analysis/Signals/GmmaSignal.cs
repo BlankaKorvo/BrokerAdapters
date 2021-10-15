@@ -254,18 +254,18 @@ namespace TradingAlgorithms.IndicatorSignals
                 emaShort6.LastOrDefault().Ema > emaLong6.LastOrDefault().Ema
 
 
-                &&// Проверка на то, что короткие Ema Close больше длинных EMA High
-                emaShort6.LastOrDefault().Ema > emaLong1High.LastOrDefault().Ema
-                &&
-                emaShort6.LastOrDefault().Ema > emaLong2High.LastOrDefault().Ema
-                &&
-                emaShort6.LastOrDefault().Ema > emaLong3High.LastOrDefault().Ema
-                &&
-                emaShort6.LastOrDefault().Ema > emaLong4High.LastOrDefault().Ema
-                &&
-                emaShort6.LastOrDefault().Ema > emaLong5High.LastOrDefault().Ema
-                &&
-                emaShort6.LastOrDefault().Ema > emaLong6High.LastOrDefault().Ema
+                //&&// Проверка на то, что короткие Ema Close больше длинных EMA High
+                //emaShort6.LastOrDefault().Ema > emaLong1High.LastOrDefault().Ema
+                //&&
+                //emaShort6.LastOrDefault().Ema > emaLong2High.LastOrDefault().Ema
+                //&&
+                //emaShort6.LastOrDefault().Ema > emaLong3High.LastOrDefault().Ema
+                //&&
+                //emaShort6.LastOrDefault().Ema > emaLong4High.LastOrDefault().Ema
+                //&&
+                //emaShort6.LastOrDefault().Ema > emaLong5High.LastOrDefault().Ema
+                //&&
+                //emaShort6.LastOrDefault().Ema > emaLong6High.LastOrDefault().Ema
 
 
                 &&// Проверка на то, что короткие Ema High больше длинных EMA High
@@ -292,6 +292,18 @@ namespace TradingAlgorithms.IndicatorSignals
                 emaShort4.LastOrDefault().Ema > emaShort5.LastOrDefault().Ema
                 &&
                 emaShort5.LastOrDefault().Ema > emaShort6.LastOrDefault().Ema
+                
+                
+                &&//В прошлую свечу, все линии по порялдку
+                emaShort1[^2].Ema > emaShort2[^2].Ema
+                &&
+                emaShort2[^2].Ema > emaShort3[^2].Ema
+                &&
+                emaShort3[^2].Ema > emaShort4[^2].Ema
+                &&
+                emaShort4[^2].Ema > emaShort5[^2].Ema
+                &&
+                emaShort5[^2].Ema > emaShort6[^2].Ema
 
 
                 // ПРоверка на расхождение коротких линий друг от друга
@@ -347,18 +359,18 @@ namespace TradingAlgorithms.IndicatorSignals
                 emaShort6.LastOrDefault().Ema < emaLong6.LastOrDefault().Ema
 
 
-                &&// Проверка на то, что короткие Ema Close меньше длинных EMA Low
-                emaShort6.LastOrDefault().Ema < emaLong1Low.LastOrDefault().Ema
-                &&
-                emaShort6.LastOrDefault().Ema < emaLong2Low.LastOrDefault().Ema
-                &&
-                emaShort6.LastOrDefault().Ema < emaLong3Low.LastOrDefault().Ema
-                &&
-                emaShort6.LastOrDefault().Ema < emaLong4Low.LastOrDefault().Ema
-                &&
-                emaShort6.LastOrDefault().Ema < emaLong5Low.LastOrDefault().Ema
-                &&
-                emaShort6.LastOrDefault().Ema < emaLong6Low.LastOrDefault().Ema
+                //&&// Проверка на то, что короткие Ema Close меньше длинных EMA Low
+                //emaShort6.LastOrDefault().Ema < emaLong1Low.LastOrDefault().Ema
+                //&&
+                //emaShort6.LastOrDefault().Ema < emaLong2Low.LastOrDefault().Ema
+                //&&
+                //emaShort6.LastOrDefault().Ema < emaLong3Low.LastOrDefault().Ema
+                //&&
+                //emaShort6.LastOrDefault().Ema < emaLong4Low.LastOrDefault().Ema
+                //&&
+                //emaShort6.LastOrDefault().Ema < emaLong5Low.LastOrDefault().Ema
+                //&&
+                //emaShort6.LastOrDefault().Ema < emaLong6Low.LastOrDefault().Ema
 
 
                 &&// Проверка на то, что короткие Ema Low меньше длинных EMA High
@@ -387,6 +399,16 @@ namespace TradingAlgorithms.IndicatorSignals
                 &&
                 emaShort5.LastOrDefault().Ema < emaShort6.LastOrDefault().Ema
 
+                &&//В прошлую свечу, все линии по порялдку
+                emaShort1[^2].Ema < emaShort2[^2].Ema
+                &&
+                emaShort2[^2].Ema < emaShort3[^2].Ema
+                &&
+                emaShort3[^2].Ema < emaShort4[^2].Ema
+                &&
+                emaShort4[^2].Ema < emaShort5[^2].Ema
+                &&
+                emaShort5[^2].Ema < emaShort6[^2].Ema
 
 
                 && // Проверка углов по Close
@@ -410,26 +432,26 @@ namespace TradingAlgorithms.IndicatorSignals
             }
             else if // from Long
                 (
-                    (
-                    PositionEntryRangeForLong(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == true
-                        &&
+                //    (
+                //    PositionEntryRangeForLong(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == true
+                //        &&
+                //    price < emaLong1.LastOrDefault().Ema
+                //                    ||
+                //    price < emaLong2.LastOrDefault().Ema
+                //                    ||
+                //    price < emaLong3.LastOrDefault().Ema
+                //                    ||
+                //    price < emaLong4.LastOrDefault().Ema
+                //                    ||
+                //    price < emaLong5.LastOrDefault().Ema
+                //                    ||
+                //    price < emaLong6.LastOrDefault().Ema
+                //    )
+                //||
+                //    (
+                    //PositionEntryRangeForLong(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == false
+                    //&&
                     price < emaLong1.LastOrDefault().Ema
-                                    ||
-                    price < emaLong2.LastOrDefault().Ema
-                                    ||
-                    price < emaLong3.LastOrDefault().Ema
-                                    ||
-                    price < emaLong4.LastOrDefault().Ema
-                                    ||
-                    price < emaLong5.LastOrDefault().Ema
-                                    ||
-                    price < emaLong6.LastOrDefault().Ema
-                    )
-                ||
-                    (
-                    PositionEntryRangeForLong(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == false
-                    &&
-                    price < emaLong1.LastOrDefault().Ema
                                     &&
                     price < emaLong2.LastOrDefault().Ema
                                     &&
@@ -440,7 +462,7 @@ namespace TradingAlgorithms.IndicatorSignals
                     price < emaLong5.LastOrDefault().Ema
                                     &&
                     price < emaLong6.LastOrDefault().Ema
-                    )
+                    //)
                  //||
                  //   (
                  //   emaShort1HighLinearAngle < -50
@@ -455,26 +477,26 @@ namespace TradingAlgorithms.IndicatorSignals
 
             else if // from Short
                     (
-                    (
-                    PositionEntryRangeForShort(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == true
-                        &&
+                //    (
+                //    PositionEntryRangeForShort(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == true
+                //        &&
+                //    price > emaLong1.LastOrDefault().Ema
+                //                    ||
+                //    price > emaLong2.LastOrDefault().Ema
+                //                    ||
+                //    price > emaLong3.LastOrDefault().Ema
+                //                    ||
+                //    price > emaLong4.LastOrDefault().Ema
+                //                    ||
+                //    price > emaLong5.LastOrDefault().Ema
+                //                    ||
+                //    price > emaLong6.LastOrDefault().Ema
+                //    )
+                //||
+                //    (
+                    //PositionEntryRangeForShort(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == false
+                    //&&
                     price > emaLong1.LastOrDefault().Ema
-                                    ||
-                    price > emaLong2.LastOrDefault().Ema
-                                    ||
-                    price > emaLong3.LastOrDefault().Ema
-                                    ||
-                    price > emaLong4.LastOrDefault().Ema
-                                    ||
-                    price > emaLong5.LastOrDefault().Ema
-                                    ||
-                    price > emaLong6.LastOrDefault().Ema
-                    )
-                ||
-                    (
-                    PositionEntryRangeForShort(emaShort6, emaLong1, emaLong2, emaLong3, emaLong4, emaLong5, emaLong6, 15) == false
-                    &&
-                    price > emaLong1.LastOrDefault().Ema
                                     &&
                     price > emaLong2.LastOrDefault().Ema
                                     &&
@@ -485,7 +507,7 @@ namespace TradingAlgorithms.IndicatorSignals
                     price > emaLong5.LastOrDefault().Ema
                                     &&
                     price > emaLong6.LastOrDefault().Ema
-                    )
+                    //)
                 //||
                 //   (
                 //   emaShort1LowLinearAngle > 50

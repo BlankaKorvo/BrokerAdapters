@@ -21,70 +21,74 @@ namespace Analysis.TradeDecision
 
 
         //Передаваемые при создании объекта параметры
-        public CandlesList candleList { get; set; }
+        public CandlesList candleListMin { get; set; }
+        //public CandlesList candleListMax { get; set; }
         public decimal bestAsk { get; set; }
         public decimal bestBid { get; set; }
         public Orderbook orderbook { get; set; }
         public Portfolio.Position portfolioPosition { get; set; }
         public List<TradeOperation> tradeOperations { get; set; }
 
-
         //Тюнинг индикаторов
-
 
         public TradeTarget TradeVariant()
         {
-            Log.Information("Start TradeVariant GmmaDecision. Figi: " + candleList.Figi);
-            TradeTarget gmmaSignal = signal.GmmaSignal(candleList, bestAsk, bestBid);
+            Log.Information("Start TradeVariant GmmaDecision. Figi: " + candleListMin.Figi);
+            TradeTarget gmmaSignalMin = signal.GmmaSignal(candleListMin, bestAsk, bestBid);
+            //TradeTarget gmmaSignalMax = signal.GmmaSignal(candleListMax, bestAsk, bestBid);
             TradeTarget orderbookSignal = signal.OrderbookSignal(orderbook);
             //TradeTarget safeMoneySignal = signal.SafeMoneySignal(orderbook, portfolioPosition, tradeOperations, candleList, 3);
-            TradeTarget stochOutTradeSignal = signal.StochOutTradeSignal(candleList, orderbook);
-            Log.Information("gmmaSignal = " + gmmaSignal);
+            TradeTarget stochOutTradeSignal = signal.StochOutTradeSignal(candleListMin, orderbook);
+            Log.Information("gmmaSignal = " + gmmaSignalMin);
             Log.Information("orderbookSignal = " + orderbookSignal);
             Log.Information("stochOutTradeSignal = " + stochOutTradeSignal);
             if
                 (
-                gmmaSignal == TradeTarget.toLong
+                gmmaSignalMin == TradeTarget.toLong
                 &&
                 orderbookSignal == TradeTarget.toLong
+                &&
+                stochOutTradeSignal == TradeTarget.toLong
                 )
             {
-                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.toLong. Figi: " + candleList.Figi + " Price: " + bestAsk);
+                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.toLong. Figi: " + candleListMin.Figi + " Price: " + bestAsk);
                 return TradeTarget.toLong;
             }
             else if
                 (
-                gmmaSignal == TradeTarget.toShort
+                gmmaSignalMin == TradeTarget.toShort
                 &&
                 orderbookSignal == TradeTarget.toShort
+                &&
+                stochOutTradeSignal == TradeTarget.toShort
                 )
             {
-                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.toShort. Figi: " + candleList.Figi + " Price: " + bestAsk);
+                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.toShort. Figi: " + candleListMin.Figi + " Price: " + bestAsk);
                 return TradeTarget.toShort;
             }
             else if
                 (
-                (gmmaSignal == TradeTarget.fromLong && stochOutTradeSignal != TradeTarget.fromShort) ///пиздецкий костыль. переделать
+                (gmmaSignalMin == TradeTarget.fromLong && stochOutTradeSignal != TradeTarget.fromShort) ///пиздецкий костыль. переделать
                 ||
-                (stochOutTradeSignal == TradeTarget.fromLong && gmmaSignal != TradeTarget.fromShort)
+                (stochOutTradeSignal == TradeTarget.fromLong)
                 )
             {
-                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromLong. Figi: " + candleList.Figi + " Price: " + bestAsk);
+                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromLong. Figi: " + candleListMin.Figi + " Price: " + bestAsk);
                 return TradeTarget.fromLong;
             }
             else if
                 (
-                gmmaSignal == TradeTarget.fromShort
+                gmmaSignalMin == TradeTarget.fromShort
                 ||
                 stochOutTradeSignal == TradeTarget.fromShort
                 )
             {
-                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromShort. Figi: " + candleList.Figi + " Price: " + bestAsk);
+                Log.Information("Stop TradeVariant GmmaDecision. TradeTarget.fromShort. Figi: " + candleListMin.Figi + " Price: " + bestAsk);
                 return TradeTarget.fromShort;
             }
             else
             {
-                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleList.Figi + " TradeTarget.notTrading");
+                Log.Information("Stop TradeVariant GmmaDecision. Figi: " + candleListMin.Figi + " TradeTarget.notTrading");
                 return TradeTarget.notTrading;
             }
         }
