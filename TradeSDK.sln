@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indicators", "Stock.Indicat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trader", "Trader\Trader.csproj", "{E6CEB48E-27B6-46C9-A3A9-CF3724E33F7B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{068C72ED-567E-4FD3-8CB7-D7E63AEEF0C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCollector.Tests", "DataCollector.Tests\DataCollector.Tests.csproj", "{7F97C816-91B5-4814-BB5C-F9F8B65E0EC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,12 +45,17 @@ Global
 		{E6CEB48E-27B6-46C9-A3A9-CF3724E33F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6CEB48E-27B6-46C9-A3A9-CF3724E33F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6CEB48E-27B6-46C9-A3A9-CF3724E33F7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F97C816-91B5-4814-BB5C-F9F8B65E0EC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F97C816-91B5-4814-BB5C-F9F8B65E0EC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F97C816-91B5-4814-BB5C-F9F8B65E0EC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F97C816-91B5-4814-BB5C-F9F8B65E0EC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0A5DB4A6-0AED-459E-883B-F83607FC8A5A} = {0CD04B2A-FD2A-4C22-AB05-965B3126CCB9}
+		{7F97C816-91B5-4814-BB5C-F9F8B65E0EC6} = {068C72ED-567E-4FD3-8CB7-D7E63AEEF0C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {680FF20C-9A2A-4473-9843-12EE75F0567C}
