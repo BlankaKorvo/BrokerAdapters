@@ -15,7 +15,7 @@ namespace TinkoffAdapter.DataHelper
 {   
     public class GetTinkoffData
     {
-        public async Task<CandleList> GetCandlesTinkoffAsync(string figi, CandleInterval candleInterval, int candlesCount, int attemptsCount = 5)
+        public async Task<CandleList> GetCandlesTinkoffAsync(string figi, CandleInterval candleInterval, int candlesCount, int attemptsCount = 100)
         {
             Log.Information("Start GetCandlesTinkoffAsync method. Figi: " + figi);
 
