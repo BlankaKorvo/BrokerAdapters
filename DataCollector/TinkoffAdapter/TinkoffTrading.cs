@@ -4,17 +4,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using TinkoffAdapter.Authority;
 using Tinkoff.Trading.OpenApi.Models;
 using Tinkoff.Trading.OpenApi.Network;
-using TinkoffAdapter.DataHelper;
 using Operation = MarketDataModules.Models.TradeTarget;
 using Orderbook = MarketDataModules.Models.Orderbooks;
 using CandleInterval = MarketDataModules.Models.Candles.CandleInterval;
 using MarketDataModules;
 using MarketDataModules.Models;
+using DataCollector.TinkoffAdapter.Authority;
 
-namespace TinkoffAdapter.TinkoffTrade
+namespace DataCollector.TinkoffAdapter
 {
     public class TinkoffTrading //: TransactionModel
     {

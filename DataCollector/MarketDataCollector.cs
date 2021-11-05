@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using MarketDataModules;
 using Serilog;
 using Tinkoff.Trading.OpenApi.Models;
-using TinkoffAdapter.Authority;
-using TinkoffAdapter.DataHelper;
 using CandleInterval = MarketDataModules.Models.Candles.CandleInterval;
 using Currency = MarketDataModules.Models.Candles.Currency;
 using InstrumentType = MarketDataModules.Models.Instruments.InstrumentType;
@@ -19,6 +17,7 @@ using MarketDataModules.Models.Candles;
 using MarketDataModules.Models;
 using MarketDataModules.Models.Instruments;
 using MarketDataModules.Models.Operation;
+using DataCollector.TinkoffAdapter;
 
 namespace DataCollector
 {

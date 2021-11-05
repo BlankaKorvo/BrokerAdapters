@@ -1,5 +1,6 @@
 ﻿using Analysis.TradeDecision;
 using DataCollector;
+using DataCollector.TinkoffAdapter;
 using MarketDataModules;
 using MarketDataModules.Models;
 using MarketDataModules.Models.Candles;
@@ -12,8 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TinkoffAdapter.TinkoffTrade;
-using TradingAlgorithms.IndicatorSignals;
 
 namespace Trader
 {

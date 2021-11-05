@@ -10,10 +10,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TradingAlgorithms.IndicatorSignals;
-using TradingAlgorithms.IndicatorSignals.Helpers;
+using Analysis.Signals.Helpers;
 
-namespace Analysis.Screeners.CandlesScreener
+namespace Analysis.Screeners.StockExchangeDataScreener
 {
     public class OrderbookScreener : GetStocksHistory
     {

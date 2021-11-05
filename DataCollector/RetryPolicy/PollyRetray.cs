@@ -2,9 +2,8 @@
 using System.Threading.Tasks;
 using Polly;
 using Serilog;
-using TinkoffAdapter.Authority;
 
-namespace RetryPolicy
+namespace DataCollector.RetryPolicy
 {
     static public class PollyRetray
     {

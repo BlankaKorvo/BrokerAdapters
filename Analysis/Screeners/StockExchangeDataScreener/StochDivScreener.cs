@@ -1,4 +1,5 @@
 ﻿using Analysis.Screeners.Helpers;
+using Analysis.Signals;
 using DataCollector;
 using MarketDataModules;
 using MarketDataModules.Models.Candles;
@@ -9,10 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TradingAlgorithms.IndicatorSignals;
-using TradingAlgorithms.IndicatorSignals.Helpers;
 
-namespace Analysis.Screeners.CandlesScreener
+namespace Analysis.Screeners.StockExchangeDataScreener
 {
     public class StochDivScreener : GetStocksHistory
     {

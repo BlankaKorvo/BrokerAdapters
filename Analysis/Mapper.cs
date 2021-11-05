@@ -8,7 +8,7 @@ using Tinkoff.Trading.OpenApi.Models;
 using MarketDataModules;
 using MarketDataModules.Models.Candles;
 
-namespace TinkoffData
+namespace Analysis
 {
     public static class Mapper 
     {

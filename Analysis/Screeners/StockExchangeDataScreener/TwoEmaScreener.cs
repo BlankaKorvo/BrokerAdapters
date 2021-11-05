@@ -9,10 +9,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TradingAlgorithms.IndicatorSignals;
-using TradingAlgorithms.IndicatorSignals.Helpers;
+using Analysis.Signals.Helpers;
+using Analysis.Signals;
 
-namespace Analysis.Screeners.CandlesScreener
+namespace Analysis.Screeners.StockExchangeDataScreener
 {
     public class TwoEmaScreener : GetStocksHistory
     {

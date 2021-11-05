@@ -9,10 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TinkoffData;
-using TradingAlgorithms.IndicatorSignals.Helpers;
+using Analysis.Signals.Helpers;
 
-namespace TradingAlgorithms.IndicatorSignals
+namespace Analysis.Signals
 {
     public partial class Signal : IndicatorSignalsHelper
     {

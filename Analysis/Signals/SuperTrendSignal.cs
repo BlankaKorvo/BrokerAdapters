@@ -7,9 +7,8 @@ using MarketDataModules;
 using MarketDataModules.Models.Candles;
 using Serilog;
 using Skender.Stock.Indicators;
-using TinkoffData;
 
-namespace TradingAlgorithms.IndicatorSignals
+namespace Analysis.Signals
 {
     public partial class Signal
     {

@@ -1,4 +1,5 @@
-﻿using MarketDataModules;
+﻿using Analysis.Signals.Helpers;
+using MarketDataModules;
 using MarketDataModules.Models.Candles;
 using Serilog;
 using Skender.Stock.Indicators;
@@ -7,10 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TinkoffData;
-using TradingAlgorithms.IndicatorSignals.Helpers;
 
-namespace TradingAlgorithms.IndicatorSignals
+namespace Analysis.Signals
 {
     public partial class Signal : IndicatorSignalsHelper
     {
@@ -20,7 +19,7 @@ namespace TradingAlgorithms.IndicatorSignals
         internal bool CandleLongSignal(CandlesList candleList, decimal deltaPrice)
         {
             Log.Information("Start CandleSignal LongSignal. Figi: " + candleList.Figi);
-            int greenCountCandles = 2;
+            //int greenCountCandles = 2;
             Log.Information("percent = " + percent);
    
 

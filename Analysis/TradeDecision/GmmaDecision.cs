@@ -1,4 +1,5 @@
-﻿using MarketDataModules;
+﻿using Analysis.Signals;
+using MarketDataModules;
 using MarketDataModules.Models;
 using MarketDataModules.Models.Candles;
 using MarketDataModules.Models.Operation;
@@ -10,15 +11,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using Tinkoff.Trading.OpenApi.Models;
-using TradingAlgorithms.IndicatorSignals;
 
 namespace Analysis.TradeDecision
 {
     public class GmmaDecision
     {
         Signal signal = new Signal();
-
 
         //Передаваемые при создании объекта параметры
         public CandlesList candleListMin { get; set; }

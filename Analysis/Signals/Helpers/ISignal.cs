@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TradingAlgorithms.IndicatorSignals
+namespace Analysis.Signals.Helpers
 {
     interface ISignal
     {

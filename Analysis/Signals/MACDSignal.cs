@@ -1,4 +1,5 @@
-﻿using MarketDataModules;
+﻿using Analysis.Signals.Helpers;
+using MarketDataModules;
 using MarketDataModules.Models.Candles;
 using Serilog;
 using Skender.Stock.Indicators;
@@ -8,10 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tinkoff.Trading.OpenApi.Models;
-using TinkoffData;
-using TradingAlgorithms.IndicatorSignals.Helpers;
 
-namespace TradingAlgorithms.IndicatorSignals
+namespace Analysis.Signals
 {
     public partial class Signal : IndicatorSignalsHelper
     {

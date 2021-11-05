@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 using Tinkoff.Trading.OpenApi.Network;
 using MarketDataModules;
 using DataCollector;
-//using Tinkoff.Trading.OpenApi.Models;
-using TinkoffAdapter.Authority;
 using CandleInterval = MarketDataModules.Models.Candles.CandleInterval;
 using MarketDataModules.Models.Candles;
 using MarketDataModules.Models.Instruments;

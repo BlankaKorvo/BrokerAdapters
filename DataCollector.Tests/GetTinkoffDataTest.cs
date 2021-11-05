@@ -1,8 +1,8 @@
 using System;
 using Xunit;
 using MarketDataModules.Models.Candles;
-using DataCollector.TinkoffAdapter;
 using Tinkoff.Trading.OpenApi.Models;
+using DataCollector.TinkoffAdapter;
 
 namespace DataCollector.Tests
 {

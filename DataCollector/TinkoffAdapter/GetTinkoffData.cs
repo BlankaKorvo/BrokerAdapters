@@ -6,12 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Tinkoff.Trading.OpenApi.Models;
 using Tinkoff.Trading.OpenApi.Network;
-using RetryPolicy;
 using Polly;
 using Context = Tinkoff.Trading.OpenApi.Network.Context;
-using TinkoffAdapter.Authority;
+using DataCollector.TinkoffAdapter.DataHelper;
+using DataCollector.RetryPolicy;
+using DataCollector.TinkoffAdapter.Authority;
 
-namespace TinkoffAdapter.DataHelper
+namespace DataCollector.TinkoffAdapter
 {   
     public class GetTinkoffData
     {
@@ -96,7 +97,7 @@ namespace TinkoffAdapter.DataHelper
             Log.Information("CandleInterval: " + candleInterval.ToString());
             Log.Information("Date from: " + dateFrom);
             var dateTo = DateTime.Now;
-            int iterCount = 0;
+            //int iterCount = 0;
             List<CandlePayload> AllCandlePayloadTemp = new List<CandlePayload>();
 
             ComparerTinkoffCandlePayloadEquality CandlePayloadEqC = new ComparerTinkoffCandlePayloadEquality();

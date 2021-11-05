@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using LinqStatistics;
 using MarketDataModules.Models.Candles;
 
-namespace TradingAlgorithms.IndicatorSignals.Helpers
+namespace Analysis.Signals.Helpers
 {
     public class IndicatorSignalsHelper
     {
