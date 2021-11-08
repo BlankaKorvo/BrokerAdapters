@@ -56,7 +56,7 @@ namespace Trader
 
 
                         TradeTarget tradeTarget = (new GmmaDecision() 
-                            { candleListMin = candleList, orderbook = orderbook, bestAsk = bestAsk, bestBid = bestBid  })
+                            { candleList = candleList, orderbook = orderbook, bestAsk = bestAsk, bestBid = bestBid  })
                             .TradeVariant();
 
                         Log.Information("tradeTarget: " + tradeTarget + "figi: " + item.Figi);
