@@ -16,12 +16,13 @@ namespace DataCollector.TinkoffAdapter
 {   
     public class GetTinkoffData
     {
-        public async Task<CandleList> GetCandlesTinkoffAsync(string figi, CandleInterval candleInterval, int candlesCount, int attemptsCount = 100)
+        public async Task<CandleList> GetCandlesTinkoffAsync(string figi, CandleInterval candleInterval, int candlesCount)
         {
             Log.Information("Start GetCandlesTinkoffAsync method. Figi: " + figi);
 
             Log.Information("CandleInterval: " + candleInterval.ToString());
             Log.Information("CandleCount: " + candlesCount);
+            int attemptsCount = candlesCount / 2;
             var date = DateTime.Now;
             int iterCount = 0;
             List<CandlePayload> AllCandlePayloadTemp = new List<CandlePayload>();
