@@ -73,5 +73,14 @@ namespace Analysis.Test
             List<(decimal, decimal)> testData = new List<(decimal, decimal)>() { (1m, 1m), (3m, 3m), (5m, 5m), (4m, 4m), (5m, 5m), (6m, 6m) };
             Assert.Equal(СorrelationPearson(testData), expR);
         }
+        
+        [Fact]
+        public void StandardDeviationTest()
+        { 
+            List<decimal> values = new List<decimal>() { 15m, 26m, 15m, 24m};
+            Assert.Equal(StandardDeviation(values), 5.0497524691810389766816929585m);
+        }
+
+
     }
 }

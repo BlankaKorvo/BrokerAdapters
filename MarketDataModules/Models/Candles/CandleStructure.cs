@@ -44,6 +44,7 @@ namespace MarketDataModules.Models.Candles
         Close,
         High,
         Low,
+        Average,
         Volume
         }
     }

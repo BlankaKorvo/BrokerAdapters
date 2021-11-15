@@ -8,59 +8,63 @@ namespace DataCollector.Tests
 {
     public class GetTinkoffDataTest
     {
-        static int candleCount = 1000;
-        CandleList GetMinuteCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval candleInterval)
+        static int candleCount = 100;
+        CandleList GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval candleInterval)
         {
             return new GetTinkoffData().GetCandlesTinkoffAsync("BBG000BVPV84", candleInterval, candleCount).GetAwaiter().GetResult();
-        }
-            
+        }            
 
         [Fact]
-        public void MinuteCandlesNotNull()
+        public void MinuteCandlesCount()
         {
-            Assert.NotNull(GetMinuteCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Minute));
-        }
-
-        [Fact]
-        public void TwoMinutesCandlesNotNull()
-        {
-            Assert.NotNull(GetMinuteCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.TwoMinutes));
-        }
-        [Fact]
-        public void ThreeMinutesCandlesNotNull()
-        {
-            Assert.NotNull(GetMinuteCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.ThreeMinutes));
-        }
-        [Fact]
-        public void FiveMinutesCandlesNotNull()
-        {
-            Assert.NotNull(GetMinuteCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.FiveMinutes));
-        }
-        [Fact]
-        public void TenMinutesCandlesNotNull()
-        {
-            Assert.NotNull(GetMinuteCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.TenMinutes));
-        }
-        [Fact]
-        public void QuarterHourCandlesNotNull()
-        {
-            Assert.NotNull(GetMinuteCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.QuarterHour));
-        }
-        [Fact]
-        public void HourCandlesNotNull()
-        {
-            Assert.NotNull(GetMinuteCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Hour));
-        }
-        [Fact]
-        public void HalfHourCandlesNotNull()
-        {
-            Assert.NotNull(GetMinuteCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.HalfHour));
+            Assert.Equal(GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Minute).Candles.Count, candleCount);
         }
 
         [Fact]
-        public void TestCandlesCount()
+        public void TwoMinutesCandlesCount()
         {
-            Assert.Equal(GetMinuteCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Minute).Candles.Count, candleCount);
+            Assert.Equal(GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.TwoMinutes).Candles.Count, candleCount);
         }
+        [Fact]
+        public void ThreeMinutesCandlesCount()
+        {
+            Assert.Equal(GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.ThreeMinutes).Candles.Count, candleCount);
+        }
+        [Fact]
+        public void FiveMinutesCandlesCount()
+        {
+            Assert.Equal(GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.FiveMinutes).Candles.Count, candleCount);
+        }
+        [Fact]
+        public void TenMinutesCandlesCount()
+        {
+            Assert.Equal(GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.TenMinutes).Candles.Count, candleCount);
+        }
+        [Fact]
+        public void QuarterHourCandlesCount()
+        {
+            Assert.Equal(GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.QuarterHour).Candles.Count, candleCount);
+        }
+        [Fact]
+        public void HourCandlesCount()
+        {
+            Assert.Equal(GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Hour).Candles.Count, candleCount);
+        }
+        [Fact]
+        public void DayCandlesCount()
+        {
+            Assert.Equal(GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Day).Candles.Count, candleCount);
+        }
+        [Fact]
+        public void WeekCandlesCount()
+        {
+            Assert.Equal(GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Week).Candles.Count, candleCount);
+        }
+        [Fact]
+        public void MonthCandlesCount()
+        {
+            Assert.Equal(GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Month).Candles.Count, candleCount);
+        }
+
     }
 }

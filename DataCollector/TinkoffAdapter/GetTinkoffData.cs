@@ -315,9 +315,13 @@ namespace DataCollector.TinkoffAdapter
             Log.Information("Count geting candles = " + AllCandlePayloadTemp.Count);
 
             CandleList candleListTemp = await GetOneSetCandlesAsync(figi, candleInterval, date);
-            Log.Information(candleListTemp.Figi + " GetCandleByFigi: " + candleListTemp.Candles.Count + " candles");
+            if (candleListTemp == null)
+            { 
+                return null;
+            }
+            Log.Information(candleListTemp?.Figi + " GetCandleByFigi: " + candleListTemp?.Candles.Count + " candles");
 
-            AllCandlePayloadTemp = AllCandlePayloadTemp.Union(candleListTemp.Candles, CandlePayloadEqC).ToList();
+            AllCandlePayloadTemp = AllCandlePayloadTemp.Union(candleListTemp?.Candles, CandlePayloadEqC).ToList();
 
             Log.Information("GetUnionCandles return: " + AllCandlePayloadTemp.Count + " count candles");
             Log.Information("Stop GetUnionCandles. Figi: " + figi);
