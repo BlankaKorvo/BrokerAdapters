@@ -1,8 +1,10 @@
-using System;
+  using System;
 using Xunit;
 using MarketDataModules.Models.Candles;
 using Tinkoff.Trading.OpenApi.Models;
 using DataCollector.TinkoffAdapter;
+using Moq;
+using Analysis.Signals.Helpers;
 
 namespace DataCollector.Tests
 {
@@ -17,8 +19,15 @@ namespace DataCollector.Tests
         [Fact]
         public void MinuteCandlesCount()
         {
-            Assert.Equal(GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Minute).Candles.Count, candleCount);
+            //arrange
+            var testData = GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Minute).Candles.Count;
+            //act
+
+            //assert
+            Assert.Equal(testData, candleCount);
         }
+
+
 
         [Fact]
         public void TwoMinutesCandlesCount()
