@@ -55,9 +55,7 @@ namespace Trader
                         Log.Information("currentLots: " + currentLots);
 
 
-                        TradeTarget tradeTarget = (new GmmaDecision() 
-                            { candleList = candleList, orderbook = orderbook, bestAsk = bestAsk, bestBid = bestBid  })
-                            .TradeVariant();
+                        TradeTarget tradeTarget = (new GmmaDecision(candleList, orderbook)).TradeVariant();
 
                         Log.Information("tradeTarget: " + tradeTarget + "figi: " + item.Figi);
                         try
