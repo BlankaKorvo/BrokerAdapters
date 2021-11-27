@@ -3,4 +3,4 @@
 	url = https://github.com/BlankaKorvo/Stock.Indicators.git
 [submodule "Analysis"]
 	path = Analysis
-	url = C:\\git\\fin\\TradeSDKConsole\\TradeSDK\\Analysis
+	url = C://git/fin/TradeSDKConsole/TradeSDK/Analysis
