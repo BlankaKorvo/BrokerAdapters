@@ -14,22 +14,12 @@ namespace DataCollector.TinkoffAdapter.Authority
             {
                 if (_context == null)
                 {
-
                     _context = GetSanboxContext();
-
                     //_context = GetContext();
-
                 }
                 return _context;
             }
         }
-        //static Auth()
-        //{
-        //    if (Context == null)
-        //    {
-        //        Context = GetSanboxContext();
-        //    }
-        //}
         static Context GetSanboxContext()
         {
             Log.Information("Start GetSanboxContext");
@@ -39,7 +29,6 @@ namespace DataCollector.TinkoffAdapter.Authority
             Log.Information("Stop GetSanboxContext");
             return context;
         }
-
         static Context GetContext()
         {
             Log.Information("Start GetContext");
