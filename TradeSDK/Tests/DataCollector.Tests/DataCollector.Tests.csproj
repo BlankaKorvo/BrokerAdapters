@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\TradeAnalysis\Analysis\Analysis.csproj" />
     <ProjectReference Include="..\..\DataCollector\DataCollector.csproj" />
-    <ProjectReference Include="..\..\TradeAnalysis\Analysis\Analysis.csproj" />
   </ItemGroup>
 
 </Project>
