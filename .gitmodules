@@ -1,6 +1,6 @@
 [submodule "TradeAnalysis"]
 	path = TradeAnalysis
 	url = https://github.com/BlankaKorvo/TradeAnalysis.git
-[submodule "Stock.Indicators"]
-	path = Stock.Indicators
+[submodule "Indicators/Stock.Indicators"]
+	path = Indicators/Stock.Indicators
 	url = https://github.com/BlankaKorvo/Stock.Indicators.git

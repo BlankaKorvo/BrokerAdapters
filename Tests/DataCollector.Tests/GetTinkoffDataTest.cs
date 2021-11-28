@@ -10,7 +10,7 @@ namespace DataCollector.Tests
 {
     public class GetTinkoffDataTest
     {
-        static int candleCount = 100;
+        static int candleCount = 10;
         CandleList GetCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval candleInterval)
         {
             return new GetTinkoffData().GetCandlesTinkoffAsync("BBG000BVPV84", candleInterval, candleCount).GetAwaiter().GetResult();
