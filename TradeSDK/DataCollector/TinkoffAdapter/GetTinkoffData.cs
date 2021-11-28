@@ -202,37 +202,6 @@ namespace DataCollector.TinkoffAdapter
             Portfolio portfolio = await PollyRetray.Retry().ExecuteAsync(async () => await PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PortfolioAsync()));
             return portfolio;
         }
-
-        public async Task<bool> PresentInPortfolioAsync(string figi)
-        {
-            Log.Information("Start PresentInPortfolio method. Figi: " + figi);
-            Portfolio portfolio = await GetPortfolioAsync();
-            foreach (Portfolio.Position item in portfolio.Positions)
-            {
-                if (item.Figi == figi)
-                {
-                    Log.Information("Stop PresentInPortfolio method. Figi: " + figi + " Return - true");
-                    return true;
-                }
-                else
-                {
-                    continue;
-                }
-            }
-            Log.Information("Stop PresentInPortfolio method. Figi: " + figi + " Return - false");
-            return false;
-        }
-
-        public List<string> FigiFromCandleList(List<CandleList> Stocks)
-        {
-            List<string> figi = new List<string>();
-            foreach (CandleList item in Stocks)
-            {
-                figi.Add(item.Figi);
-            }
-            return figi;
-        }
-
         public async Task<MarketInstrument> GetMarketInstrumentByFigi(string figi)
         {
             MarketInstrument instrument =  await PollyRetray.Retry().ExecuteAsync(async () => await PollyRetray.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketSearchByFigiAsync(figi)));
@@ -327,5 +296,34 @@ namespace DataCollector.TinkoffAdapter
             Log.Information("Stop GetUnionCandles. Figi: " + figi);
             return AllCandlePayloadTemp;
         }
+        //async Task<bool> PresentInPortfolioAsync(string figi)
+        //{
+        //    Log.Information("Start PresentInPortfolio method. Figi: " + figi);
+        //    Portfolio portfolio = await GetPortfolioAsync();
+        //    foreach (Portfolio.Position item in portfolio.Positions)
+        //    {
+        //        if (item.Figi == figi)
+        //        {
+        //            Log.Information("Stop PresentInPortfolio method. Figi: " + figi + " Return - true");
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            continue;
+        //        }
+        //    }
+        //    Log.Information("Stop PresentInPortfolio method. Figi: " + figi + " Return - false");
+        //    return false;
+        //}
+
+        //List<string> FigiFromCandleList(List<CandleList> Stocks)
+        //{
+        //    List<string> figi = new List<string>();
+        //    foreach (CandleList item in Stocks)
+        //    {
+        //        figi.Add(item.Figi);
+        //    }
+        //    return figi;
+        //}
     }
 }
