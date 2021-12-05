@@ -25,13 +25,13 @@ namespace DataCollector
 
     public class MarketDataCollector// : GetTinkoffData // : ICandlesList
     {
-        GetTinkoffData getTinkoffData = new GetTinkoffData();
+        //GetTinkoffData getTinkoffData = new GetTinkoffData();
 
         public async Task<Portfolio> GetPortfolioAsync(Provider provider = Provider.Tinkoff)
         {
             if (provider == Provider.Tinkoff)
             {
-                Tinkoff.Trading.OpenApi.Models.Portfolio portfolioTinkoff = await getTinkoffData.GetPortfolioAsync();
+                Tinkoff.Trading.OpenApi.Models.Portfolio portfolioTinkoff = await GetTinkoffData.GetPortfolioAsync();
                 //Lis
                 //Portfolio.Position position = new Portfolio.Position(portfolioTinkoff.Positions.Select(x=> x.Name), 
                 List<Portfolio.Position> positions = new List<Portfolio.Position> { };
@@ -83,7 +83,7 @@ namespace DataCollector
         {
             if (provider == Provider.Tinkoff)
             {
-                MarketInstrument instrumentT = await getTinkoffData.GetMarketInstrumentByFigi(figi);
+                MarketInstrument instrumentT = await GetTinkoffData.GetMarketInstrumentByFigi(figi);
                 Instrument instrument = new Instrument(instrumentT.Figi, instrumentT.Ticker,
                     instrumentT.Isin, instrumentT.MinPriceIncrement, instrumentT.Lot,
                     (Currency)instrumentT.Currency, instrumentT.Name, (InstrumentType)instrumentT.Type);
@@ -98,7 +98,7 @@ namespace DataCollector
             if (provider == Provider.Tinkoff)
             {
                 MarketInstrument instrumentT = null;
-                MarketInstrumentList instrumentList = await getTinkoffData.GetMarketInstrumentListByTicker(ticker);
+                MarketInstrumentList instrumentList = await GetTinkoffData.GetMarketInstrumentListByTicker(ticker);
                 if (instrumentList.Instruments.Count == 1)
                 {
                     instrumentT = instrumentList.Instruments.FirstOrDefault();
@@ -169,7 +169,7 @@ namespace DataCollector
 
         private async Task<List<TradeOperation>> TinkoffGetOperationAsync(string figi, DateTime dateFrom, DateTime dateTo)
         {
-            List<Operation> operations = await getTinkoffData.GetOperations(figi, dateFrom, dateTo);
+            List<Operation> operations = await GetTinkoffData.GetOperations(figi, dateFrom, dateTo);
             List<TradeOperation> resultOperations = operations.Select
                 (x => 
                     new TradeOperation(x.Id, 
@@ -188,7 +188,7 @@ namespace DataCollector
         {
             Tinkoff.Trading.OpenApi.Models.CandleInterval interval = (Tinkoff.Trading.OpenApi.Models.CandleInterval)candleInterval;
 
-            CandleList tinkoffCandles = await getTinkoffData.GetCandlesTinkoffAsync(figi, interval, candlesCount);
+            CandleList tinkoffCandles = await GetTinkoffData.GetCandlesTinkoffAsync(figi, interval, candlesCount);
             if (tinkoffCandles == null)
             {
                 return null;
@@ -205,7 +205,7 @@ namespace DataCollector
         {
             Tinkoff.Trading.OpenApi.Models.CandleInterval interval = (Tinkoff.Trading.OpenApi.Models.CandleInterval)candleInterval;
 
-            CandleList tinkoffCandles = await getTinkoffData.GetCandlesTinkoffAsync(figi, interval, dateTime);
+            CandleList tinkoffCandles = await GetTinkoffData.GetCandlesTinkoffAsync(figi, interval, dateTime);
             if (tinkoffCandles == null)
             {
                 return null;
@@ -220,7 +220,7 @@ namespace DataCollector
 
         async Task<InstrumentList> TinkoffInstrumentList()
         {
-            MarketInstrumentList tinkoffStocks = await getTinkoffData.GetMarketInstrumentList();
+            MarketInstrumentList tinkoffStocks = await GetTinkoffData.GetMarketInstrumentList();
             InstrumentList stocks = 
                 new InstrumentList(tinkoffStocks.Total, tinkoffStocks.Instruments.Select(x => 
                     new Instrument(x.Figi, x.Ticker, x.Isin, x.MinPriceIncrement, x.Lot, (Currency)x.Currency, x.Name, (InstrumentType)x.Type)).ToList());
@@ -230,7 +230,7 @@ namespace DataCollector
         private async Task<Orderbook> TinkoffOrderbook(string figi, int depth)
         {
             Log.Information("Tinkoff. Start  get orderbook");
-            Tinkoff.Trading.OpenApi.Models.Orderbook tinOrderbook = await getTinkoffData.GetOrderbookAsync(figi, depth);
+            Tinkoff.Trading.OpenApi.Models.Orderbook tinOrderbook = await GetTinkoffData.GetOrderbookAsync(figi, depth);
             if (tinOrderbook == null)
             {
                 return null;
