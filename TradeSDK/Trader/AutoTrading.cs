@@ -22,20 +22,20 @@ namespace Trader
         public int CandlesCount { get; set; }
 
         TinkoffTrading tinkoffTrading = new TinkoffTrading(); 
-        MarketDataCollector marketDataCollector = new MarketDataCollector();
+        //MarketDataCollector marketDataCollector = new MarketDataCollector();
         public async Task AutoTradingInstruments(InstrumentList instrumentList, int countStocks)
         {
             Log.Information("Start AutoTradingInstruments. countStocks = " + countStocks);
             while (true)
             {
 
-                Portfolio portfolio = await marketDataCollector.GetPortfolioAsync();
+                Portfolio portfolio = await MarketDataCollector.GetPortfolioAsync();
                 List<Portfolio.Position> positions = portfolio.Positions;
 
                 foreach (var item in instrumentList.Instruments)
                 {
                     Log.Information("Start AutoTradingInstruments Figi: " + item.Figi);
-                    var orderbook = await marketDataCollector.GetOrderbookAsync(item.Figi, Provider.Tinkoff, 20);
+                    var orderbook = await MarketDataCollector.GetOrderbookAsync(item.Figi, Provider.Tinkoff, 20);
 
                     if (orderbook == null)
                     {
@@ -44,7 +44,7 @@ namespace Trader
                     }
                     else
                     {
-                        var candleList = await marketDataCollector.GetCandlesAsync(item.Figi, CandleInterval, CandlesCount);
+                        var candleList = await MarketDataCollector.GetCandlesAsync(item.Figi, CandleInterval, CandlesCount);
                         Log.Information("candleList.Candles.Count" + candleList.Candles.Count);
                         var bestAsk = orderbook.Asks.FirstOrDefault().Price;
                         var bestBid = orderbook.Bids.FirstOrDefault().Price;

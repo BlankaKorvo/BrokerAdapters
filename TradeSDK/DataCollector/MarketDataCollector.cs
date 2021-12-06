@@ -23,11 +23,34 @@ namespace DataCollector
 {
 
 
-    public class MarketDataCollector// : GetTinkoffData // : ICandlesList
+    public static class MarketDataCollector// : GetTinkoffData // : ICandlesList
     {
         //GetTinkoffData getTinkoffData = new GetTinkoffData();
 
-        public async Task<Portfolio> GetPortfolioAsync(Provider provider = Provider.Tinkoff)
+        static public async Task<CandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, int candlesCount, Provider providers = Provider.Tinkoff)
+        {
+            switch (providers)
+            {
+                case Provider.Tinkoff:
+                    return await TinkoffCandles(figi, candleInterval, candlesCount);
+                case Provider.Finam:
+                    return null;
+            }
+            return null;
+        }
+
+        static public async Task<CandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, DateTime dateTime, Provider providers = Provider.Tinkoff)
+        {
+            switch (providers)
+            {
+                case Provider.Tinkoff:
+                    return await TinkoffCandles(figi, candleInterval, dateTime);
+                case Provider.Finam:
+                    return null;
+            }
+            return null;
+        }
+        static public async Task<Portfolio> GetPortfolioAsync(Provider provider = Provider.Tinkoff)
         {
             if (provider == Provider.Tinkoff)
             {
@@ -79,7 +102,7 @@ namespace DataCollector
                 throw new NotImplementedException();
         }
 
-        public async Task<Instrument> GetInstrumentByFigi(string figi, Provider provider = Provider.Tinkoff)
+        static public async Task<Instrument> GetInstrumentByFigi(string figi, Provider provider = Provider.Tinkoff)
         {
             if (provider == Provider.Tinkoff)
             {
@@ -93,7 +116,7 @@ namespace DataCollector
                 throw new NotImplementedException();
         }
 
-        public async Task<Instrument> GetInstrumentByTickerAsync(string ticker, Provider provider = Provider.Tinkoff)
+        static public async Task<Instrument> GetInstrumentByTickerAsync(string ticker, Provider provider = Provider.Tinkoff)
         {
             if (provider == Provider.Tinkoff)
             {
@@ -115,7 +138,7 @@ namespace DataCollector
             else
                 throw new NotImplementedException();
         }
-        public async Task<InstrumentList> GetInstrumentListAsync(Provider provider = Provider.Tinkoff)
+        static public async Task<InstrumentList> GetInstrumentListAsync(Provider provider = Provider.Tinkoff)
         {
             if (provider == Provider.Tinkoff)
                 return await TinkoffInstrumentList();
@@ -124,7 +147,7 @@ namespace DataCollector
 
         }
 
-        public async Task<Orderbook> GetOrderbookAsync(string figi, Provider provider = Provider.Tinkoff, int depth = 20)
+        static public async Task<Orderbook> GetOrderbookAsync(string figi, Provider provider = Provider.Tinkoff, int depth = 20)
         {
             if (provider == Provider.Tinkoff)
                 return await TinkoffOrderbook(figi, depth);
@@ -133,7 +156,7 @@ namespace DataCollector
         }
 
         //Получение списка candlelist из списка инструментов
-        public async Task<List<CandlesList>> GetListCandlesByInstrumentsAsync(InstrumentList instrumentList, CandleInterval candleInterval, int candlesCount, Provider providers = Provider.Tinkoff)
+        static public async Task<List<CandlesList>> GetListCandlesByInstrumentsAsync(InstrumentList instrumentList, CandleInterval candleInterval, int candlesCount, Provider providers = Provider.Tinkoff)
         {
             List<CandlesList> listCandlesList = new List<CandlesList>();
             foreach (var item in instrumentList.Instruments)
@@ -159,7 +182,7 @@ namespace DataCollector
         /// <param name="dateTo"></param>
         /// <param name="provider"></param>
         /// <returns></returns>
-        public async Task<List<TradeOperation>> GetOperationsAsync(string figi, DateTime dateFrom, DateTime dateTo, Provider provider = Provider.Tinkoff)
+        static public async Task<List<TradeOperation>> GetOperationsAsync(string figi, DateTime dateFrom, DateTime dateTo, Provider provider = Provider.Tinkoff)
         {
             if (provider == Provider.Tinkoff)
                 return await TinkoffGetOperationAsync(figi, dateFrom, dateTo);
@@ -167,7 +190,7 @@ namespace DataCollector
                 throw new NotImplementedException();
         }
 
-        private async Task<List<TradeOperation>> TinkoffGetOperationAsync(string figi, DateTime dateFrom, DateTime dateTo)
+        static private async Task<List<TradeOperation>> TinkoffGetOperationAsync(string figi, DateTime dateFrom, DateTime dateTo)
         {
             List<Operation> operations = await GetTinkoffData.GetOperations(figi, dateFrom, dateTo);
             List<TradeOperation> resultOperations = operations.Select
@@ -184,7 +207,7 @@ namespace DataCollector
             return resultOperations;
         }
 
-        async Task<CandlesList> TinkoffCandles(string figi, CandleInterval candleInterval, int candlesCount)
+        static async Task<CandlesList> TinkoffCandles(string figi, CandleInterval candleInterval, int candlesCount)
         {
             Tinkoff.Trading.OpenApi.Models.CandleInterval interval = (Tinkoff.Trading.OpenApi.Models.CandleInterval)candleInterval;
 
@@ -201,7 +224,7 @@ namespace DataCollector
             return candlesList;
         }
 
-        async Task<CandlesList> TinkoffCandles(string figi, CandleInterval candleInterval, DateTime dateTime)
+        static async Task<CandlesList> TinkoffCandles(string figi, CandleInterval candleInterval, DateTime dateTime)
         {
             Tinkoff.Trading.OpenApi.Models.CandleInterval interval = (Tinkoff.Trading.OpenApi.Models.CandleInterval)candleInterval;
 
@@ -218,7 +241,7 @@ namespace DataCollector
             return candlesList;
         }
 
-        async Task<InstrumentList> TinkoffInstrumentList()
+        static async Task<InstrumentList> TinkoffInstrumentList()
         {
             MarketInstrumentList tinkoffStocks = await GetTinkoffData.GetMarketInstrumentList();
             InstrumentList stocks = 
@@ -227,7 +250,7 @@ namespace DataCollector
             return stocks;
         }
 
-        private async Task<Orderbook> TinkoffOrderbook(string figi, int depth)
+        static private async Task<Orderbook> TinkoffOrderbook(string figi, int depth)
         {
             Log.Information("Tinkoff. Start  get orderbook");
             Tinkoff.Trading.OpenApi.Models.Orderbook tinOrderbook = await GetTinkoffData.GetOrderbookAsync(figi, depth);
@@ -244,32 +267,6 @@ namespace DataCollector
             Log.Information("Tinkoff. Stop  get orderbook");
             return orderbook;
         }
-
-        public async Task<CandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, int candlesCount, Provider providers = Provider.Tinkoff)
-        {
-            switch (providers)
-            {
-                case Provider.Tinkoff:
-                    return await TinkoffCandles(figi, candleInterval, candlesCount);
-                case Provider.Finam:
-                    return null;
-            }
-            return null;
-        }
-
-        public async Task<CandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, DateTime dateTime, Provider providers = Provider.Tinkoff)
-        {
-            switch (providers)
-            {
-                case Provider.Tinkoff:
-                    return await TinkoffCandles(figi, candleInterval, dateTime);
-                case Provider.Finam:
-                    return null;
-            }
-            return null;
-        }
-
-
     }
 }
 

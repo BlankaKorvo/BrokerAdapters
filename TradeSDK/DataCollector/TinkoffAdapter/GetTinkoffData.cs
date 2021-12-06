@@ -19,12 +19,7 @@ namespace DataCollector.TinkoffAdapter
         internal static async Task<CandleList> GetCandlesTinkoffAsync(string figi, CandleInterval candleInterval, int candlesCount)
         {
             Log.Information("Start GetCandlesTinkoffAsync method. Figi: " + figi);
-
-            Log.Information("CandleInterval: " + candleInterval.ToString());
-            Log.Information("CandleCount: " + candlesCount);
-            int attemptsCount = candlesCount / 2;
-            var date = DateTime.Now;
-            int iterCount = 0;
+            DateTime date = DateTime.Now;
             List<CandlePayload> AllCandlePayloadTemp = new List<CandlePayload>();
 
             ComparerTinkoffCandlePayloadEquality CandlePayloadEqC = new ComparerTinkoffCandlePayloadEquality();
@@ -36,78 +31,21 @@ namespace DataCollector.TinkoffAdapter
                 || candleInterval == CandleInterval.TenMinutes
                 || candleInterval == CandleInterval.QuarterHour
                 || candleInterval == CandleInterval.HalfHour)
-            {
-                while (AllCandlePayloadTemp.Count < candlesCount)
-                {
-                    AllCandlePayloadTemp = await GetUnionCandlesAsync(figi, candleInterval, date, AllCandlePayloadTemp, CandlePayloadEqC);
-                    date = date.AddDays(-1);
-                    iterCount++;
-                    if (iterCount > attemptsCount)
-                    {
-                        Log.Information(figi + " could not get the number of candles needed in " + attemptsCount + " attempts ");
-                        Log.Information("Stop GetCandlesTinkoffAsync method. Figi: " + figi + ". Return null");
-                        return null;
-                    }
-                }
-            }
+                AllCandlePayloadTemp = await GetCandlePayloads(candlesCount, figi, candleInterval, date, CandlePayloadEqC, 1);
+
             else if (candleInterval == CandleInterval.Hour)
-                while (AllCandlePayloadTemp.Count < candlesCount)
-                {
-                    AllCandlePayloadTemp = await GetUnionCandlesAsync(figi, candleInterval, date, AllCandlePayloadTemp, CandlePayloadEqC);
-                    date = date.AddDays(-7);
-                    iterCount++;
-                    if (iterCount > attemptsCount)
-                    {
-                        Log.Information(figi + " could not get the number of candles needed in " + attemptsCount + " attempts ");
-                        Log.Information("Stop GetCandlesTinkoffAsync method. Figi: " + figi + ". Return null");
-                        return null;
-                    }
-                }
-            else if (candleInterval == CandleInterval.Day)
-            {
-                while (AllCandlePayloadTemp.Count < candlesCount)
-                {
-                    AllCandlePayloadTemp = await GetUnionCandlesAsync(figi, candleInterval, date, AllCandlePayloadTemp, CandlePayloadEqC);
-                    date = date.AddYears(-1);
-                    iterCount++;
-                    if (iterCount > attemptsCount)
-                    {
-                        Log.Information(figi + " could not get the number of candles needed in " + attemptsCount + " attempts ");
-                        Log.Information("Stop GetCandlesTinkoffAsync method. Figi: " + figi + ". Return null");
-                        return null;
-                    }
-                }
-            }
+                AllCandlePayloadTemp = await GetCandlePayloads(candlesCount, figi, candleInterval, date, CandlePayloadEqC, 7);
+
+            else if (candleInterval == CandleInterval.Day)          
+                AllCandlePayloadTemp = await GetCandlePayloads(candlesCount, figi, candleInterval, date, CandlePayloadEqC, 365);
+
             else if (candleInterval == CandleInterval.Week)
-            {
-                while (AllCandlePayloadTemp.Count < candlesCount)
-                {
-                    AllCandlePayloadTemp = await GetUnionCandlesAsync(figi, candleInterval, date, AllCandlePayloadTemp, CandlePayloadEqC);
-                    date = date.AddYears(-2);
-                    iterCount++;
-                    if (iterCount > attemptsCount)
-                    {
-                        Log.Information(figi + " could not get the number of candles needed in " + attemptsCount + " attempts ");
-                        Log.Information("Stop GetCandlesTinkoffAsync method. Figi: " + figi + ". Return null");
-                        return null;
-                    }
-                }
-            }
+                AllCandlePayloadTemp = await GetCandlePayloads(candlesCount, figi, candleInterval, date, CandlePayloadEqC, 720);
+            
             else if (candleInterval == CandleInterval.Month)
-            {
-                while (AllCandlePayloadTemp.Count < candlesCount)
-                {
-                    AllCandlePayloadTemp = await GetUnionCandlesAsync(figi, candleInterval, date, AllCandlePayloadTemp, CandlePayloadEqC);
-                    date = date.AddYears(-10);
-                    iterCount++;
-                    if (iterCount > attemptsCount)
-                    {
-                        Log.Information(figi + " could not get the number of candles needed in " + attemptsCount + " attempts ");
-                        Log.Information("Stop GetCandlesTinkoffAsync method. Figi: " + figi + ". Return null");
-                        return null;
-                    }
-                }
-            }
+                AllCandlePayloadTemp = await GetCandlePayloads(candlesCount, figi, candleInterval, date, CandlePayloadEqC, 3650);
+
+     
             List<CandlePayload> candlePayloadBefor = (from u in AllCandlePayloadTemp
                                                  orderby u.Time
                                                  select u).ToList();
@@ -120,6 +58,26 @@ namespace DataCollector.TinkoffAdapter
             Log.Information("Stop GetCandlesTinkoffAsync method. Figi: " + figi + ". Return candle list");
             return candleList;
         }
+
+        private static async Task<List<CandlePayload>> GetCandlePayloads(int candlesCount, string figi, CandleInterval candleInterval, DateTime date, ComparerTinkoffCandlePayloadEquality CandlePayloadEqC, int stepBack)
+        {
+            List<CandlePayload> result = new List<CandlePayload>();
+            int countafter = 0;
+            int notTradeDay = 0;
+            while (result.Count < candlesCount)
+            {
+                result = await GetUnionCandlesAsync(figi, candleInterval, date, result, CandlePayloadEqC);
+                if (countafter == result.Count && notTradeDay == 7) /// Допустимое кол-во дней неработы биржы по инструменту
+                {
+                    return null;
+                }  
+                date = date.AddDays(-stepBack);
+                countafter = result.Count;
+                notTradeDay = 0;
+            }
+            return result;
+        }
+
 
         internal static async Task<CandleList> GetCandlesTinkoffAsync(string figi, CandleInterval candleInterval, DateTime dateFrom)
         {
@@ -286,7 +244,7 @@ namespace DataCollector.TinkoffAdapter
                     from = to.AddYears(-1);
                     break;
                 case CandleInterval.Week:
-                    from = to.AddYears(-2);
+                    from = to.AddDays(-720);
                     break;
                 case CandleInterval.Month:
                     from = to.AddYears(-10);
