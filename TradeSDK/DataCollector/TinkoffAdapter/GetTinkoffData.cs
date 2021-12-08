@@ -40,7 +40,7 @@ namespace DataCollector.TinkoffAdapter
                 AllCandlePayloadTemp = await GetCandlePayloads(candlesCount, figi, candleInterval, date, CandlePayloadEqC, 365);
 
             else if (candleInterval == CandleInterval.Week)
-                AllCandlePayloadTemp = await GetCandlePayloads(candlesCount, figi, candleInterval, date, CandlePayloadEqC, 720);
+                AllCandlePayloadTemp = await GetCandlePayloads(candlesCount, figi, candleInterval, date, CandlePayloadEqC, 730);
             
             else if (candleInterval == CandleInterval.Month)
                 AllCandlePayloadTemp = await GetCandlePayloads(candlesCount, figi, candleInterval, date, CandlePayloadEqC, 3650);
