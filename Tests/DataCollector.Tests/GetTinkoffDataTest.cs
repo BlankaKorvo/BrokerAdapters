@@ -1,9 +1,6 @@
-using System;
 using Xunit;
 using MarketDataModules.Models.Candles;
-using DataCollector.TinkoffAdapter;
-using Moq;
-using Analysis.Signals.Helpers;
+
 using MarketDataModules.Models;
 
 namespace DataCollector.Tests
