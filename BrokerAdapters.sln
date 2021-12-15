@@ -5,13 +5,13 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{068C72ED-567E-4FD3-8CB7-D7E63AEEF0C1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketDataModules", "..\DataModules\MarketDataModules\MarketDataModules.csproj", "{C4753EE5-564C-4EB8-AE49-6863EA53540B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCollector", "DataCollector\DataCollector.csproj", "{BE8C78AA-F7D9-4329-984C-B314AD7CE487}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trader(NotImplemented)", "Trader\Trader(NotImplemented).csproj", "{A98E504C-044A-43C7-A26F-0ADB4E494047}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCollector.Tests", "Tests\DataCollector.Tests\DataCollector.Tests.csproj", "{E4CC741D-4379-4412-AC2A-BDA0F77B1FBC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketDataModules", "..\TradeDataModules\MarketDataModules\MarketDataModules.csproj", "{74813C77-1A08-4EE4-A6AD-B2A5A3E2BB90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C4753EE5-564C-4EB8-AE49-6863EA53540B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C4753EE5-564C-4EB8-AE49-6863EA53540B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C4753EE5-564C-4EB8-AE49-6863EA53540B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C4753EE5-564C-4EB8-AE49-6863EA53540B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BE8C78AA-F7D9-4329-984C-B314AD7CE487}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BE8C78AA-F7D9-4329-984C-B314AD7CE487}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE8C78AA-F7D9-4329-984C-B314AD7CE487}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -35,6 +31,10 @@ Global
 		{E4CC741D-4379-4412-AC2A-BDA0F77B1FBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4CC741D-4379-4412-AC2A-BDA0F77B1FBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4CC741D-4379-4412-AC2A-BDA0F77B1FBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74813C77-1A08-4EE4-A6AD-B2A5A3E2BB90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74813C77-1A08-4EE4-A6AD-B2A5A3E2BB90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74813C77-1A08-4EE4-A6AD-B2A5A3E2BB90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74813C77-1A08-4EE4-A6AD-B2A5A3E2BB90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
