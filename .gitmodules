@@ -4,3 +4,6 @@
 [submodule "Indicators/Stock.Indicators"]
 	path = Indicators/Stock.Indicators
 	url = https://github.com/BlankaKorvo/Stock.Indicators.git
+[submodule "TradeDataModules"]
+	path = TradeDataModules
+	url = https://github.com/BlankaKorvo/TradeDataModules.git
