@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DataCollector.RetryPolicy.PollyRetray" Collapsed="true">
+    <Position X="12.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RetryPolicy\PollyRetray.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataCollector.TinkoffAdapter.Authority.Auth" Collapsed="true">
+    <Position X="9.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAABAAAAAAAAAAAABAAAAAAACAEAAAAAAA=</HashCode>
+      <FileName>TinkoffAdapter\Authority\Auth.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataCollector.TinkoffAdapter.DataHelper.ComparerTinkoffCandlePayloadEquality" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>TinkoffAdapter\DataHelper\ComparerTinkoffCandlePayloadEquality.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DataCollector.TinkoffAdapter.GetTinkoffData" Collapsed="true">
+    <Position X="9.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIgAAAACAAEAAAAAAAIAAAAAABAAAAAAAACAiAIAA=</HashCode>
+      <FileName>TinkoffAdapter\GetTinkoffData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataCollector.TinkoffAdapter.TinkoffTrading" Collapsed="true">
+    <Position X="9.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAQAAAAIAAAAAAAAAAAAEABAA=</HashCode>
+      <FileName>TinkoffAdapter\TinkoffTrading.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataCollector.TinkoffAdapter.GetCandles" Collapsed="true">
+    <Position X="12.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GetCandles.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataCollector.MarketDataCollector" Collapsed="true">
+    <Position X="11" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAgAAAAACAAAAAAAAAIAgAQhAAAIAAAAAAAACAICA=</HashCode>
+      <FileName>MarketDataCollector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
