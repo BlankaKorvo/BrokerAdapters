@@ -6,11 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tinkoff.Trading.OpenApi.Models;
 using Tinkoff.Trading.OpenApi.Network;
-using Operation = MarketDataModules.Models.TradeTarget;
-using Orderbook = MarketDataModules.Models.Orderbooks;
-using CandleInterval = MarketDataModules.Models.Candles.CandleInterval;
+using Operation = MarketDataModules.TradeTarget;
+using Orderbook = MarketDataModules.Orderbooks;
+using CandleInterval = MarketDataModules.Candles.CandleInterval;
 using MarketDataModules;
-using MarketDataModules.Models;
+using MarketDataModules;
 using DataCollector.TinkoffAdapter.Authority;
 
 namespace DataCollector.TinkoffAdapter
@@ -89,9 +89,9 @@ namespace DataCollector.TinkoffAdapter
 
         private Tinkoff.Trading.OpenApi.Models.OperationType GetOperationType()
         {
-            if (transactionModel.TradeOperation == MarketDataModules.Models.Trading.TradingOperationType.Buy)
+            if (transactionModel.TradeOperation == MarketDataModules.Trading.TradingOperationType.Buy)
                 return Tinkoff.Trading.OpenApi.Models.OperationType.Buy;
-            else if (transactionModel.TradeOperation == MarketDataModules.Models.Trading.TradingOperationType.Sell)
+            else if (transactionModel.TradeOperation == MarketDataModules.Trading.TradingOperationType.Sell)
                 return Tinkoff.Trading.OpenApi.Models.OperationType.Sell;
             else
                 throw new NotImplementedException();

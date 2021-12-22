@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 using MarketDataModules;
 using Serilog;
 using Tinkoff.Trading.OpenApi.Models;
-using CandleInterval = MarketDataModules.Models.Candles.CandleInterval;
-using Currency = MarketDataModules.Models.Candles.Currency;
-using InstrumentType = MarketDataModules.Models.Instruments.InstrumentType;
-using Orderbook = MarketDataModules.Models.Orderbooks.Orderbook;
-using OrderbookEntry = MarketDataModules.Models.Orderbooks.OrderbookEntry;
-using TradeStatus = MarketDataModules.Models.Orderbooks.TradeStatus;
-using Portfolio = MarketDataModules.Models.Portfolio.Portfolio;
-using MoneyAmount = MarketDataModules.Models.Portfolio.MoneyAmount;
-using MarketDataModules.Models.Candles;
-using MarketDataModules.Models;
-using MarketDataModules.Models.Instruments;
-using MarketDataModules.Models.Operation;
+using CandleInterval = MarketDataModules.Candles.CandleInterval;
+using Currency = MarketDataModules.Candles.Currency;
+using InstrumentType = MarketDataModules.Instruments.InstrumentType;
+using Orderbook = MarketDataModules.Orderbooks.Orderbook;
+using OrderbookEntry = MarketDataModules.Orderbooks.OrderbookEntry;
+using TradeStatus = MarketDataModules.Orderbooks.TradeStatus;
+using Portfolio = MarketDataModules.Portfolio.Portfolio;
+using MoneyAmount = MarketDataModules.Portfolio.MoneyAmount;
+using MarketDataModules.Candles;
+using MarketDataModules;
+using MarketDataModules.Instruments;
+using MarketDataModules.Operation;
 using DataCollector.TinkoffAdapter;
 
 namespace DataCollector
@@ -196,13 +196,13 @@ namespace DataCollector
             List<TradeOperation> resultOperations = operations.Select
                 (x => 
                     new TradeOperation(x.Id, 
-                        (MarketDataModules.Models.Operation.OperationStatus)x.Status, 
-                        (List<MarketDataModules.Models.Operation.Trade>)x.Trades.Select(y => 
-                            new MarketDataModules.Models.Operation.Trade(y.TradeId, y.Date, y.Price, y.Quantity)),
+                        (MarketDataModules.Operation.OperationStatus)x.Status, 
+                        (List<MarketDataModules.Operation.Trade>)x.Trades.Select(y => 
+                            new MarketDataModules.Operation.Trade(y.TradeId, y.Date, y.Price, y.Quantity)),
                         new MoneyAmount ((Currency)x.Commission.Currency, x.Commission.Value),
                         (Currency)x.Currency, x.Payment, x.Price, x.Quantity, x.QuantityExecuted, x.Figi,
                         (InstrumentType)x.InstrumentType, x.IsMarginCall, x.Date, 
-                        (MarketDataModules.Models.Operation.ExtendedOperationType)x.OperationType)
+                        (MarketDataModules.Operation.ExtendedOperationType)x.OperationType)
                 ).ToList();
             return resultOperations;
         }
