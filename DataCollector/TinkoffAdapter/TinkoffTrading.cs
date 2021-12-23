@@ -10,7 +10,6 @@ using Operation = MarketDataModules.TradeTarget;
 using Orderbook = MarketDataModules.Orderbooks;
 using CandleInterval = MarketDataModules.Candles.CandleInterval;
 using MarketDataModules;
-using MarketDataModules;
 using DataCollector.TinkoffAdapter.Authority;
 
 namespace DataCollector.TinkoffAdapter
