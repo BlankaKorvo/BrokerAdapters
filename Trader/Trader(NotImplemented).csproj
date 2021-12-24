@@ -4,4 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Analysis\Analysis.csproj" />
+    <ProjectReference Include="..\DataCollector\DataCollector.csproj" />
+    <ProjectReference Include="..\TradeDataModules\MarketDataModules\MarketDataModules.csproj" />
+  </ItemGroup>
+
 </Project>
