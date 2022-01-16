@@ -14,8 +14,9 @@ using DataCollector.TinkoffAdapter.Authority;
 
 namespace DataCollector.TinkoffAdapter
 {   
-    internal static class GetTinkoffData
+    internal class GetTinkoffData
     {
+
         internal static async Task<CandleList> GetCandlesTinkoffAsync(string figi, CandleInterval candleInterval, int candlesCount)
         {
             Log.Information("Start GetCandlesTinkoffAsync method. Figi: " + figi);

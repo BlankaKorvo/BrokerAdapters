@@ -27,7 +27,7 @@ namespace DataCollector
     {
         //GetTinkoffData getTinkoffData = new GetTinkoffData();
 
-        static public async Task<CandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, int candlesCount, Provider providers = Provider.Tinkoff)
+        public static async Task<CandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, int candlesCount, Provider providers = Provider.Tinkoff)
         {
             switch (providers)
             {

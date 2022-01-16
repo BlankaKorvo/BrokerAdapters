@@ -33,13 +33,13 @@
     <Position X="7.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAAAAAAQAAAAIAAAAAAAAAAAAEABAA=</HashCode>
-      <FileName>TinkoffAdapter\TinkoffTrading.cs</FileName>
+      <FileName>TinkoffAdapter\Post\TinkoffTrading.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DataCollector.TinkoffAdapter.GetCandles" Collapsed="true">
     <Position X="11.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GetCandles.cs</FileName>
     </TypeIdentifier>
   </Class>
