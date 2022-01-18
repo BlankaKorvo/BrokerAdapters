@@ -32,7 +32,7 @@ namespace DataCollector
             switch (providers)
             {
                 case Provider.Tinkoff:
-                    return await TinkoffCandles(figi, candleInterval, candlesCount);
+                    return await TinkoffCandlesMapping(figi, candleInterval, candlesCount);
                 case Provider.Finam:
                     return null;
             }
@@ -207,7 +207,7 @@ namespace DataCollector
             return resultOperations;
         }
 
-        static async Task<CandlesList> TinkoffCandles(string figi, CandleInterval candleInterval, int candlesCount)
+        static async Task<CandlesList> TinkoffCandlesMapping(string figi, CandleInterval candleInterval, int candlesCount)
         {
             Tinkoff.Trading.OpenApi.Models.CandleInterval interval = (Tinkoff.Trading.OpenApi.Models.CandleInterval)candleInterval;
 

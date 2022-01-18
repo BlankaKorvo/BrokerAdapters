@@ -10,21 +10,19 @@ using Tinkoff.Trading.OpenApi.Network;
 
 namespace DataCollector.TinkoffAdapter.DataHelper
 {
-    class ComparerTinkoffCandlePayloadEquality : IEqualityComparer<CandlePayload>
+    class ComparerTinkoffCandles : IEqualityComparer<CandlePayload>
     {
         public bool Equals(CandlePayload c1, CandlePayload c2)
         {
             Log.Information("Start Equals method");
             if (c1.Time == c2.Time)
             {
-                Log.Information(c1.Figi + " " + c1.Time + " candle = " + c2.Figi + " " + c2.Time + " candle");
-                Log.Information("Stop Equals method. Return true");
+                Log.Information("{0} {1} candle = {2} {3} candle", c1.Figi, c1.Time, c2.Figi, c2.Time);
                 return true;
             }
             else
             {
-                Log.Information(c1.Figi + " " + c1.Time + " candle != " + c2.Figi + " " + c2.Time + " candle");
-                Log.Information("Stop Equals method. Return falce");
+                Log.Information("{0} {1} candle != {2} {3} candle", c1.Figi, c1.Time, c2.Figi, c2.Time);
                 return false;
             }
         }
