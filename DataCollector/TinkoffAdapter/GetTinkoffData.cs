@@ -13,8 +13,8 @@ using DataCollector.RetryPolicy;
 using DataCollector.TinkoffAdapter.Authority;
 
 namespace DataCollector.TinkoffAdapter
-{   
-    static class GetTinkoffData
+{
+    internal static class GetTinkoffData
     {
         internal static async Task<CandleList> GetCandlesTinkoffAsync(string figi, CandleInterval candleInterval, int candlesCount)
         {
