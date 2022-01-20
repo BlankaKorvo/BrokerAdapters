@@ -14,7 +14,6 @@ using TradeStatus = MarketDataModules.Orderbooks.TradeStatus;
 using Portfolio = MarketDataModules.Portfolio.Portfolio;
 using MoneyAmount = MarketDataModules.Portfolio.MoneyAmount;
 using MarketDataModules.Candles;
-using MarketDataModules;
 using MarketDataModules.Instruments;
 using MarketDataModules.Operation;
 using DataCollector.TinkoffAdapter;
