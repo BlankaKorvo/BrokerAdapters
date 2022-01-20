@@ -14,7 +14,7 @@ using DataCollector.TinkoffAdapter.Authority;
 
 namespace DataCollector.TinkoffAdapter
 {
-    public class TinkoffTrading //: TransactionModel
+    public class PostTinkoffTrading //: TransactionModel
     {
         public TransactionModel transactionModel { get; set; }
 
@@ -64,12 +64,12 @@ namespace DataCollector.TinkoffAdapter
                 return;
             }
 
-            List<Order> orders = await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.OrdersAsync());
+            List<Order> orders = await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.OrdersAsync());
             foreach (Order order in orders)
             {
                 if (order.Figi == transactionModel.Figi)
                 {
-                    await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.CancelOrderAsync(order.OrderId));
+                    await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.CancelOrderAsync(order.OrderId));
                     Log.Information("Delete order by figi: " + transactionModel.Figi + " RequestedLots " + order.RequestedLots + " ExecutedLots " + order.ExecutedLots + " Price " + order.Price + " Operation " + order.Operation + " Status " + order.Status + " Type " + order.Type);
                 }
             }
@@ -80,7 +80,7 @@ namespace DataCollector.TinkoffAdapter
                 sw.WriteLine();
             }
 
-            await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, GetOperationType(), transactionModel.Price)));
+            await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, GetOperationType(), transactionModel.Price)));
 
             Log.Information("Create order for Buy " + transactionModel.Quantity + " lots " + "figi: " + transactionModel.Figi + "price: " + transactionModel.Price);
             Log.Information("Stop TransactStoksAsyncs: " + transactionModel.Figi);
@@ -111,17 +111,17 @@ namespace DataCollector.TinkoffAdapter
                 return;
             }
 
-            List<Order> orders = await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.OrdersAsync());
+            List<Order> orders = await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.OrdersAsync());
             foreach (Order order in orders)
             {
                 if (order.Figi == transactionModel.Figi)
                 {
-                    await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.CancelOrderAsync(order.OrderId));
+                    await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.CancelOrderAsync(order.OrderId));
                     Log.Information("Delete order by figi: " + transactionModel.Figi + " RequestedLots " + order.RequestedLots + " ExecutedLots " + order.ExecutedLots + " Price " + order.Price + " Operation " + order.Operation + " Status " + order.Status + " Type " + order.Type);
                 }
             }
 
-            await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, Tinkoff.Trading.OpenApi.Models.OperationType.Buy, transactionModel.Price)));
+            await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, Tinkoff.Trading.OpenApi.Models.OperationType.Buy, transactionModel.Price)));
 
             using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
             {
@@ -148,17 +148,17 @@ namespace DataCollector.TinkoffAdapter
                 return;
             }
 
-            List<Order> orders = await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.OrdersAsync());
+            List<Order> orders = await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.OrdersAsync());
             foreach (Order order in orders)
             {
                 if (order.Figi == transactionModel.Figi)
                 {
-                    await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.CancelOrderAsync(order.OrderId));
+                    await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.CancelOrderAsync(order.OrderId));
                     Log.Information("Delete order by figi: " + transactionModel.Figi + " RequestedLots " + order.RequestedLots + " ExecutedLots " + order.ExecutedLots + " Price " + order.Price + " Operation " + order.Operation + " Status " + order.Status + " Type " + order.Type);
                 }
             }
 
-            await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, Tinkoff.Trading.OpenApi.Models.OperationType.Sell, transactionModel.Price)));
+            await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, transactionModel.Quantity, Tinkoff.Trading.OpenApi.Models.OperationType.Sell, transactionModel.Price)));
 
             using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
             {

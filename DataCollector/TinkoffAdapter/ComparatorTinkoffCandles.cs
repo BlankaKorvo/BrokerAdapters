@@ -10,7 +10,7 @@ using Tinkoff.Trading.OpenApi.Network;
 
 namespace DataCollector.TinkoffAdapter.DataHelper
 {
-    class ComparerTinkoffCandles : IEqualityComparer<CandlePayload>
+    class ComparatorTinkoffCandles : IEqualityComparer<CandlePayload>
     {
         public bool Equals(CandlePayload c1, CandlePayload c2)
         {

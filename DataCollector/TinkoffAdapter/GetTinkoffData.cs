@@ -22,7 +22,7 @@ namespace DataCollector.TinkoffAdapter
             DateTime date = DateTime.Now;
             List<CandlePayload> AllCandlePayloadTemp = new List<CandlePayload>();
 
-            ComparerTinkoffCandles CandlePayloadEqC = new ComparerTinkoffCandles();
+            ComparatorTinkoffCandles CandlePayloadEqC = new ComparatorTinkoffCandles();
 
             if (candleInterval == CandleInterval.Minute
                 || candleInterval == CandleInterval.TwoMinutes
@@ -59,7 +59,7 @@ namespace DataCollector.TinkoffAdapter
             return candleList;
         }
 
-        private static async Task<List<CandlePayload>> GetCandlePayloads(int candlesCount, string figi, CandleInterval candleInterval, DateTime date, ComparerTinkoffCandles CandlePayloadEqC, int stepBack)
+        private static async Task<List<CandlePayload>> GetCandlePayloads(int candlesCount, string figi, CandleInterval candleInterval, DateTime date, ComparatorTinkoffCandles CandlePayloadEqC, int stepBack)
         {
             List<CandlePayload> result = new List<CandlePayload>();
             int countafter = 0;
@@ -89,7 +89,7 @@ namespace DataCollector.TinkoffAdapter
             //int iterCount = 0;
             List<CandlePayload> AllCandlePayloadTemp = new List<CandlePayload>();
 
-            ComparerTinkoffCandles CandlePayloadEqC = new ComparerTinkoffCandles();
+            ComparatorTinkoffCandles CandlePayloadEqC = new ComparatorTinkoffCandles();
 
             if (candleInterval == CandleInterval.Minute
                 || candleInterval == CandleInterval.TwoMinutes
@@ -148,7 +148,7 @@ namespace DataCollector.TinkoffAdapter
             Log.Information("Start GetOrderbook method. Figi: " + figi);
             try
             {
-                Orderbook orderbook = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketOrderbookAsync(figi, depth)));
+                Orderbook orderbook = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.MarketOrderbookAsync(figi, depth)));
                 if (orderbook.Asks.Count == 0 || orderbook.Bids.Count == 0)
                 {
                     Log.Warning("Exchange by instrument " + figi + " not working");
@@ -181,29 +181,29 @@ namespace DataCollector.TinkoffAdapter
 
         internal static async Task<List<Operation>> GetOperations(string figi, DateTime dateFrom, DateTime dateTo)
         {
-            List<Operation> operations = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.OperationsAsync(dateFrom, dateTo, figi)));
+            List<Operation> operations = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.OperationsAsync(dateFrom, dateTo, figi)));
             return operations;
         }
 
         internal static async Task<Portfolio> GetPortfolioAsync()
         {
-            Portfolio portfolio = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PortfolioAsync()));
+            Portfolio portfolio = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.PortfolioAsync()));
             return portfolio;
         }
         internal static async Task<MarketInstrument> GetMarketInstrumentByFigi(string figi)
         {
-            MarketInstrument instrument =  await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketSearchByFigiAsync(figi)));
+            MarketInstrument instrument =  await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.MarketSearchByFigiAsync(figi)));
             return instrument;
         }
         internal static  async Task<MarketInstrumentList> GetMarketInstrumentListByTicker(string ticker)
         {
-            MarketInstrumentList instruments = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketSearchByTickerAsync(ticker)));
+            MarketInstrumentList instruments = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.MarketSearchByTickerAsync(ticker)));
             return instruments;
         }
 
         internal static async Task<MarketInstrumentList> GetMarketInstrumentList()
         {
-            MarketInstrumentList instruments = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketStocksAsync()));
+            MarketInstrumentList instruments = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.MarketStocksAsync()));
             return instruments;
         }
 
@@ -253,7 +253,7 @@ namespace DataCollector.TinkoffAdapter
             Log.Information("Time periods for candles with figi: " + figi + " = " + from + " - " + to);
             try
             {
-                CandleList candle = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.MarketCandlesAsync(figi, from, to, interval)));
+                CandleList candle = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.MarketCandlesAsync(figi, from, to, interval)));
                 Log.Information("Return " + candle.Candles.Count + " candles by figi: " + figi + " with " + interval + " lenth. Date: " + from + " " + to);
                 Log.Information("Stop GetCandleByFigiAsync method whith figi: " + figi);
                 return candle;
@@ -266,7 +266,7 @@ namespace DataCollector.TinkoffAdapter
                 return null;
             }
         }
-        private static async Task<List<CandlePayload>> GetUnionCandlesAsync(string figi, CandleInterval candleInterval, DateTime date, List<CandlePayload> AllCandlePayloadTemp, ComparerTinkoffCandles CandlePayloadEqC)
+        private static async Task<List<CandlePayload>> GetUnionCandlesAsync(string figi, CandleInterval candleInterval, DateTime date, List<CandlePayload> AllCandlePayloadTemp, ComparatorTinkoffCandles CandlePayloadEqC)
         {
             Log.Information("Start GetUnionCandles. Figi: " + figi);
             Log.Information("Count geting candles = " + AllCandlePayloadTemp.Count);

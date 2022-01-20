@@ -15,4 +15,9 @@
     <ProjectReference Include="..\TradeDataModules\MarketDataModules\MarketDataModules.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TinkoffAdapter\Authority\" />
+    <Folder Include="TinkoffAdapter\DataHelper\" />
+  </ItemGroup>
+
 </Project>

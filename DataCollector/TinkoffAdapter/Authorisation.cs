@@ -5,7 +5,7 @@ using Tinkoff.Trading.OpenApi.Network;
 
 namespace DataCollector.TinkoffAdapter.Authority
 {
-    public static class Auth
+    public static class Authorisation
     {
         static Context _context;
         public static Context Context

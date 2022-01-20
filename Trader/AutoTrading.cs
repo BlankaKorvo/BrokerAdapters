@@ -66,7 +66,7 @@ namespace Trader
                                 countStocks > currentLots
                                 )
                             {
-                                await new TinkoffTrading()
+                                await new PostTinkoffTrading()
                                 {
                                     transactionModel =
                                     new TransactionModel()
@@ -81,7 +81,7 @@ namespace Trader
                                 currentLots > 0
                                 )
                             {
-                                await new TinkoffTrading()
+                                await new PostTinkoffTrading()
                                 {
                                     transactionModel =
                                 new TransactionModel() { Figi = item.Figi, Price = bestBid, TradeOperation = TradingOperationType.Sell, Quantity = currentLots }
@@ -94,7 +94,7 @@ namespace Trader
                                 0 - countStocks < currentLots
                                 )
                             {
-                                await new TinkoffTrading()
+                                await new PostTinkoffTrading()
                                 {
                                     transactionModel =
                                 new TransactionModel() { Figi = item.Figi, Price = bestBid, TradeOperation = TradingOperationType.Sell, Quantity = currentLots + countStocks }
@@ -107,7 +107,7 @@ namespace Trader
                                 currentLots < 0
                                 )
                             {
-                                await new TinkoffTrading()
+                                await new PostTinkoffTrading()
                                 {
                                     transactionModel =
                                 new TransactionModel() { Figi = item.Figi, Price = bestAsk, TradeOperation = TradingOperationType.Buy, Quantity = 0 - currentLots }
