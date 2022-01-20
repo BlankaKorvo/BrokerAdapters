@@ -12,16 +12,36 @@ namespace DataCollector.TinkoffAdapter
 {
     internal class GetTinkoffCandles
     {
+        /// <summary>
+        /// Получение опредленного кол-ва свечей.
+        /// </summary>
+        /// <param name="figi"></param> FIGI
+        /// <param name="interval"></param> Интервал свечей
+        /// <param name="candlesCount"></param> Кол-во свечей, которые нужно получить.
         public GetTinkoffCandles(string figi, CandleInterval interval, int candlesCount)
         {
             this.figi = figi;
             this.interval = interval;
             this.candlesCount = candlesCount;
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="figi"></param>
+        /// <param name="interval"></param>
+        /// <param name="dateFrom"></param>
+        public GetTinkoffCandles(string figi, CandleInterval interval, DateTime dateFrom)
+        {
+            this.figi = figi;
+            this.interval = interval;
+            this.dateFrom = dateFrom;
+        }
+
         string figi;
         CandleInterval interval;
         int candlesCount;
+        DateTime dateFrom;
 
         /// <summary>
         /// Заполняемый список в методе GetCandlesTinkoffAsync
@@ -77,9 +97,12 @@ namespace DataCollector.TinkoffAdapter
             }
             candlePayloads = (from u in candlePayloads orderby u.Time select u).ToList();
 
-            candlePayloads = candlePayloads.Skip((candlePayloads?.Count ?? 0) - candlesCount).ToList();
-
+            if (candlesCount > 0)
+            {
+                candlePayloads = candlePayloads.Skip((candlePayloads?.Count ?? 0) - candlesCount).ToList();
+            }
             CandleList candleList = new CandleList(figi, interval, candlePayloads);
+            
             return candleList;
         }
 
@@ -94,28 +117,38 @@ namespace DataCollector.TinkoffAdapter
         async Task GetPayload(DateTime date, int stepInDays, int emptyIterationLimit)
         {
             int emptyIteration = default;
-            while ((candlePayloads?.Count ?? 0) < candlesCount)
-            {                
-                int counterPayload = (candlePayloads?.Count ?? 0);
-
+            while(
+                    (candlesCount != default && (candlePayloads?.Count ?? 0) < candlesCount)
+                    ||
+                    (dateFrom != default && date.CompareTo(dateFrom) >= 0)
+                 )
+            {
                 List<CandlePayload> candlePayloadsOneIteration = await GetOneSetCandlesAsync(date);
-                candlePayloads = candlePayloads.Union(candlePayloadsOneIteration, new ComparerTinkoffCandles()).ToList();
+                StopWhile(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
+
+                candlePayloads = candlePayloads.Union(candlePayloadsOneIteration, new ComparatorTinkoffCandles()).ToList();
                 Log.Information("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
-
-                if ((candlePayloads?.Count ?? 0) != counterPayload)
-                {
-                    emptyIteration = default;
-                }
-                else
-                {
-                    emptyIteration++;
-                }
-
-                StopWhile(emptyIteration, emptyIterationLimit);
 
                 date = date.AddDays(-stepInDays);
             }
         }
+
+        /// <summary>
+        /// Проверка для выхода из цикла while. Если <emptyIterationLimit> циклов нет результата - выход из цикла.
+        /// </summary>
+        /// <param name="emptyIterationLimit"></param>Максимально допустимое кол-во холостых операций.
+        /// <param name="emptyIteration"></param>Кол-во выполненых хлостых операций в цикле.
+        /// <param name="candlePayloadsOneIterationCount"></param> Кол-во свечей полученных в последний цикл.
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        void StopWhile(int emptyIterationLimit, int emptyIteration, int candlePayloadsOneIterationCount)
+        {
+            emptyIteration = candlePayloadsOneIterationCount > 0 ? default : ++emptyIteration;
+
+            if (emptyIteration >= emptyIterationLimit)           
+                throw new Exception("No more candles. Reduce the number of candles in the request");
+        }
+
 
         /// <summary>
         /// Получение максимально возможного сета свечей за один запрос, с учетом ограничений tinkoff API.
@@ -170,7 +203,7 @@ namespace DataCollector.TinkoffAdapter
 
                 CandleList candle = await PollyRetrayPolitics.Retry().ExecuteAsync
                     (async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync
-                    (async () => await Authority.Auth.Context.MarketCandlesAsync(figi, from, dateTo, interval)));
+                    (async () => await Authority.Authorisation.Context.MarketCandlesAsync(figi, from, dateTo, interval)));
 
                 Log.Information("Return {0} candles by figi {1}. Interval = {2}. Date interval = {3} - {4}", candle.Candles.Count, figi, interval, from, dateTo);
                 return candle.Candles;
@@ -183,20 +216,5 @@ namespace DataCollector.TinkoffAdapter
                 return null;
             }
         }
-
-        /// <summary>
-        /// Проверка для выхода из цикла while. Если emptyIterationLimit циклов нет результата - выход из цикла.
-        /// </summary>
-        /// <param name="emptyIteration"></param>Кол-во выполненых хлостых операций в цикле.
-        /// <param name="emptyIterationLimit"></param>Максимально допустимое кол-во холостых операций.
-        /// <exception cref="Exception"></exception>
-        void StopWhile(int emptyIteration, int emptyIterationLimit)
-        {
-            if (emptyIteration > emptyIterationLimit)
-            {
-                throw new Exception("No more candles. Reduce the number of candles in the request");
-            }
-        }
-
     }
 }
