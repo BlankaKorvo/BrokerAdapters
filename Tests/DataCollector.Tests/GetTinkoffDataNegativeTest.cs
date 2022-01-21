@@ -238,10 +238,11 @@ namespace DataCollector.Tests
             //arrange
             DateTime dateTime = DateTime.Now.AddDays(-181000);
             //act
-            DateTime testData = GetCandles(CandleInterval.Month, dateTime).Candles.FirstOrDefault().Time;
+            Action act = () => GetCandles(CandleInterval.Month, dateTime);
             //assert
             //Assert.True(DateTime.Compare(testData, dateTime) < 0);
-            Assert.ThrowsAny<ArgumentException>(() => GetCandles(CandleInterval.Month, dateTime).Candles.FirstOrDefault().Time);
+            Exception exception =  Assert.ThrowsAny<Exception>(act);
+            Assert.Equal("No more candles. Reduce the number of candles in the request", exception.Message);
         }
     }
 }
