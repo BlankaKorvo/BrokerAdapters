@@ -240,7 +240,6 @@ namespace DataCollector.Tests
             //act
             Action act = () => GetCandles(CandleInterval.Month, dateTime);
             //assert
-            //Assert.True(DateTime.Compare(testData, dateTime) < 0);
             Exception exception =  Assert.ThrowsAny<Exception>(act);
             Assert.Equal("No more candles. Reduce the number of candles in the request", exception.Message);
         }
