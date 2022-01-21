@@ -10,7 +10,7 @@ using Tinkoff.Trading.OpenApi.Models;
 
 namespace DataCollector.TinkoffAdapter
 {
-    internal class GetTinkoffCandles
+    public class GetTinkoffCandles
     {
         /// <summary>
         /// Получение опредленного кол-ва свечей.
@@ -53,12 +53,14 @@ namespace DataCollector.TinkoffAdapter
         /// Получение свечей по инструменту. Вводные задаются в конструкторе.
         /// </summary>
         /// <returns></returns>
-        internal async Task<CandleList> GetCandlesTinkoffAsync()
+        public async Task<CandleList> GetCandlesTinkoffAsync()
         {
             DateTime date = DateTime.Now;
 
             ///Максимально допустимое кол-во холостых циклов while подряд.
             int notTradeDayLimit = 1;
+            ///Кол-во дней 
+            int daysInterval = default;
 
             if (interval == CandleInterval.Minute
                 || interval == CandleInterval.TwoMinutes
@@ -69,38 +71,32 @@ namespace DataCollector.TinkoffAdapter
                 || interval == CandleInterval.HalfHour)
             {
                 ///Максимально допустимый интервал за один запрос в Tinkoff
-                int daysInterval = 1;
+                daysInterval = 1;
                 notTradeDayLimit = 7;
-
-                await GetPayload(date, daysInterval, notTradeDayLimit);
-
             }
             else if (interval == CandleInterval.Hour)
             {
-                int daysInterval = 7;
-                await GetPayload(date, daysInterval, notTradeDayLimit);
+                daysInterval = 7;  
             }
             else if (interval == CandleInterval.Day)
             {
-                int daysInterval = 365;
-                await GetPayload(date, daysInterval, notTradeDayLimit);
+                daysInterval = 365;
             }
             else if (interval == CandleInterval.Week)
             {
-                int daysInterval = 730;
-                await GetPayload(date, daysInterval, notTradeDayLimit);
+                daysInterval = 730;
             }
             else if (interval == CandleInterval.Month)
             {
-                int daysInterval = 3650;
-                await GetPayload(date, daysInterval, notTradeDayLimit);
+                daysInterval = 3650;
             }
+
+            await GetPayload(date, daysInterval, notTradeDayLimit);
+
             candlePayloads = (from u in candlePayloads orderby u.Time select u).ToList();
 
-            if (candlesCount > 0)
-            {
-                candlePayloads = candlePayloads.Skip((candlePayloads?.Count ?? 0) - candlesCount).ToList();
-            }
+            candlePayloads = candlesCount > 0 ? (candlePayloads.Skip((candlePayloads?.Count ?? 0) - candlesCount).ToList()) : candlePayloads;
+
             CandleList candleList = new CandleList(figi, interval, candlePayloads);
             
             return candleList;
