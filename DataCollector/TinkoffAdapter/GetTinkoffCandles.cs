@@ -1,5 +1,4 @@
 ﻿using DataCollector.RetryPolicy;
-using DataCollector.TinkoffAdapter.DataHelper;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -191,7 +190,7 @@ namespace DataCollector.TinkoffAdapter
 
             CandleList candle = await PollyRetrayPolitics.Retry().ExecuteAsync
                 (async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync
-                (async () => await Authority.Authorisation.Context.MarketCandlesAsync(figi, from, dateTo, interval)));
+                (async () => await Authorisation.Context.MarketCandlesAsync(figi, from, dateTo, interval)));
 
             Log.Information("Return {0} candles by figi {1}. Interval = {2}. Date interval = {3} - {4}", candle.Candles.Count, figi, interval, from, dateTo);
             return candle.Candles;

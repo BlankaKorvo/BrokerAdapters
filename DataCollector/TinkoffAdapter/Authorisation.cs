@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using Tinkoff.Trading.OpenApi.Network;
 
-namespace DataCollector.TinkoffAdapter.Authority
+namespace DataCollector.TinkoffAdapter
 {
     internal static class Authorisation
     {

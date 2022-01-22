@@ -1,14 +1,12 @@
-﻿using DataCollector.TinkoffAdapter.Authority;
-using Serilog;
+﻿using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tinkoff.Trading.OpenApi.Models;
 
-namespace DataCollector.TinkoffAdapter.Post
+namespace DataCollector.TinkoffAdapter
 {
     class PostLimitOrders
     {

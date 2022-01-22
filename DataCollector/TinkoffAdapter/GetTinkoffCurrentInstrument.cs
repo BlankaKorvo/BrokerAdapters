@@ -1,6 +1,4 @@
 ﻿using DataCollector.RetryPolicy;
-using DataCollector.TinkoffAdapter.Authority;
-using Serilog;
 using System.Threading.Tasks;
 using Tinkoff.Trading.OpenApi.Models;
 
