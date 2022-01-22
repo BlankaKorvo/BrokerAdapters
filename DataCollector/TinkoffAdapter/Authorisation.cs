@@ -5,7 +5,7 @@ using Tinkoff.Trading.OpenApi.Network;
 
 namespace DataCollector.TinkoffAdapter.Authority
 {
-    public static class Authorisation
+    internal static class Authorisation
     {
         static Context _context;
         public static Context Context
@@ -38,10 +38,10 @@ namespace DataCollector.TinkoffAdapter.Authority
             Log.Information("Stop GetContext");
             return context;
         }
-        public static void RemoveInstance()
-        {
-            _context = null;
-        }
+        //public static void RemoveInstance()
+        //{
+        //    _context = null;
+        //}
     }
 }
 
