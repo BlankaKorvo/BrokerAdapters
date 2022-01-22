@@ -46,8 +46,6 @@ namespace DataCollector.TinkoffAdapter
             this.dateFrom = dateFrom;
         }
 
-
-
         /// <summary>
         /// Получение свечей по инструменту. Вводные задаются в конструкторе.
         /// </summary>
@@ -101,7 +99,6 @@ namespace DataCollector.TinkoffAdapter
             return candleList;
         }
 
-
         /// <summary>
         /// Набор свечей максимально возможными партиями за один запрос к API до нужного кол-ва.
         /// </summary>
@@ -121,7 +118,7 @@ namespace DataCollector.TinkoffAdapter
                 List<CandlePayload> candlePayloadsOneIteration = await GetOneSetCandlesAsync(date);
                 StopWhile(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
 
-                candlePayloads = candlePayloads.Union(candlePayloadsOneIteration, new ComparatorTinkoffCandles()).ToList();
+                candlePayloads = candlePayloads.Union(candlePayloadsOneIteration/*, new ComparatorTinkoffCandles()*/).ToList();
                 Log.Information("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
 
                 date = date.AddDays(-stepInDays);
@@ -136,14 +133,13 @@ namespace DataCollector.TinkoffAdapter
         /// <param name="candlePayloadsOneIterationCount"></param> Кол-во свечей полученных в последний цикл.
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        void StopWhile(int emptyIterationLimit, int emptyIteration, int candlePayloadsOneIterationCount)
+        static void StopWhile(int emptyIterationLimit, int emptyIteration, int candlePayloadsOneIterationCount)
         {
             emptyIteration = candlePayloadsOneIterationCount > 0 ? default : ++emptyIteration;
 
             if (emptyIteration >= emptyIterationLimit)           
                 throw new Exception("No more candles. Reduce the number of candles in the request");
         }
-
 
         /// <summary>
         /// Получение максимально возможного сета свечей за один запрос, с учетом ограничений tinkoff API.
@@ -152,53 +148,53 @@ namespace DataCollector.TinkoffAdapter
         /// <returns></returns>
         async Task<List<CandlePayload>> GetOneSetCandlesAsync(DateTime dateTo)
         {
-                DateTime from = default;
-                switch (interval)
-                {
-                    case CandleInterval.Minute:
-                        from = dateTo.AddDays(-1);
-                        break;
-                    case CandleInterval.TwoMinutes:
-                        from = dateTo.AddDays(-1);
-                        break;
-                    case CandleInterval.ThreeMinutes:
-                        from = dateTo.AddDays(-1);
-                        break;
-                    case CandleInterval.FiveMinutes:
-                        from = dateTo.AddDays(-1);
-                        break;
-                    case CandleInterval.TenMinutes:
-                        from = dateTo.AddDays(-1);
-                        break;
-                    case CandleInterval.QuarterHour:
-                        from = dateTo.AddDays(-1);
-                        break;
-                    case CandleInterval.HalfHour:
-                        from = dateTo.AddDays(-1);
-                        break;
-                    case CandleInterval.Hour:
-                        from = dateTo.AddDays(-7);
-                        break;
-                    case CandleInterval.Day:
-                        from = dateTo.AddYears(-1);
-                        break;
-                    case CandleInterval.Week:
-                        from = dateTo.AddYears(-2);
-                        break;
-                    case CandleInterval.Month:
-                        from = dateTo.AddYears(-10);
-                        break;
-                    default:
-                        break;
-                }
-                Log.Information("Time periods for candles with figi: {0} from {1} to {2}", figi, from, dateTo);
+            DateTime from = default;
+            switch (interval)
+            {
+                case CandleInterval.Minute:
+                    from = dateTo.AddDays(-1);
+                    break;
+                case CandleInterval.TwoMinutes:
+                    from = dateTo.AddDays(-1);
+                    break;
+                case CandleInterval.ThreeMinutes:
+                    from = dateTo.AddDays(-1);
+                    break;
+                case CandleInterval.FiveMinutes:
+                    from = dateTo.AddDays(-1);
+                    break;
+                case CandleInterval.TenMinutes:
+                    from = dateTo.AddDays(-1);
+                    break;
+                case CandleInterval.QuarterHour:
+                    from = dateTo.AddDays(-1);
+                    break;
+                case CandleInterval.HalfHour:
+                    from = dateTo.AddDays(-1);
+                    break;
+                case CandleInterval.Hour:
+                    from = dateTo.AddDays(-7);
+                    break;
+                case CandleInterval.Day:
+                    from = dateTo.AddYears(-1);
+                    break;
+                case CandleInterval.Week:
+                    from = dateTo.AddYears(-2);
+                    break;
+                case CandleInterval.Month:
+                    from = dateTo.AddYears(-10);
+                    break;
+                default:
+                    break;
+            }
+            Log.Information("Time periods for candles with figi: {0} from {1} to {2}", figi, from, dateTo);
 
-                CandleList candle = await PollyRetrayPolitics.Retry().ExecuteAsync
-                    (async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync
-                    (async () => await Authority.Authorisation.Context.MarketCandlesAsync(figi, from, dateTo, interval)));
+            CandleList candle = await PollyRetrayPolitics.Retry().ExecuteAsync
+                (async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync
+                (async () => await Authority.Authorisation.Context.MarketCandlesAsync(figi, from, dateTo, interval)));
 
-                Log.Information("Return {0} candles by figi {1}. Interval = {2}. Date interval = {3} - {4}", candle.Candles.Count, figi, interval, from, dateTo);
-                return candle.Candles;
+            Log.Information("Return {0} candles by figi {1}. Interval = {2}. Date interval = {3} - {4}", candle.Candles.Count, figi, interval, from, dateTo);
+            return candle.Candles;
         }
     }
 }

@@ -7,26 +7,14 @@ using System.Linq;
 
 namespace DataCollector.Tests
 {
-    public class GetTinkoffDataPositiveTest
+    public class GetTinkoffCandlesPositiveTest : GetTinkoffCandlesBase
     {
-        
-        ICandlesList GetCandles(CandleInterval candleInterval, int candleCount)
-        {
-            var candles = MarketDataProvider.GetCandlesAsync("BBG000BVPV84", candleInterval, candleCount, Provider.Tinkoff).GetAwaiter().GetResult();
-            return candles;
-        }
-
-        ICandlesList GetCandles(CandleInterval candleInterval, DateTime dateTime)
-        {
-            var candles = MarketDataProvider.GetCandlesAsync("BBG000BVPV84", candleInterval, dateTime, Provider.Tinkoff).GetAwaiter().GetResult();
-            return candles;
-        }
 
         [Fact]        
         public void MinuteCandlesCount()
         {
             //arrange
-            int candleCount = 5000;
+            int candleCount = 1441;
             //act
             var testData = GetCandles(CandleInterval.Minute, candleCount).Candles.Count;
             //assert
@@ -37,7 +25,7 @@ namespace DataCollector.Tests
         public void MinuteCandlesDate()
         {
             //arrange
-            DateTime dateTime = DateTime.Now.AddDays(-50);
+            DateTime dateTime = DateTime.Now.AddDays(-8);
             //act
             DateTime testData = GetCandles(CandleInterval.Minute, dateTime).Candles.FirstOrDefault().Time;
             //assert
@@ -48,7 +36,7 @@ namespace DataCollector.Tests
         public void TwoMinutesCandlesCount()
         {   
             //arrange
-            int candleCount = 5000;
+            int candleCount = 721;
             //act
             var testData = GetCandles(CandleInterval.TwoMinutes, candleCount).Candles.Count;
             //assert
@@ -59,7 +47,7 @@ namespace DataCollector.Tests
         public void TwoMinuteCandlesDate()
         {
             //arrange
-            DateTime dateTime = DateTime.Now.AddDays(-50);
+            DateTime dateTime = DateTime.Now.AddDays(-8);
             //act
             DateTime testData = GetCandles(CandleInterval.TwoMinutes, dateTime).Candles.FirstOrDefault().Time;
             //assert
@@ -70,7 +58,7 @@ namespace DataCollector.Tests
         public void ThreeMinutesCandlesCount()
         {
             //arrange
-            int candleCount = 5000;
+            int candleCount = 481;
             //act
             var testData = GetCandles(CandleInterval.ThreeMinutes, candleCount).Candles.Count;
             //assert
@@ -81,7 +69,7 @@ namespace DataCollector.Tests
         public void ThreeMinuteCandlesDate()
         {
             //arrange
-            DateTime dateTime = DateTime.Now.AddDays(-50);
+            DateTime dateTime = DateTime.Now.AddDays(-8);
             //act
             DateTime testData = GetCandles(CandleInterval.ThreeMinutes, dateTime).Candles.FirstOrDefault().Time;
             //assert
@@ -92,7 +80,7 @@ namespace DataCollector.Tests
         public void FiveMinutesCandlesCount()
         {
             //arrange
-            int candleCount = 5000;
+            int candleCount = 289;
             //act
             var testData = GetCandles(CandleInterval.FiveMinutes, candleCount).Candles.Count;
             //assert
@@ -103,7 +91,7 @@ namespace DataCollector.Tests
         public void FiveMinuteCandlesDate()
         {
             //arrange
-            DateTime dateTime = DateTime.Now.AddDays(-50);
+            DateTime dateTime = DateTime.Now.AddDays(-8);
             //act
             DateTime testData = GetCandles(CandleInterval.FiveMinutes, dateTime).Candles.FirstOrDefault().Time;
             //assert
@@ -114,7 +102,7 @@ namespace DataCollector.Tests
         public void TenMinutesCandlesCount()
         {
             //arrange
-            int candleCount = 5000;
+            int candleCount = 145;
             //act
             var testData = GetCandles(CandleInterval.TenMinutes, candleCount).Candles.Count;
             //assert
@@ -125,7 +113,7 @@ namespace DataCollector.Tests
         public void TenMinuteCandlesDate()
         {
             //arrange
-            DateTime dateTime = DateTime.Now.AddDays(-50);
+            DateTime dateTime = DateTime.Now.AddDays(-8);
             //act
             DateTime testData = GetCandles(CandleInterval.TenMinutes, dateTime).Candles.FirstOrDefault().Time;
             //assert
@@ -136,7 +124,7 @@ namespace DataCollector.Tests
         public void QuarterHourCandlesCount()
         {
             //arrange
-            int candleCount = 5000;
+            int candleCount = 97;
             //act
             var testData = GetCandles(CandleInterval.QuarterHour, candleCount).Candles.Count;
             //assert
@@ -147,7 +135,7 @@ namespace DataCollector.Tests
         public void QuarterHourCandlesDate()
         {
             //arrange
-            DateTime dateTime = DateTime.Now.AddDays(-50);
+            DateTime dateTime = DateTime.Now.AddDays(-8);
             //act
             DateTime testData = GetCandles(CandleInterval.QuarterHour, dateTime).Candles.FirstOrDefault().Time;
             //assert
@@ -158,7 +146,7 @@ namespace DataCollector.Tests
         public void HourCandlesCount()
         {
             //arrange
-            int candleCount = 5000;
+            int candleCount = 169;
             //act
             var testData = GetCandles(CandleInterval.Hour, candleCount).Candles.Count;
             //assert
@@ -169,7 +157,7 @@ namespace DataCollector.Tests
         public void HourCandlesDate()
         {
             //arrange
-            DateTime dateTime = DateTime.Now.AddDays(-50);
+            DateTime dateTime = DateTime.Now.AddDays(-15);
             //act
             DateTime testData = GetCandles(CandleInterval.Hour, dateTime).Candles.FirstOrDefault().Time;
             //assert
@@ -180,7 +168,7 @@ namespace DataCollector.Tests
         public void DayCandlesCount()
         {
             //arrange
-            int candleCount = 500;
+            int candleCount = 366;
             //act
             var testData = GetCandles(CandleInterval.Day, candleCount).Candles.Count;
             //assert
@@ -191,7 +179,7 @@ namespace DataCollector.Tests
         public void DayCandlesDate()
         {
             //arrange
-            DateTime dateTime = DateTime.Now.AddDays(-50);
+            DateTime dateTime = DateTime.Now.AddDays(-374);
             //act
             DateTime testData = GetCandles(CandleInterval.Day, dateTime).Candles.FirstOrDefault().Time;
             //assert
@@ -202,7 +190,7 @@ namespace DataCollector.Tests
         public void WeekCandlesCount()
         {
             //arrange
-            int candleCount = 50;
+            int candleCount = 106;
             //act
             var testData = GetCandles(CandleInterval.Week, candleCount).Candles.Count;
             //assert
@@ -213,7 +201,7 @@ namespace DataCollector.Tests
         public void WeekCandlesDate()
         {
             //arrange
-            DateTime dateTime = DateTime.Now.AddDays(-100);
+            DateTime dateTime = DateTime.Now.AddDays(-735);
             //act
             DateTime testData = GetCandles(CandleInterval.Week, dateTime).Candles.FirstOrDefault().Time;
             //assert
@@ -224,7 +212,7 @@ namespace DataCollector.Tests
         public void MonthCandlesCount()
         {
             //arrange
-            int candleCount = 50;
+            int candleCount = 121;
             //act
             var testData = GetCandles(CandleInterval.Month, candleCount).Candles.Count;
             //assert
@@ -235,7 +223,7 @@ namespace DataCollector.Tests
         public void MonthCandlesDate()
         {
             //arrange
-            DateTime dateTime = DateTime.Now.AddDays(-181);
+            DateTime dateTime = DateTime.Now.AddDays(-3653);
             //act
             DateTime testData = GetCandles(CandleInterval.Month, dateTime).Candles.FirstOrDefault().Time;
             //assert

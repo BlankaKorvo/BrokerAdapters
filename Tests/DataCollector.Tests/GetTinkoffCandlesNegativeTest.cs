@@ -7,21 +7,8 @@ using System.Linq;
 
 namespace DataCollector.Tests
 {
-    public class GetTinkoffDataNegativeTest
+    public class GetTinkoffCandlesNegativeTest : GetTinkoffCandlesBase
     {
-        
-        ICandlesList GetCandles(CandleInterval candleInterval, int candleCount)
-        {
-            var candles = MarketDataProvider.GetCandlesAsync("BBG000BVPV84", candleInterval, candleCount, Provider.Tinkoff).GetAwaiter().GetResult();
-            return candles;
-        }
-
-        ICandlesList GetCandles(CandleInterval candleInterval, DateTime dateTime)
-        {
-            var candles = MarketDataProvider.GetCandlesAsync("BBG000BVPV84", candleInterval, dateTime, Provider.Tinkoff).GetAwaiter().GetResult();
-            return candles;
-        }
-
         //[Fact]        
         //public void MinuteCandlesCount()
         //{
