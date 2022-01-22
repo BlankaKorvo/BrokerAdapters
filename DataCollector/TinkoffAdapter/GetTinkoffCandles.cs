@@ -4,7 +4,6 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Tinkoff.Trading.OpenApi.Models;
 
@@ -12,6 +11,15 @@ namespace DataCollector.TinkoffAdapter
 {
     public class GetTinkoffCandles
     {
+        private readonly string figi;
+        private readonly CandleInterval interval;
+        private readonly int candlesCount;
+        private readonly DateTime dateFrom;
+        /// <summary>
+        /// Заполняемый список в методе GetCandlesTinkoffAsync
+        /// </summary>
+        private List<CandlePayload> candlePayloads = new();
+
         /// <summary>
         /// Получение опредленного кол-ва свечей.
         /// </summary>
@@ -38,15 +46,6 @@ namespace DataCollector.TinkoffAdapter
             this.dateFrom = dateFrom;
         }
 
-        string figi;
-        CandleInterval interval;
-        int candlesCount;
-        DateTime dateFrom;
-
-        /// <summary>
-        /// Заполняемый список в методе GetCandlesTinkoffAsync
-        /// </summary>
-        List<CandlePayload> candlePayloads = new List<CandlePayload>();
 
 
         /// <summary>
@@ -97,7 +96,7 @@ namespace DataCollector.TinkoffAdapter
 
             candlePayloads = candlesCount > 0 ? (candlePayloads.Skip((candlePayloads?.Count ?? 0) - candlesCount).ToList()) : candlePayloads;
 
-            CandleList candleList = new CandleList(figi, interval, candlePayloads);
+            CandleList candleList = new(figi, interval, candlePayloads);
             
             return candleList;
         }
@@ -153,9 +152,7 @@ namespace DataCollector.TinkoffAdapter
         /// <returns></returns>
         async Task<List<CandlePayload>> GetOneSetCandlesAsync(DateTime dateTo)
         {
-            try
-            {
-                DateTime from;
+                DateTime from = default;
                 switch (interval)
                 {
                     case CandleInterval.Minute:
@@ -192,8 +189,7 @@ namespace DataCollector.TinkoffAdapter
                         from = dateTo.AddYears(-10);
                         break;
                     default:
-                        from = default;
-                        throw new ArgumentOutOfRangeException();
+                        break;
                 }
                 Log.Information("Time periods for candles with figi: {0} from {1} to {2}", figi, from, dateTo);
 
@@ -203,14 +199,6 @@ namespace DataCollector.TinkoffAdapter
 
                 Log.Information("Return {0} candles by figi {1}. Interval = {2}. Date interval = {3} - {4}", candle.Candles.Count, figi, interval, from, dateTo);
                 return candle.Candles;
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.Message);
-                Log.Error(ex.StackTrace);
-                Log.Information("Stop GetOneSetCandlesAsync with error. Return null");
-                return null;
-            }
         }
     }
 }

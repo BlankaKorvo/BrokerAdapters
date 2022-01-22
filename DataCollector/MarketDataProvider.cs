@@ -28,9 +28,13 @@ namespace DataCollector
             switch (providers)
             {
                 case Provider.Tinkoff:
-                    return await GetTinkoffCandles(figi,candleInterval, candlesCount);
+                    return await GetTinkoffCandles(figi, candleInterval, candlesCount);
                 case Provider.Finam:
-                    return null;
+                    break;
+                case Provider.Alor:
+                    break;
+                default:
+                    break;
             }
             return null;
         }
@@ -50,7 +54,11 @@ namespace DataCollector
                 case Provider.Tinkoff:
                     return await GetTinkoffCandles(figi, candleInterval, dateFrom);
                 case Provider.Finam:
-                    return null;
+                    break;
+                case Provider.Alor:
+                    break;
+                default:
+                    break;
             }
             return null;
         }
@@ -93,10 +101,10 @@ namespace DataCollector
         static CandlesList TinkoffCandlesMapper(Tinkoff.Trading.OpenApi.Models.CandleList tinkoffCandles)
         {
             List<CandleStructure> candles =
-                new List<CandleStructure>(tinkoffCandles?.Candles.Select(x =>
+                new(tinkoffCandles?.Candles.Select(x =>
                     new CandleStructure(x.Open, x.Close, x.High, x.Low, x.Volume, x.Time, (CandleInterval)x.Interval, x.Figi)).Distinct());
 
-            CandlesList candlesList = new CandlesList(tinkoffCandles.Figi, (CandleInterval)tinkoffCandles.Interval, candles);
+            CandlesList candlesList = new(tinkoffCandles.Figi, (CandleInterval)tinkoffCandles.Interval, candles);
             return candlesList;
         }
     }
