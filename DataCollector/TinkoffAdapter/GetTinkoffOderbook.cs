@@ -13,6 +13,10 @@ namespace DataCollector.TinkoffAdapter
             this.figi = figi;
             this.depth = depth;
         }
+        /// <summary>
+        /// Получение "стакана".
+        /// </summary>
+        /// <returns></returns>
         internal async Task<Orderbook> GetOrderbookAsync()
         {
                 Orderbook orderbook = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.MarketOrderbookAsync(figi, depth)));

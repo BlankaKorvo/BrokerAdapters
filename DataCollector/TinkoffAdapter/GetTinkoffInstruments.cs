@@ -8,18 +8,29 @@ namespace DataCollector.TinkoffAdapter
 {
     public class GetTinkoffInstruments
     {
+        /// <summary>
+        /// Получение всех акций
+        /// </summary>
+        /// <returns></returns>
         internal async Task<MarketInstrumentList> GetStocksAsync()
         {
             MarketInstrumentList instruments = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.MarketStocksAsync()));
             return instruments;
         }
 
+        /// <summary>
+        /// Получение всех bonds
+        /// </summary>
+        /// <returns></returns>
         internal async Task<MarketInstrumentList> GetBondsAsync()
         {
             MarketInstrumentList instruments = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.MarketBondsAsync()));
             return instruments;
         }
-
+        /// <summary>
+        /// Получение всех ETF
+        /// </summary>
+        /// <returns></returns>
         internal async Task<MarketInstrumentList> GetEtfsAsync()
         {
             MarketInstrumentList instruments = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.MarketEtfsAsync()));

@@ -8,6 +8,10 @@ namespace DataCollector.TinkoffAdapter
     internal static class Authorisation
     {
         static Context _context;
+
+        /// <summary>
+        /// Singltone передача токена.
+        /// </summary>
         public static Context Context
         {
             get
@@ -20,6 +24,10 @@ namespace DataCollector.TinkoffAdapter
                 return _context;
             }
         }
+        /// <summary>
+        /// Получение токена для работы в песочнице
+        /// </summary>
+        /// <returns></returns>
         static Context GetSanboxContext()
         {
             Log.Information("Start GetSanboxContext");
@@ -29,6 +37,11 @@ namespace DataCollector.TinkoffAdapter
             Log.Information("Stop GetSanboxContext");
             return context;
         }
+
+        /// <summary>
+        /// Получение токена на реальной бирже
+        /// </summary>
+        /// <returns></returns>
         static Context GetContext()
         {
             Log.Information("Start GetContext");
