@@ -1,19 +1,20 @@
 ﻿using MarketDataModules;
 using MarketDataModules.Candles;
 using System;
+using System.Threading.Tasks;
 
 namespace DataCollector.Tests
 {
     public class GetTinkoffCandlesBase
     {
-        protected static ICandlesList GetCandles(CandleInterval candleInterval, DateTime dateTime)
+        protected static async Task<ICandlesList> GetCandles(CandleInterval candleInterval, DateTime dateTime)
         {
-            var candles = GetMarketData.GetCandlesAsync("BBG000BVPV84", candleInterval, dateTime, Provider.Tinkoff).GetAwaiter().GetResult();
+            var candles = await GetMarketData.GetCandlesAsync("BBG000BVPV84", candleInterval, dateTime, Provider.Tinkoff);
             return candles;
         }
-        protected static ICandlesList GetCandles(CandleInterval candleInterval, int candleCount)
+        protected static async Task<ICandlesList> GetCandles(CandleInterval candleInterval, int candleCount)
         {
-            var candles = GetMarketData.GetCandlesAsync("BBG000BVPV84", candleInterval, candleCount, Provider.Tinkoff).GetAwaiter().GetResult();
+            var candles = await GetMarketData.GetCandlesAsync("BBG000BVPV84", candleInterval, candleCount, Provider.Tinkoff);
             return candles;
         }
     }

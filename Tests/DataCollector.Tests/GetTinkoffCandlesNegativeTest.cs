@@ -148,7 +148,7 @@ namespace DataCollector.Tests
             int candleCount = 500000;
             //act
             //act
-            void act() => GetCandles(CandleInterval.Hour, candleCount);
+            void act() => GetCandles(CandleInterval.Hour, candleCount).GetAwaiter().GetResult();
             //assert
             Exception exception = Assert.ThrowsAny<Exception>(act);
             Assert.Equal("No more candles. Reduce the number of candles in the request", exception.Message);
@@ -160,7 +160,7 @@ namespace DataCollector.Tests
             //arrange
             DateTime dateTime = DateTime.Now.AddDays(-5000);
             //act
-            void act() => GetCandles(CandleInterval.Hour, dateTime);
+            void act() => GetCandles(CandleInterval.Hour, dateTime).GetAwaiter().GetResult();
             //assert
             Exception exception = Assert.ThrowsAny<Exception>(act);
             Assert.Equal("No more candles. Reduce the number of candles in the request", exception.Message);
@@ -172,7 +172,7 @@ namespace DataCollector.Tests
             //arrange
             int candleCount = 500000;
             //act
-            void act() => GetCandles(CandleInterval.Day, candleCount);
+            void act() => GetCandles(CandleInterval.Day, candleCount).GetAwaiter().GetResult();
             //assert
             Exception exception = Assert.ThrowsAny<Exception>(act);
             Assert.Equal("No more candles. Reduce the number of candles in the request", exception.Message);
@@ -184,7 +184,7 @@ namespace DataCollector.Tests
             //arrange
             DateTime dateTime = DateTime.Now.AddDays(-50000);
             //act
-            void act() => GetCandles(CandleInterval.Day, dateTime);
+            void act() => GetCandles(CandleInterval.Day, dateTime).GetAwaiter().GetResult();
             //assert
             Exception exception = Assert.ThrowsAny<Exception>(act);
             Assert.Equal("No more candles. Reduce the number of candles in the request", exception.Message);
@@ -197,7 +197,7 @@ namespace DataCollector.Tests
             //arrange
             int candleCount = 50000;
             //act
-            void act() => GetCandles(CandleInterval.Week, candleCount);
+            void act() => GetCandles(CandleInterval.Week, candleCount).GetAwaiter().GetResult();
             //assert
             Exception exception = Assert.ThrowsAny<Exception>(act);
             Assert.Equal("No more candles. Reduce the number of candles in the request", exception.Message);
@@ -209,7 +209,7 @@ namespace DataCollector.Tests
             //arrange
             DateTime dateTime = DateTime.Now.AddDays(-100000);
             //act
-            void act() => GetCandles(CandleInterval.Week, dateTime);
+            void act() => GetCandles(CandleInterval.Week, dateTime).GetAwaiter().GetResult();
             //assert
             Exception exception = Assert.ThrowsAny<Exception>(act);
             Assert.Equal("No more candles. Reduce the number of candles in the request", exception.Message);
@@ -221,7 +221,7 @@ namespace DataCollector.Tests
             //arrange
             int candleCount = 500000;
             //act
-            void act() => GetCandles(CandleInterval.Month, candleCount);
+            void act() => GetCandles(CandleInterval.Month, candleCount).GetAwaiter().GetResult();
             //assert
             Exception exception = Assert.ThrowsAny<Exception>(act);
             Assert.Equal("No more candles. Reduce the number of candles in the request", exception.Message);
@@ -233,7 +233,7 @@ namespace DataCollector.Tests
             //arrange
             DateTime dateTime = DateTime.Now.AddDays(-181000);
             //act
-            void act() => GetCandles(CandleInterval.Month, dateTime);
+            void act() => GetCandles(CandleInterval.Month, dateTime).GetAwaiter().GetResult();
             //assert
             Exception exception =  Assert.ThrowsAny<Exception>(act);
             Assert.Equal("No more candles. Reduce the number of candles in the request", exception.Message);
