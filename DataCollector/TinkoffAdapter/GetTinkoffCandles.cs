@@ -56,7 +56,7 @@ namespace DataCollector.TinkoffAdapter
             ///Максимально допустимое кол-во холостых циклов while подряд.
             int notTradeDayLimit = 1;
             ///Кол-во дней 
-            int daysInterval = default;
+            TimeSpan timeSpan = default;
 
             if (interval == CandleInterval.Minute
                 || interval == CandleInterval.TwoMinutes
@@ -67,27 +67,27 @@ namespace DataCollector.TinkoffAdapter
                 || interval == CandleInterval.HalfHour)
             {
                 ///Максимально допустимый интервал за один запрос в Tinkoff
-                daysInterval = 1;
+                timeSpan = TimeSpan.FromHours(23);
                 notTradeDayLimit = 7;
             }
             else if (interval == CandleInterval.Hour)
             {
-                daysInterval = 7;  
+                timeSpan = TimeSpan.FromDays(6);
             }
             else if (interval == CandleInterval.Day)
             {
-                daysInterval = 365;
+                timeSpan = TimeSpan.FromDays(364);
             }
             else if (interval == CandleInterval.Week)
             {
-                daysInterval = 730;
+                timeSpan = TimeSpan.FromDays(720);
             }
             else if (interval == CandleInterval.Month)
             {
-                daysInterval = 3650;
+                timeSpan = TimeSpan.FromDays(3600);
             }
 
-            await GetPayload(date, daysInterval, notTradeDayLimit);
+            await GetPayload(date, timeSpan, notTradeDayLimit);
 
             candlePayloads = (from u in candlePayloads orderby u.Time select u).ToList();
 
@@ -102,10 +102,10 @@ namespace DataCollector.TinkoffAdapter
         /// Набор свечей максимально возможными партиями за один запрос к API до нужного кол-ва.
         /// </summary>
         /// <param name="date"></param>Дата, до которой будет происходить набор. 
-        /// <param name="stepInDays"></param> За какое кол-во дней можно получить максимально возможное кол-во свечей. Ограниечение API tinkoff
+        /// <param name="timeSpan"></param> За какое кол-во дней можно получить максимально возможное кол-во свечей. Ограниечение API tinkoff
         /// <param name="emptyIterationLimit"></param>Максимально допустимое кол-во холостых циклов while подряд.
         /// <returns></returns>
-        async Task GetPayload(DateTime date, int stepInDays, int emptyIterationLimit)
+        async Task GetPayload(DateTime date, TimeSpan timeSpan, int emptyIterationLimit)
         {
             int emptyIteration = default;
             while(
@@ -115,12 +115,13 @@ namespace DataCollector.TinkoffAdapter
                  )
             {
                 List<CandlePayload> candlePayloadsOneIteration = await GetOneSetCandlesAsync(date);
+
                 StopWhile(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
 
                 candlePayloads = candlePayloads.Union(candlePayloadsOneIteration/*, new ComparatorTinkoffCandles()*/).ToList();
                 Log.Information("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
 
-                date = date.AddDays(-stepInDays);
+                date -= timeSpan;
             }
         }
 
@@ -151,37 +152,37 @@ namespace DataCollector.TinkoffAdapter
             switch (interval)
             {
                 case CandleInterval.Minute:
-                    from = dateTo.AddDays(-1);
+                    from = dateTo.AddDays(-1).AddMinutes(1);
                     break;
                 case CandleInterval.TwoMinutes:
-                    from = dateTo.AddDays(-1);
+                    from = dateTo.AddDays(-1).AddMinutes(2);
                     break;
                 case CandleInterval.ThreeMinutes:
-                    from = dateTo.AddDays(-1);
+                    from = dateTo.AddDays(-1).AddMinutes(3);
                     break;
                 case CandleInterval.FiveMinutes:
-                    from = dateTo.AddDays(-1);
+                    from = dateTo.AddDays(-1).AddMinutes(5);
                     break;
                 case CandleInterval.TenMinutes:
-                    from = dateTo.AddDays(-1);
+                    from = dateTo.AddDays(-1).AddMinutes(10);
                     break;
                 case CandleInterval.QuarterHour:
-                    from = dateTo.AddDays(-1);
+                    from = dateTo.AddDays(-1).AddMinutes(15);
                     break;
                 case CandleInterval.HalfHour:
-                    from = dateTo.AddDays(-1);
+                    from = dateTo.AddDays(-1).AddMinutes(30);
                     break;
                 case CandleInterval.Hour:
-                    from = dateTo.AddDays(-7);
+                    from = dateTo.AddDays(-7).AddHours(1);
                     break;
                 case CandleInterval.Day:
-                    from = dateTo.AddYears(-1);
+                    from = dateTo.AddYears(-1).AddDays(1);
                     break;
                 case CandleInterval.Week:
-                    from = dateTo.AddYears(-2);
+                    from = dateTo.AddYears(-2).AddDays(7);
                     break;
                 case CandleInterval.Month:
-                    from = dateTo.AddYears(-10);
+                    from = dateTo.AddYears(-10).AddMonths(1);
                     break;
                 default:
                     break;

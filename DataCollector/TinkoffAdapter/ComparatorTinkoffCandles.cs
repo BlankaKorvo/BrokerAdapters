@@ -1,12 +1,6 @@
 ﻿using Serilog;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tinkoff;
 using Tinkoff.Trading.OpenApi.Models;
-using Tinkoff.Trading.OpenApi.Network;
 
 namespace DataCollector.TinkoffAdapter
 {

@@ -10,7 +10,7 @@ namespace DataCollector.TinkoffAdapter
 {
     class PostLimitOrders
     {
-        public async Task BuyStoksAsyncs(string figi, int quantity, decimal price)
+        public static async Task BuyStoksAsyncs(string figi, int quantity, decimal price)
         {
             Log.Information("Start BuyStoksAsyncs: " + figi);
             if (
@@ -38,7 +38,7 @@ namespace DataCollector.TinkoffAdapter
 
             await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.PlaceLimitOrderAsync(new LimitOrder(figi, quantity, OperationType.Buy, price)));
 
-            using (StreamWriter sw = new StreamWriter("_operation", true, Encoding.Default))
+            using (StreamWriter sw = new("_operation", true, Encoding.Default))
             {
                 sw.WriteLine(DateTime.Now + @" Buy " + figi + " " + " Quantity: " + quantity + " price: " + price + " mzda: " + (price * 0.025m) / 100m);
                 sw.WriteLine();
@@ -47,7 +47,7 @@ namespace DataCollector.TinkoffAdapter
             Log.Information("Stop BuyStoksAsyncs: " + figi);
         }
 
-        public async Task SellStoksAsyncs(string figi, int quantity, decimal price)
+        public static async Task SellStoksAsyncs(string figi, int quantity, decimal price)
         {
             Log.Information("Start SellStoksAsyncs: " + figi);
             if (
@@ -75,7 +75,7 @@ namespace DataCollector.TinkoffAdapter
 
             await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.PlaceLimitOrderAsync(new LimitOrder(figi, quantity, Tinkoff.Trading.OpenApi.Models.OperationType.Sell, price)));
 
-            using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
+            using (StreamWriter sw = new("_operation", true, System.Text.Encoding.Default))
             {
                 sw.WriteLine(DateTime.Now + @" Sell " + figi + " " /*+ instrument.Ticker */+ " Quantity: " +quantity + " price: " + price + " mzda: " + (price * 0.025m) / 100m);
                 sw.WriteLine();

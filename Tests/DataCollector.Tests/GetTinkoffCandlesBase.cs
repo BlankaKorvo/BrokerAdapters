@@ -8,12 +8,12 @@ namespace DataCollector.Tests
     {
         protected static ICandlesList GetCandles(CandleInterval candleInterval, DateTime dateTime)
         {
-            var candles = MarketDataProvider.GetCandlesAsync("BBG000BVPV84", candleInterval, dateTime, Provider.Tinkoff).GetAwaiter().GetResult();
+            var candles = GetMarketData.GetCandlesAsync("BBG000BVPV84", candleInterval, dateTime, Provider.Tinkoff).GetAwaiter().GetResult();
             return candles;
         }
         protected static ICandlesList GetCandles(CandleInterval candleInterval, int candleCount)
         {
-            var candles = MarketDataProvider.GetCandlesAsync("BBG000BVPV84", candleInterval, candleCount, Provider.Tinkoff).GetAwaiter().GetResult();
+            var candles = GetMarketData.GetCandlesAsync("BBG000BVPV84", candleInterval, candleCount, Provider.Tinkoff).GetAwaiter().GetResult();
             return candles;
         }
     }

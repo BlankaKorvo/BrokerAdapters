@@ -4,7 +4,7 @@ using Tinkoff.Trading.OpenApi.Models;
 
 namespace DataCollector.TinkoffAdapter
 {
-    public class GetTinkoffOrderbook
+    internal class GetTinkoffOrderbook
     {
         readonly string figi;
         readonly int depth;

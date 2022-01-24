@@ -1,5 +1,4 @@
 ﻿using Serilog;
-using System;
 using System.IO;
 using Tinkoff.Trading.OpenApi.Network;
 
