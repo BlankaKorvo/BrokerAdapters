@@ -33,7 +33,7 @@ namespace DataCollector.TinkoffAdapter
         }
 
         /// <summary>
-        /// 
+        /// Получение свечей не позже указанной даты.
         /// </summary>
         /// <param name="figi"></param>
         /// <param name="interval"></param>
@@ -91,7 +91,7 @@ namespace DataCollector.TinkoffAdapter
 
             candlePayloads = (from u in candlePayloads orderby u.Time select u).ToList();
 
-            candlePayloads = candlesCount > 0 ? (candlePayloads.Skip((candlePayloads?.Count ?? 0) - candlesCount).ToList()) : candlePayloads;
+            candlePayloads = candlesCount > 0 ? candlePayloads.Skip((candlePayloads?.Count ?? 0) - candlesCount).ToList() : candlePayloads;
 
             CandleList candleList = new(figi, interval, candlePayloads);
             
@@ -108,17 +108,18 @@ namespace DataCollector.TinkoffAdapter
         async Task GetPayload(DateTime date, TimeSpan timeSpan, int emptyIterationLimit)
         {
             int emptyIteration = default;
+
             while(
                     (candlesCount != default && (candlePayloads?.Count ?? 0) < candlesCount)
                     ||
-                    (dateFrom != default && date.CompareTo(dateFrom) >= 0)
+                    (dateFrom != default && date.CompareTo(dateFrom - timeSpan) > 0)
                  )
             {
                 List<CandlePayload> candlePayloadsOneIteration = await GetOneSetCandlesAsync(date);
 
                 StopWhile(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
 
-                candlePayloads = candlePayloads.Union(candlePayloadsOneIteration/*, new ComparatorTinkoffCandles()*/).ToList();
+                candlePayloads = candlePayloads.Union(candlePayloadsOneIteration/*, new ComparatorTinkoffCandles()*/).ToList(); // Дефолтного компаратора, вроде бы хватает при меньших времязатратах.
                 Log.Information("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
 
                 date -= timeSpan;
