@@ -26,7 +26,7 @@ namespace DataCollector
         /// <param name="candlesCount"></param> Кол-во свечей в запрашиваемом временном ряду
         /// <param name="providers"></param> Брокер
         /// <returns></returns>
-        public static async Task<ICandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, int candlesCount, Provider provider)
+        public static async Task<ICandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, int candlesCount, Provider provider = Provider.Tinkoff)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
@@ -42,7 +42,7 @@ namespace DataCollector
         /// <param name="dateFrom"></param> Дата, с которой запрашивается временной ряд (округление в зависимости от длины свечи по размеру максимального сета)
         /// <param name="providers"></param> Брокер
         /// <returns></returns>
-        public static async Task<ICandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, DateTime dateFrom, Provider provider)
+        public static async Task<ICandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, DateTime dateFrom, Provider provider = Provider.Tinkoff)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
@@ -56,7 +56,7 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static async Task<IPortfolio> GetPortfolioAsync(Provider provider)
+        public static async Task<IPortfolio> GetPortfolioAsync(Provider provider = Provider.Tinkoff)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
@@ -71,7 +71,7 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        static public async Task<IInstrument> GetInstrumentByFigiAsync(string figi, Provider provider)
+        static public async Task<IInstrument> GetInstrumentByFigiAsync(string figi, Provider provider = Provider.Tinkoff)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
@@ -86,7 +86,7 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        static public async Task<IInstrument> GetInstrumentByTickerAsync(string ticker, Provider provider)
+        static public async Task<IInstrument> GetInstrumentByTickerAsync(string ticker, Provider provider = Provider.Tinkoff)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
@@ -100,7 +100,7 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        static public async Task<IInstrumentList> GetInstrumentListAsync(Provider provider)
+        static public async Task<IInstrumentList> GetInstrumentListAsync(Provider provider = Provider.Tinkoff)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
@@ -116,7 +116,7 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        static public async Task<IOrderbook> GetOrderbookAsync(string figi, int depth, Provider provider)
+        static public async Task<IOrderbook> GetOrderbookAsync(string figi, int depth, Provider provider = Provider.Tinkoff)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
