@@ -269,6 +269,7 @@ namespace DataCollector
         {
             Tinkoff.Trading.OpenApi.Models.CandleList tinkoffCandles = await new GetTinkoffCandles(figi, (Tinkoff.Trading.OpenApi.Models.CandleInterval)candleInterval, dateTime).GetCandlesTinkoffAsync();
             CandlesList candlesList = TinkoffCandlesMapper(tinkoffCandles);
+            Log.Information($"Return {candlesList.Candles.Count} GetTinkoffCandles");
             return candlesList;
         }
 

@@ -149,6 +149,7 @@ namespace DataCollector.TinkoffAdapter
         /// <returns></returns>
         async Task<List<CandlePayload>> GetOneSetCandlesAsync(DateTime dateTo)
         {
+            Log.Debug("Start GetOneSetCandlesAsync");
             DateTime from = default;
             switch (interval)
             {
@@ -194,7 +195,7 @@ namespace DataCollector.TinkoffAdapter
                 (async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync
                 (async () => await Authorisation.Context.MarketCandlesAsync(figi, from, dateTo, interval)));
 
-            Log.Information("Return {0} candles by figi {1}. Interval = {2}. Date interval = {3} - {4}", candle.Candles.Count, figi, interval, from, dateTo);
+            Log.Debug($"Return {candle.Candles.Count} candles by figi {figi}. Interval = {interval}. Date interval = {from} - {dateTo}");
             return candle.Candles;
         }
     }
