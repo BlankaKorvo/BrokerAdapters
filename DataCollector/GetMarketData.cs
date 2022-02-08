@@ -126,8 +126,6 @@ namespace DataCollector
 
 
 
-
-
         /// <summary>
         /// Получение инструмента по идентификатору FIGI от tinkoff
         /// </summary>

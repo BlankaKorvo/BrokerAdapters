@@ -119,7 +119,7 @@ namespace DataCollector.TinkoffAdapter
 
                 StopWhile(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
 
-                candlePayloads = candlePayloads.Union(candlePayloadsOneIteration/*, new ComparatorTinkoffCandles()*/).ToList(); // Дефолтного компаратора, вроде бы хватает при меньших времязатратах.
+                candlePayloads = candlePayloads.Union(candlePayloadsOneIteration, new ComparatorTinkoffCandles()).ToList(); // Дефолтный компаратор НЕ РАБОТАЕТ!!!
                 Log.Information("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
 
                 date -= timeSpan;
