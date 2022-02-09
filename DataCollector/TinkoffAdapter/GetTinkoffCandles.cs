@@ -119,7 +119,7 @@ namespace DataCollector.TinkoffAdapter
 
                 StopWhile(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
 
-                candlePayloads = candlePayloads.Union(candlePayloadsOneIteration, new ComparatorTinkoffCandles()).ToList(); // Дефолтный компаратор НЕ РАБОТАЕТ!!!
+                candlePayloads = candlePayloads.Union(candlePayloadsOneIteration, new ComparatorTinkoffCandles()).ToList(); // Дефолтный компаратор НЕ РАБОТАЕТ c классами тинькофф!!!
                 Log.Information("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
 
                 date -= timeSpan;
@@ -195,7 +195,7 @@ namespace DataCollector.TinkoffAdapter
                 (async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync
                 (async () => await Authorisation.Context.MarketCandlesAsync(figi, from, dateTo, interval)));
 
-            Log.Debug($"Return {candle.Candles.Count} candles by figi {figi}. Interval = {interval}. Date interval = {from} - {dateTo}");
+            Log.Debug($"Return {candle?.Candles.Count} candles by figi {figi}. Interval = {interval}. Date interval = {from} - {dateTo}");
             return candle.Candles;
         }
     }
