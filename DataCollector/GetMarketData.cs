@@ -31,7 +31,8 @@ namespace DataCollector
             {
                 Provider.Finam => throw new NotImplementedException(),
                 Provider.Alor => throw new NotImplementedException(),
-                _ => await GetTinkoffCandles(figi, candleInterval, candlesCount)
+                Provider.Tinkoff => await GetTinkoffCandles(figi, candleInterval, candlesCount),
+                _ => throw new NotImplementedException()
             };
 
         /// <summary>
@@ -47,7 +48,8 @@ namespace DataCollector
             {
                 Provider.Finam => throw new NotImplementedException(),
                 Provider.Alor => throw new NotImplementedException(),
-                _ => await GetTinkoffCandles(figi, candleInterval, dateFrom)
+                Provider.Tinkoff => await GetTinkoffCandles(figi, candleInterval, dateFrom),
+                _ => throw new NotImplementedException()
             };
 
         /// <summary>
@@ -61,7 +63,8 @@ namespace DataCollector
             {
                 Provider.Finam => throw new NotImplementedException(),
                 Provider.Alor => throw new NotImplementedException(),
-                _ => await GetTinkoffPortfolioAsync()
+                Provider.Tinkoff => await GetTinkoffPortfolioAsync(),
+                _ => throw new NotImplementedException()
             };
 
         /// <summary>
@@ -76,7 +79,8 @@ namespace DataCollector
             {
                 Provider.Finam => throw new NotImplementedException(),
                 Provider.Alor => throw new NotImplementedException(),
-                _ => await GetTinkoffInstrumentByFigiAsync(figi)
+                Provider.Tinkoff => await GetTinkoffInstrumentByFigiAsync(figi),
+                _ => throw new NotImplementedException()
             };
 
         /// <summary>
@@ -91,7 +95,8 @@ namespace DataCollector
             {
                 Provider.Finam => throw new NotImplementedException(),
                 Provider.Alor => throw new NotImplementedException(),
-                _ => await GetTinkoffInstrumentByTickerAsync(ticker)
+                Provider.Tinkoff => await GetTinkoffInstrumentByTickerAsync(ticker),
+                _ => throw new NotImplementedException()
             };
 
         /// <summary>
@@ -105,7 +110,8 @@ namespace DataCollector
             {
                 Provider.Finam => throw new NotImplementedException(),
                 Provider.Alor => throw new NotImplementedException(),
-                _ => await GetTinkoffInstrumentListAsync()
+                Provider.Tinkoff => await GetTinkoffInstrumentListAsync(),
+                _ => throw new NotImplementedException()
             };
 
         /// <summary>
@@ -121,7 +127,8 @@ namespace DataCollector
             {
                 Provider.Finam => throw new NotImplementedException(),
                 Provider.Alor => throw new NotImplementedException(),
-                _ => await GetTinkoffOrderbookAsync(figi, depth)
+                Provider.Tinkoff => await GetTinkoffOrderbookAsync(figi, depth),
+                _ => throw new NotImplementedException()
             };
 
 
@@ -210,14 +217,14 @@ namespace DataCollector
 
                     positions.Add(position);
                 }
-                else
-                {
-                    MoneyAmount ExpectedYield = null;
-                    MoneyAmount AveragePositionPrice = null;
-                    MoneyAmount AveragePositionPriceNoNkd = null;
-                    Portfolio.Position position = new(name, figi, ticker, isin, instrumentType, balance, blocked, ExpectedYield, lots, AveragePositionPrice, AveragePositionPriceNoNkd);
-                    positions.Add(position);
-                }
+                //else
+                //{
+                //    MoneyAmount ExpectedYield = null;
+                //    MoneyAmount AveragePositionPrice = null;
+                //    MoneyAmount AveragePositionPriceNoNkd = null;
+                //    Portfolio.Position position = new(name, figi, ticker, isin, instrumentType, balance, blocked, ExpectedYield, lots, AveragePositionPrice, AveragePositionPriceNoNkd);
+                //    positions.Add(position);
+                //}
             }
             Portfolio portfolio = new(positions);
             return portfolio;
