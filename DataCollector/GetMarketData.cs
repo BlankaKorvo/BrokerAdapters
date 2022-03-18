@@ -26,7 +26,7 @@ namespace DataCollector
         /// <param name="candlesCount"></param> Кол-во свечей в запрашиваемом временном ряду
         /// <param name="providers"></param> Брокер
         /// <returns></returns>
-        public static async Task<ICandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, int candlesCount, Provider provider = Provider.Tinkoff)
+        public static async Task<CandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, int candlesCount, Provider provider = Provider.Tinkoff)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
@@ -43,7 +43,7 @@ namespace DataCollector
         /// <param name="dateFrom"></param> Дата, с которой запрашивается временной ряд (округление в зависимости от длины свечи по размеру максимального сета)
         /// <param name="providers"></param> Брокер
         /// <returns></returns>
-        public static async Task<ICandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, DateTime dateFrom, Provider provider = Provider.Tinkoff)
+        public static async Task<CandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, DateTime dateFrom, Provider provider = Provider.Tinkoff)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
