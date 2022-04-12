@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{068C72ED-567E-4FD3-8CB7-D7E63AEEF0C1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCollector", "DataCollector\DataCollector.csproj", "{BE8C78AA-F7D9-4329-984C-B314AD7CE487}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trader(NotImplemented)", "Trader\Trader(NotImplemented).csproj", "{A98E504C-044A-43C7-A26F-0ADB4E494047}"
@@ -38,9 +36,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{E4CC741D-4379-4412-AC2A-BDA0F77B1FBC} = {068C72ED-567E-4FD3-8CB7-D7E63AEEF0C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {680FF20C-9A2A-4473-9843-12EE75F0567C}

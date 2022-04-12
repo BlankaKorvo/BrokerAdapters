@@ -18,7 +18,7 @@ namespace DataCollector.Tests
             int candleCount = 1441;
 
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.Minute, candleCount);
+            CandlesList testData = await GetCandles(CandleInterval.Minute, candleCount);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Minute);
 
             //assert
@@ -33,7 +33,7 @@ namespace DataCollector.Tests
             int candleCount = 1441 * 100;
 
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.Minute, candleCount);
+            CandlesList testData = await GetCandles(CandleInterval.Minute, candleCount);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Minute);
             var distinctTestData = testData.Candles.Distinct().ToList();
 
@@ -49,7 +49,7 @@ namespace DataCollector.Tests
             //arrange
             DateTime dateTime = DateTime.Now.AddDays(-8);
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.Minute, dateTime);
+            CandlesList testData = await GetCandles(CandleInterval.Minute, dateTime);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Minute);
             //assert
             Assert.True(DateTime.Compare(testData.Candles.FirstOrDefault().Time, dateTime) < 0);
@@ -62,7 +62,7 @@ namespace DataCollector.Tests
             //arrange
             int candleCount = 721;
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.TwoMinutes, candleCount);
+            CandlesList testData = await GetCandles(CandleInterval.TwoMinutes, candleCount);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.TwoMinutes);
             //assert
             Assert.Equal(candleCount, testData.Candles.Distinct().Count());
@@ -75,7 +75,7 @@ namespace DataCollector.Tests
             //arrange
             DateTime dateTime = DateTime.Now.AddDays(-8);
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.TwoMinutes, dateTime);
+            CandlesList testData = await GetCandles(CandleInterval.TwoMinutes, dateTime);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.TwoMinutes);
             //assert
             Assert.True(DateTime.Compare(testData.Candles.FirstOrDefault().Time, dateTime) < 0);
@@ -88,7 +88,7 @@ namespace DataCollector.Tests
             //arrange
             int candleCount = 481;
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.ThreeMinutes, candleCount);
+            CandlesList testData = await GetCandles(CandleInterval.ThreeMinutes, candleCount);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.ThreeMinutes);
             //assert
             Assert.Equal(candleCount, testData.Candles.Distinct().Count());
@@ -101,7 +101,7 @@ namespace DataCollector.Tests
             //arrange
             DateTime dateTime = DateTime.Now.AddDays(-8);
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.ThreeMinutes, dateTime);
+            CandlesList testData = await GetCandles(CandleInterval.ThreeMinutes, dateTime);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.ThreeMinutes);
             //assert
             Assert.True(DateTime.Compare(testData.Candles.FirstOrDefault().Time, dateTime) < 0);
@@ -114,7 +114,7 @@ namespace DataCollector.Tests
             //arrange
             int candleCount = 289;
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.FiveMinutes, candleCount);
+            CandlesList testData = await GetCandles(CandleInterval.FiveMinutes, candleCount);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.FiveMinutes);
             //assert
             Assert.Equal(candleCount, testData.Candles.Distinct().Count());
@@ -127,7 +127,7 @@ namespace DataCollector.Tests
             //arrange
             int candleCount = 289 * 100;
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.FiveMinutes, candleCount);
+            CandlesList testData = await GetCandles(CandleInterval.FiveMinutes, candleCount);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.FiveMinutes);
             var distinctTestData = testData.Candles.Distinct().ToList();
             //assert
@@ -142,7 +142,7 @@ namespace DataCollector.Tests
             //arrange
             DateTime dateTime = DateTime.Now.AddDays(-16);
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.FiveMinutes, dateTime);
+            CandlesList testData = await GetCandles(CandleInterval.FiveMinutes, dateTime);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.FiveMinutes);
             //assert
             Assert.True(DateTime.Compare(testData.Candles.FirstOrDefault().Time, dateTime) < 0);
@@ -155,7 +155,7 @@ namespace DataCollector.Tests
             //arrange
             int candleCount = 145;
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.TenMinutes, candleCount);
+            CandlesList testData = await GetCandles(CandleInterval.TenMinutes, candleCount);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.TenMinutes);
             //assert
             Assert.Equal(candleCount, testData.Candles.Distinct().Count());
@@ -168,7 +168,7 @@ namespace DataCollector.Tests
             //arrange
             DateTime dateTime = DateTime.Now.AddDays(-8);
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.TenMinutes, dateTime);
+            CandlesList testData = await GetCandles(CandleInterval.TenMinutes, dateTime);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.TenMinutes);
             //assert
             Assert.True(DateTime.Compare(testData.Candles.FirstOrDefault().Time, dateTime) < 0);
@@ -181,7 +181,7 @@ namespace DataCollector.Tests
             //arrange
             int candleCount = 97;
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.QuarterHour, candleCount);
+            CandlesList testData = await GetCandles(CandleInterval.QuarterHour, candleCount);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.QuarterHour);
             //assert
             Assert.Equal(candleCount, testData.Candles.Distinct().Count());
@@ -194,7 +194,7 @@ namespace DataCollector.Tests
             //arrange
             DateTime dateTime = DateTime.Now.AddDays(-8);
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.QuarterHour, dateTime);
+            CandlesList testData = await GetCandles(CandleInterval.QuarterHour, dateTime);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.QuarterHour);
             //assert
             Assert.True(DateTime.Compare(testData.Candles.FirstOrDefault().Time, dateTime) < 0);
@@ -207,7 +207,7 @@ namespace DataCollector.Tests
             //arrange
             int candleCount = 169;
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.Hour, candleCount);
+            CandlesList testData = await GetCandles(CandleInterval.Hour, candleCount);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Hour);
             //assert
             Assert.Equal(candleCount, testData.Candles.Distinct().Count());
@@ -220,7 +220,7 @@ namespace DataCollector.Tests
             //arrange
             DateTime dateTime = DateTime.Now.AddDays(-15);
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.Hour, dateTime);
+            CandlesList testData = await GetCandles(CandleInterval.Hour, dateTime);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Hour);
             //assert
             Assert.True(DateTime.Compare(testData.Candles.FirstOrDefault().Time, dateTime) < 0);
@@ -233,7 +233,7 @@ namespace DataCollector.Tests
             //arrange
             int candleCount = 366;
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.Day, candleCount);
+            CandlesList testData = await GetCandles(CandleInterval.Day, candleCount);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Day);
             //assert
             Assert.Equal(candleCount, testData.Candles.Distinct().Count());
@@ -246,7 +246,7 @@ namespace DataCollector.Tests
             //arrange
             DateTime dateTime = DateTime.Now.AddDays(-374);
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.Day, dateTime);
+            CandlesList testData = await GetCandles(CandleInterval.Day, dateTime);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Day);
             //assert
             Assert.True(DateTime.Compare(testData.Candles.FirstOrDefault().Time, dateTime) < 0);
@@ -260,7 +260,7 @@ namespace DataCollector.Tests
             int candleCount = 106;
             List<TimeSpan> timeSpanList = new();
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.Week, candleCount);
+            CandlesList testData = await GetCandles(CandleInterval.Week, candleCount);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Week);
             //assert
             for (int i = 1; i < testData.Candles.Count; i++)
@@ -280,7 +280,7 @@ namespace DataCollector.Tests
             DateTime dateTime = DateTime.Now.AddDays(-735);
             List<TimeSpan> timeSpanList = new();
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.Week, dateTime);
+            CandlesList testData = await GetCandles(CandleInterval.Week, dateTime);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Week);
             //assert
             for (int i = 1; i < testData.Candles.Count; i++)
@@ -300,7 +300,7 @@ namespace DataCollector.Tests
             int candleCount = 121;
             List<TimeSpan> timeSpanList = new();
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.Month, candleCount);
+            CandlesList testData = await GetCandles(CandleInterval.Month, candleCount);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Month);
             //assert
             for (int i = 1; i < testData.Candles.Count; i++)
@@ -325,7 +325,7 @@ namespace DataCollector.Tests
             DateTime dateTime = DateTime.Now.AddDays(-3653);
             List<TimeSpan> timeSpanList = new();
             //act
-            ICandlesList testData = await GetCandles(CandleInterval.Month, dateTime);
+            CandlesList testData = await GetCandles(CandleInterval.Month, dateTime);
             Tinkoff.Trading.OpenApi.Models.CandleList realData = await GetRealCandles(Tinkoff.Trading.OpenApi.Models.CandleInterval.Month);
             //assert
             for (int i = 1; i < testData.Candles.Count; i++)

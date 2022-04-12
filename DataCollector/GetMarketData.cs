@@ -122,7 +122,7 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        static public async Task<IOrderbook> GetOrderbookAsync(string figi, int depth, Provider provider = Provider.Tinkoff)
+        static public async Task<Orderbook> GetOrderbookAsync(string figi, int depth, Provider provider = Provider.Tinkoff)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),

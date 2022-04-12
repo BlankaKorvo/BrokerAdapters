@@ -11,7 +11,7 @@ namespace DataCollector.Tests
         string figi = "BBG000BVPV84";
         DateTime dateFrom = DateTime.Now;
 
-        protected async Task<ICandlesList> GetCandles(CandleInterval candleInterval, DateTime dateTime)
+        protected async Task<CandlesList> GetCandles(CandleInterval candleInterval, DateTime dateTime)
         {
             var candles = await GetMarketData.GetCandlesAsync(figi, candleInterval, dateTime, Provider.Tinkoff);
             return candles;
@@ -31,7 +31,7 @@ namespace DataCollector.Tests
                             await TinkoffAdapter.Authorisation.Context.MarketCandlesAsync(figi, dateFrom, DateTime.Now, candleInterval)));
         }
 
-        protected async Task<ICandlesList> GetCandles(CandleInterval candleInterval, int candleCount)
+        protected async Task<CandlesList> GetCandles(CandleInterval candleInterval, int candleCount)
         {
             var candles = await GetMarketData.GetCandlesAsync("BBG000BVPV84", candleInterval, candleCount, Provider.Tinkoff);
             return candles;
