@@ -240,8 +240,8 @@ namespace DataCollector
         {
             Tinkoff.Trading.OpenApi.Models.Orderbook tinOrderbook = await new GetTinkoffOrderbook(figi, depth).GetOrderbookAsync();
 
-            List<OrderbookEntry> bids = new(tinOrderbook?.Bids.Select(x => new OrderbookEntry(x.Quantity, x.Price)));
-            List<OrderbookEntry> asks = new(tinOrderbook?.Asks.Select(x => new OrderbookEntry(x.Quantity, x.Price)));
+            List<OrderbookEntry> bids = new(tinOrderbook?.Bids.Select(x => new OrderbookEntry(x.Quantity, x.Price)).OrderByDescending(p => p.Price));
+            List<OrderbookEntry> asks = new(tinOrderbook?.Asks.Select(x => new OrderbookEntry(x.Quantity, x.Price)).OrderBy(p => p.Price));
             TradeStatus tradeStatus = (TradeStatus)tinOrderbook.TradeStatus;
             Orderbook orderbook =
                 new(tinOrderbook.Depth, bids, asks, tinOrderbook.Figi, tradeStatus, tinOrderbook.MinPriceIncrement, tinOrderbook.FaceValue,
