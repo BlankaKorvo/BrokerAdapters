@@ -120,7 +120,7 @@ namespace DataCollector.TinkoffAdapter
                 StopWhile(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
 
                 candlePayloads = candlePayloads.Union(candlePayloadsOneIteration, new ComparatorTinkoffCandles()).ToList(); // Дефолтный компаратор НЕ РАБОТАЕТ c классами тинькофф!!!
-                Log.Information("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
+                Log.Debug("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
 
                 date -= timeSpan;
             }
@@ -189,7 +189,7 @@ namespace DataCollector.TinkoffAdapter
                 default:
                     break;
             }
-            Log.Information("Time periods for candles with figi: {0} from {1} to {2}", figi, from, dateTo);
+            Log.Debug("Time periods for candles with figi: {0} from {1} to {2}", figi, from, dateTo);
 
             CandleList candle = await PollyRetrayPolitics.Retry().ExecuteAsync
                 (async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync

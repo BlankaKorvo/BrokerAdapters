@@ -30,11 +30,10 @@ namespace DataCollector.TinkoffAdapter
         /// <returns></returns>
         static Context GetSanboxContext()
         {
-            Log.Information("Start GetSanboxContext");
             string token = File.ReadAllLines("toksan.dll")[0].Trim();
             var connection = ConnectionFactory.GetSandboxConnection(token);
             var context = connection.Context;
-            Log.Information("Stop GetSanboxContext");
+            Log.Information("GetSanboxContext");
             return context;
         }
 
@@ -44,11 +43,10 @@ namespace DataCollector.TinkoffAdapter
         /// <returns></returns>
         static Context GetContext()
         {
-            Log.Information("Start GetContext");
             string token = File.ReadAllLines("tokst.dll")[0].Trim();
             var connection = ConnectionFactory.GetConnection(token);
             var context = connection.Context;
-            Log.Information("Stop GetContext");
+            Log.Information("GetSanboxContext");
             return context;
         }
         //public static void RemoveInstance()

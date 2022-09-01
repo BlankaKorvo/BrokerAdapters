@@ -26,14 +26,25 @@ namespace DataCollector
         /// <param name="candlesCount"></param> Кол-во свечей в запрашиваемом временном ряду
         /// <param name="providers"></param> Брокер
         /// <returns></returns>
-        public static async Task<CandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, int candlesCount, Provider provider = Provider.Tinkoff)
-            => provider switch
+        public static async Task<CandlesList> GetCandlesAsync
+            (string figi, CandleInterval candleInterval, int candlesCount, 
+            Provider provider = Provider.Tinkoff)
+        {
+            switch (provider)
             {
-                Provider.Finam => throw new NotImplementedException(),
-                Provider.Alor => throw new NotImplementedException(),
-                Provider.Tinkoff => await GetTinkoffCandles(figi, candleInterval, candlesCount),
-                _ => throw new NotImplementedException()
-            };
+                case Provider.Tinkoff:
+                    Log.Information($"GetCandlesAsync. figi: {figi} candleInterval:" +
+                        $" {candleInterval} candlesCount: {candlesCount} provider: {provider}");
+                    return await GetTinkoffCandles(figi, candleInterval, candlesCount);
+                case Provider.Alor:
+                    throw new NotImplementedException();
+                case Provider.Finam:
+                    throw new NotImplementedException();
+                default: 
+                    throw new NotImplementedException();
+            }
+        }
+
 
         /// <summary>
         /// Получение свечей не позже определенной даты
@@ -43,14 +54,31 @@ namespace DataCollector
         /// <param name="dateFrom"></param> Дата, с которой запрашивается временной ряд (округление в зависимости от длины свечи по размеру максимального сета)
         /// <param name="providers"></param> Брокер
         /// <returns></returns>
-        public static async Task<CandlesList> GetCandlesAsync(string figi, CandleInterval candleInterval, DateTime dateFrom, Provider provider = Provider.Tinkoff)
-            => provider switch
+        public static async Task<CandlesList> GetCandlesAsync
+            (string figi, CandleInterval candleInterval,
+            DateTime dateFrom, Provider provider = Provider.Tinkoff)
+        {
+            switch (provider)
             {
-                Provider.Finam => throw new NotImplementedException(),
-                Provider.Alor => throw new NotImplementedException(),
-                Provider.Tinkoff => await GetTinkoffCandles(figi, candleInterval, dateFrom),
-                _ => throw new NotImplementedException()
-            };
+                case Provider.Tinkoff:
+                    Log.Information($"GetCandlesAsync. figi: {figi} candleInterval:" +
+                        $" {candleInterval} dateFrom: {dateFrom} provider: {provider}");
+                    return await GetTinkoffCandles(figi, candleInterval, dateFrom);
+                case Provider.Alor:
+                    throw new NotImplementedException();
+                case Provider.Finam:
+                    throw new NotImplementedException();
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        //=> provider switch
+        //{
+        //    Provider.Finam => throw new NotImplementedException(),
+        //    Provider.Alor => throw new NotImplementedException(),
+        //    Provider.Tinkoff => await GetTinkoffCandles(figi, candleInterval, dateFrom),
+        //    _ => throw new NotImplementedException()
+        //};
 
         /// <summary>
         /// Получение портфолио
