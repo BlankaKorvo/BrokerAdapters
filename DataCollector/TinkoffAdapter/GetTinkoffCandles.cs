@@ -116,8 +116,11 @@ namespace DataCollector.TinkoffAdapter
                  )
             {
                 List<CandlePayload> candlePayloadsOneIteration = await GetOneSetCandlesAsync(date);
-
                 StopWhile(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
+                if (candlePayloadsOneIteration == null || candlePayloadsOneIteration.Count == 0)
+                {
+                    continue;
+                }
 
                 candlePayloads = candlePayloads.Union(candlePayloadsOneIteration, new ComparatorTinkoffCandles()).ToList(); // Дефолтный компаратор НЕ РАБОТАЕТ c классами тинькофф!!!
                 Log.Debug("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
@@ -190,13 +193,21 @@ namespace DataCollector.TinkoffAdapter
                     break;
             }
             Log.Debug("Time periods for candles with figi: {0} from {1} to {2}", figi, from, dateTo);
-
-            CandleList candle = await PollyRetrayPolitics.Retry().ExecuteAsync
-                (async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync
-                (async () => await Authorisation.Context.MarketCandlesAsync(figi, from, dateTo, interval)));
-
-            Log.Debug($"Return {candle?.Candles.Count} candles by figi {figi}. Interval = {interval}. Date interval = {from} - {dateTo}");
-            return candle.Candles;
+            try
+            {
+                CandleList candle = await PollyRetrayPolitics.Retry().ExecuteAsync
+                    (async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync
+                    (async () => await Authorisation.Context.MarketCandlesAsync(figi, from, dateTo, interval)));
+                Log.Debug($"Return {candle?.Candles.Count} candles by figi {figi}. Interval = {interval}. Date interval = {from} - {dateTo}");
+                return candle.Candles;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
+                Log.Error($"Return null candles by figi {figi}. Interval = {interval}. Date interval = {from} - {dateTo}");
+                return null;
+            }
         }
     }
 }
