@@ -284,7 +284,7 @@ namespace DataCollector
         /// <param name="candleInterval"></param> Длина одной свечи
         /// <param name="candlesCount"></param> Кол-во свечей в запрашиваемом временном ряду
         /// <returns></returns>
-        static async Task<CandlesList> GetTinkoffCandles(string figi, CandleInterval candleInterval, int candlesCount)
+        static async Task<CandlesList?> GetTinkoffCandles(string figi, CandleInterval candleInterval, int candlesCount)
         {
             Tinkoff.Trading.OpenApi.Models.CandleList tinkoffCandles = await new GetTinkoffCandles(figi, (Tinkoff.Trading.OpenApi.Models.CandleInterval)candleInterval, candlesCount).GetCandlesTinkoffAsync();
             CandlesList candlesList = TinkoffCandlesMapper(tinkoffCandles);
