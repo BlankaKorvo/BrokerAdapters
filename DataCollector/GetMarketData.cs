@@ -86,7 +86,7 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static async Task<IPortfolio> GetPortfolioAsync(Provider provider = Provider.Tinkoff)
+        public static async Task<Portfolio> GetPortfolioAsync(Provider provider = Provider.Tinkoff)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
@@ -102,7 +102,7 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        static public async Task<IInstrument> GetInstrumentByFigiAsync(string figi, Provider provider = Provider.Tinkoff)
+        static public async Task<Instrument> GetInstrumentByFigiAsync(string figi, Provider provider = Provider.Tinkoff)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
@@ -133,7 +133,7 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        static public async Task<IInstrumentList> GetInstrumentListAsync(Provider provider = Provider.Tinkoff)
+        static public async Task<InstrumentList> GetInstrumentListAsync(Provider provider = Provider.Tinkoff)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
