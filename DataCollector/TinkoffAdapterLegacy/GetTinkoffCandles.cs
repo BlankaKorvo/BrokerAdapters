@@ -10,7 +10,7 @@ using Tinkoff.InvestApi;
 //using Tinkoff.Trading.OpenApi.Models;
 using Tinkoff.InvestApi.V1;
 
-namespace DataCollector.TinkoffAdapter
+namespace DataCollector.TinkoffAdapterLegacy
 {
     public class GetTinkoffCandles
     {
@@ -23,6 +23,7 @@ namespace DataCollector.TinkoffAdapter
         /// Заполняемый список в методе GetCandlesTinkoffAsync
         /// </summary>
         private List<Tinkoff.Trading.OpenApi.Models.CandlePayload> candlePayloads = new();
+        private List<HistoricCandle> historicCandles = new();
 
         /// <summary>
         /// Получение опредленного кол-ва свечей.
@@ -180,35 +181,36 @@ namespace DataCollector.TinkoffAdapter
                     continue;
                 }
 
-                candlePayloads = candlePayloads.Union(candlePayloadsOneIteration, new ComparatorTinkoffCandles()).ToList(); // Дефолтный компаратор НЕ РАБОТАЕТ c классами тинькофф!!!
+                candlePayloads = candlePayloads.Union(candlePayloadsOneIteration, new ComparatorTinkoffCandlesLegasy()).ToList(); // Дефолтный компаратор НЕ РАБОТАЕТ c классами тинькофф!!!
                 Log.Debug("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
 
                 date -= timeSpan;
             }
         }
 
+
         async Task GetPayload(DateTime date, TimeSpan timeSpan, int emptyIterationLimit)
         {
-            //int emptyIteration = default;
+            int emptyIteration = default;
 
-            //while (
-            //        (candlesCount != default && (candlePayloads?.Count ?? 0) < candlesCount)
-            //        ||
-            //        (dateFrom != default && date.CompareTo(dateFrom - timeSpan) > 0)
-            //     )
-            //{
-            //    List<Tinkoff.Trading.OpenApi.Models.CandlePayload> candlePayloadsOneIteration = await GetOneSetCandlesLegasyAsync(date);
-            //    StopWhile(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
-            //    if (candlePayloadsOneIteration == null || candlePayloadsOneIteration.Count == 0)
-            //    {
-            //        continue;
-            //    }
+            while (
+                    (candlesCount != default && (historicCandles?.Count ?? 0) < candlesCount)
+                    ||
+                    (dateFrom != default && date.CompareTo(dateFrom - timeSpan) > 0)
+                 )
+            {
+                List<HistoricCandle> candlePayloadsOneIteration = await GetOneSetCandlesAsync(date);
+                StopWhile(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
+                if (candlePayloadsOneIteration == null || candlePayloadsOneIteration.Count == 0)
+                {
+                    continue;
+                }
 
-            //    candlePayloads = candlePayloads.Union(candlePayloadsOneIteration, new ComparatorTinkoffCandles()).ToList(); // Дефолтный компаратор НЕ РАБОТАЕТ c классами тинькофф!!!
-            //    Log.Debug("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
+                historicCandles = historicCandles.Union(candlePayloadsOneIteration, new ComparatorTinkoffCandles()).ToList(); // Дефолтный компаратор НЕ РАБОТАЕТ c классами тинькофф!!!
+                Log.Debug("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
 
-            //    date -= timeSpan;
-            //}
+                date -= timeSpan;
+            }
         }
 
         /// <summary>

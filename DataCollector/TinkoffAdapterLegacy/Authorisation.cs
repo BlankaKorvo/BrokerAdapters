@@ -3,7 +3,7 @@ using Serilog;
 using System.IO;
 using Tinkoff.Trading.OpenApi.Network;
 
-namespace DataCollector.TinkoffAdapter
+namespace DataCollector.TinkoffAdapterLegacy
 {
     public static class Authorisation
     {
@@ -33,7 +33,7 @@ namespace DataCollector.TinkoffAdapter
             string token = File.ReadAllLines("toksan.dll")[0].Trim();
             var connection = ConnectionFactory.GetSandboxConnection(token);
             var context = connection.Context;
-            Log.Information("GetSanboxContext");
+            Log.Information("GetGrpcClient");
             return context;
         }
 
@@ -46,7 +46,7 @@ namespace DataCollector.TinkoffAdapter
             string token = File.ReadAllLines("tokst.dll")[0].Trim();
             var connection = ConnectionFactory.GetConnection(token);
             var context = connection.Context;
-            Log.Information("GetSanboxContext");
+            Log.Information("GetGrpcClient");
             return context;
         }
         //public static void RemoveInstance()

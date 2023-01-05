@@ -1,4 +1,4 @@
-﻿using DataCollector.TinkoffAdapter;
+﻿using DataCollector.TinkoffAdapterLegacy;
 using MarketDataModules;
 using MarketDataModules.Candles;
 using MarketDataModules.Instruments;

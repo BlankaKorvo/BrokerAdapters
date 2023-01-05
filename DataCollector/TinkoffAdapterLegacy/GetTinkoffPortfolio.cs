@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Tinkoff.Trading.OpenApi.Models;
 
-namespace DataCollector.TinkoffAdapter
+namespace DataCollector.TinkoffAdapterLegacy
 {
     internal class GetTinkoffPortfolio
     {
