@@ -6,24 +6,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Tinkoff.InvestApi;
-//using Tinkoff.Trading.OpenApi.Models;
-using Tinkoff.InvestApi.V1;
+//using Tinkoff.InvestApi;
+using Tinkoff.Trading.OpenApi.Models;
+//using Tinkoff.InvestApi.V1;
 
 namespace DataCollector.TinkoffAdapterLegacy
 {
     public class GetTinkoffCandles
     {
         private readonly string figi;
-        private readonly Tinkoff.Trading.OpenApi.Models.CandleInterval intervalLegasy;
-        private readonly CandleInterval candleInterval;
+        private readonly CandleInterval intervalLegasy;
+        //private readonly CandleInterval candleInterval;
         private readonly int candlesCount;
         private readonly DateTime dateFrom;
         /// <summary>
         /// Заполняемый список в методе GetCandlesTinkoffAsync
         /// </summary>
-        private List<Tinkoff.Trading.OpenApi.Models.CandlePayload> candlePayloads = new();
-        private List<HistoricCandle> historicCandles = new();
+        private List<CandlePayload> candlePayloads = new();
+        //private List<HistoricCandle> historicCandles = new();
 
         /// <summary>
         /// Получение опредленного кол-ва свечей.
@@ -31,19 +31,19 @@ namespace DataCollector.TinkoffAdapterLegacy
         /// <param name="figi"></param> FIGI
         /// <param name="intervalLegasy"></param> Интервал свечей
         /// <param name="candlesCount"></param> Кол-во свечей, которые нужно получить.
-        public GetTinkoffCandles(string figi, Tinkoff.Trading.OpenApi.Models.CandleInterval intervalLegasy, int candlesCount)
+        public GetTinkoffCandles(string figi, CandleInterval intervalLegasy, int candlesCount)
         {
             this.figi = figi;
             this.intervalLegasy = intervalLegasy;
             this.candlesCount = candlesCount;
         }
 
-        public GetTinkoffCandles(string figi, CandleInterval candleInterval, int candlesCount)
-        {
-            this.figi = figi;
-            this.candleInterval = candleInterval;
-            this.candlesCount = candlesCount;
-        }
+        //public GetTinkoffCandles(string figi, CandleInterval candleInterval, int candlesCount)
+        //{
+        //    this.figi = figi;
+        //    //this.candleInterval = candleInterval;
+        //    this.candlesCount = candlesCount;
+        //}
 
         /// <summary>
         /// Получение свечей не позже указанной даты.
@@ -51,64 +51,64 @@ namespace DataCollector.TinkoffAdapterLegacy
         /// <param name="figi"></param>
         /// <param name="intervalLegasy"></param>
         /// <param name="dateFrom"></param>
-        public GetTinkoffCandles(string figi, Tinkoff.Trading.OpenApi.Models.CandleInterval intervalLegasy, DateTime dateFrom)
+        public GetTinkoffCandles(string figi, CandleInterval intervalLegasy, DateTime dateFrom)
         {
             this.figi = figi;
             this.intervalLegasy = intervalLegasy;
             this.dateFrom = dateFrom;
         }
 
-        public GetTinkoffCandles(string figi, CandleInterval candleInterval, DateTime dateFrom)
-        {
-            this.figi = figi;
-            this.candleInterval = candleInterval;
-            this.dateFrom = dateFrom;
-        }
+        //public GetTinkoffCandles(string figi, CandleInterval candleInterval, DateTime dateFrom)
+        //{
+        //    this.figi = figi;
+        //    this.candleInterval = candleInterval;
+        //    this.dateFrom = dateFrom;
+        //}
 
-        public async Task<Tinkoff.Trading.OpenApi.Models.CandleList> GetCandlesTinkoffAsync()
-        {
-            DateTime date = DateTime.UtcNow;
+        //public async Task<Tinkoff.Trading.OpenApi.Models.CandleList> GetCandlesTinkoffAsync()
+        //{
+        //    DateTime date = DateTime.UtcNow;
 
-            ///Максимально допустимое кол-во холостых циклов while подряд.
-            int notTradeDayLimit = 1;
-            ///Кол-во дней 
-            TimeSpan timeSpan = default;
+        //    ///Максимально допустимое кол-во холостых циклов while подряд.
+        //    int notTradeDayLimit = 1;
+        //    ///Кол-во дней 
+        //    TimeSpan timeSpan = default;
 
-            if (
-                candleInterval == CandleInterval._1Min ||
-                candleInterval == CandleInterval._5Min ||
-                candleInterval == CandleInterval._15Min
-                )
-            {
-                ///Максимально допустимый интервал за один запрос в Tinkoff
-                timeSpan = TimeSpan.FromHours(23);
-                notTradeDayLimit = 7;
-            }
-            else if (candleInterval == CandleInterval.Hour)
-            {
-                timeSpan = TimeSpan.FromDays(6);
-            }
-            else if (candleInterval == CandleInterval.Day)
-            {
-                timeSpan = TimeSpan.FromDays(364);
-            }
+        //    if (
+        //        candleInterval == CandleInterval._1Min ||
+        //        candleInterval == CandleInterval._5Min ||
+        //        candleInterval == CandleInterval._15Min
+        //        )
+        //    {
+        //        ///Максимально допустимый интервал за один запрос в TinkoffLegacy
+        //        timeSpan = TimeSpan.FromHours(23);
+        //        notTradeDayLimit = 7;
+        //    }
+        //    else if (candleInterval == CandleInterval.Hour)
+        //    {
+        //        timeSpan = TimeSpan.FromDays(6);
+        //    }
+        //    else if (candleInterval == CandleInterval.Day)
+        //    {
+        //        timeSpan = TimeSpan.FromDays(364);
+        //    }
 
-            await GetPayloadLegasy(date, timeSpan, notTradeDayLimit);
+        //    await GetPayloadLegasy(date, timeSpan, notTradeDayLimit);
 
-            candlePayloads = (from u in candlePayloads orderby u.Time select u).ToList();
+        //    candlePayloads = (from u in candlePayloads orderby u.Time select u).ToList();
 
-            candlePayloads = candlesCount > 0 ? candlePayloads.Skip((candlePayloads?.Count ?? 0) - candlesCount).ToList() : candlePayloads;
+        //    candlePayloads = candlesCount > 0 ? candlePayloads.Skip((candlePayloads?.Count ?? 0) - candlesCount).ToList() : candlePayloads;
 
-            Tinkoff.Trading.OpenApi.Models.CandleList candleList = new(figi, intervalLegasy, candlePayloads);
+        //    Tinkoff.Trading.OpenApi.Models.CandleList candleList = new(figi, intervalLegasy, candlePayloads);
 
-            return candleList;
-        }
+        //    return candleList;
+        //}
 
             /// <summary>
             /// Получение свечей по инструменту. Вводные задаются в конструкторе.
             /// </summary>
             /// <returns></returns>
-        public async Task<Tinkoff.Trading.OpenApi.Models.CandleList> GetCandlesTinkoffLegasyAsync()
+        public async Task<Tinkoff.Trading.OpenApi.Models.CandleList> GetCandlesTinkoffLegacyAsync()
         {
             DateTime date = DateTime.Now;
 
@@ -125,7 +125,7 @@ namespace DataCollector.TinkoffAdapterLegacy
                 || intervalLegasy == Tinkoff.Trading.OpenApi.Models.CandleInterval.QuarterHour
                 || intervalLegasy == Tinkoff.Trading.OpenApi.Models.CandleInterval.HalfHour)
             {
-                ///Максимально допустимый интервал за один запрос в Tinkoff
+                ///Максимально допустимый интервал за один запрос в TinkoffLegacy
                 timeSpan = TimeSpan.FromHours(23);
                 notTradeDayLimit = 7;
             }
@@ -175,7 +175,7 @@ namespace DataCollector.TinkoffAdapterLegacy
                  )
             {
                 List<Tinkoff.Trading.OpenApi.Models.CandlePayload> candlePayloadsOneIteration = await GetOneSetCandlesLegasyAsync(date);
-                StopWhile(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
+                IsAllCandles(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
                 if (candlePayloadsOneIteration == null || candlePayloadsOneIteration.Count == 0)
                 {
                     continue;
@@ -189,29 +189,29 @@ namespace DataCollector.TinkoffAdapterLegacy
         }
 
 
-        async Task GetPayload(DateTime date, TimeSpan timeSpan, int emptyIterationLimit)
-        {
-            int emptyIteration = default;
+        //async Task GetPayload(DateTime date, TimeSpan timeSpan, int emptyIterationLimit)
+        //{
+        //    int emptyIteration = default;
 
-            while (
-                    (candlesCount != default && (historicCandles?.Count ?? 0) < candlesCount)
-                    ||
-                    (dateFrom != default && date.CompareTo(dateFrom - timeSpan) > 0)
-                 )
-            {
-                List<HistoricCandle> candlePayloadsOneIteration = await GetOneSetCandlesAsync(date);
-                StopWhile(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
-                if (candlePayloadsOneIteration == null || candlePayloadsOneIteration.Count == 0)
-                {
-                    continue;
-                }
+        //    while (
+        //            (candlesCount != default && (historicCandles?.Count ?? 0) < candlesCount)
+        //            ||
+        //            (dateFrom != default && date.CompareTo(dateFrom - timeSpan) > 0)
+        //         )
+        //    {
+        //        List<HistoricCandle> candlePayloadsOneIteration = await GetOneSetCandlesAsync(date);
+        //        IsAllCandles(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
+        //        if (candlePayloadsOneIteration == null || candlePayloadsOneIteration.Count == 0)
+        //        {
+        //            continue;
+        //        }
 
-                historicCandles = historicCandles.Union(candlePayloadsOneIteration, new ComparatorTinkoffCandles()).ToList(); // Дефолтный компаратор НЕ РАБОТАЕТ c классами тинькофф!!!
-                Log.Debug("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
+        //        historicCandles = historicCandles.Union(candlePayloadsOneIteration, new ComparatorTinkoffCandles()).ToList(); // Дефолтный компаратор НЕ РАБОТАЕТ c классами тинькофф!!!
+        //        Log.Debug("candlePayloads count = {0}", candlePayloads?.Count ?? 0);
 
-                date -= timeSpan;
-            }
-        }
+        //        date -= timeSpan;
+        //    }
+        //}
 
         /// <summary>
         /// Проверка для выхода из цикла while. Если <emptyIterationLimit> циклов нет результата - выход из цикла.
@@ -221,7 +221,7 @@ namespace DataCollector.TinkoffAdapterLegacy
         /// <param name="candlePayloadsOneIterationCount"></param> Кол-во свечей полученных в последний цикл.
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        static void StopWhile(int emptyIterationLimit, int emptyIteration, int candlePayloadsOneIterationCount)
+        static void IsAllCandles(int emptyIterationLimit, int emptyIteration, int candlePayloadsOneIterationCount)
         {
             emptyIteration = candlePayloadsOneIterationCount > 0 ? default : ++emptyIteration;
 
@@ -229,49 +229,49 @@ namespace DataCollector.TinkoffAdapterLegacy
                 throw new Exception("No more candles. Reduce the number of candles in the request");
         }
 
-        async Task<List<HistoricCandle>> GetOneSetCandlesAsync(DateTime dateTo)
-        {
-            Log.Debug("Start GetOneSetCandlesAsync");
-            DateTime from = default;
-            switch (candleInterval)
-            {
-                case CandleInterval._1Min:
-                    from = dateTo.AddDays(-1).AddMinutes(1);
-                    break;
-                case CandleInterval._5Min:
-                    from = dateTo.AddDays(-1).AddMinutes(5);
-                    break;
-                case CandleInterval._15Min:
-                    from = dateTo.AddDays(-1).AddMinutes(15);
-                    break;
-                case CandleInterval.Hour:
-                    from = dateTo.AddDays(-7).AddHours(1);
-                    break;
-                case CandleInterval.Day:
-                    from = dateTo.AddYears(-1).AddDays(1);
-                    break;
-                default:
-                    break;
-            }
-            Log.Debug("Time periods for candles with figi: {0} from {1} to {2}", figi, from, dateTo);
-            try
-            {
-                string token = File.ReadAllLines("toksann.dll")[0].Trim();
-                InvestApiClient client = InvestApiClientFactory.Create(token);
-                GetCandlesRequest getCandlesRequest = new GetCandlesRequest() { Figi = figi, From = Timestamp.FromDateTime(from), Interval = candleInterval, To = Timestamp.FromDateTime(dateTo) };
-                GetCandlesResponse result = client.MarketData.GetCandles(getCandlesRequest);
-                List<HistoricCandle> candles = result.Candles.ToList();
-                Log.Debug($"Return {candles?.Count} candles by figi {figi}. Interval = {intervalLegasy}. Date interval = {from} - {dateTo}");
-                return candles;
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.Message);
-                Log.Error(ex.StackTrace);
-                Log.Error($"Return null candles by figi {figi}. Interval = {intervalLegasy}. Date interval = {from} - {dateTo}");
-                return null;
-            }
-        }
+        //async Task<List<HistoricCandle>> GetOneSetCandlesAsync(DateTime dateTo)
+        //{
+        //    Log.Debug("Start GetOneSetCandlesAsync");
+        //    DateTime from = default;
+        //    switch (candleInterval)
+        //    {
+        //        case CandleInterval._1Min:
+        //            from = dateTo.AddDays(-1).AddMinutes(1);
+        //            break;
+        //        case CandleInterval._5Min:
+        //            from = dateTo.AddDays(-1).AddMinutes(5);
+        //            break;
+        //        case CandleInterval._15Min:
+        //            from = dateTo.AddDays(-1).AddMinutes(15);
+        //            break;
+        //        case CandleInterval.Hour:
+        //            from = dateTo.AddDays(-7).AddHours(1);
+        //            break;
+        //        case CandleInterval.Day:
+        //            from = dateTo.AddYears(-1).AddDays(1);
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //    Log.Debug("Time periods for candles with figi: {0} from {1} to {2}", figi, from, dateTo);
+        //    try
+        //    {
+        //        string token = File.ReadAllLines("toksann.dll")[0].Trim();
+        //        InvestApiClient client = InvestApiClientFactory.Create(token);
+        //        GetCandlesRequest getCandlesRequest = new GetCandlesRequest() { Figi = figi, From = Timestamp.FromDateTime(from), Interval = candleInterval, To = Timestamp.FromDateTime(dateTo) };
+        //        GetCandlesResponse result = client.MarketData.GetCandles(getCandlesRequest);
+        //        List<HistoricCandle> candles = result.Candles.ToList();
+        //        Log.Debug($"Return {candles?.Count} candles by figi {figi}. Interval = {intervalLegasy}. Date interval = {from} - {dateTo}");
+        //        return candles;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex.Message);
+        //        Log.Error(ex.StackTrace);
+        //        Log.Error($"Return null candles by figi {figi}. Interval = {intervalLegasy}. Date interval = {from} - {dateTo}");
+        //        return null;
+        //    }
+        //}
 
 
 

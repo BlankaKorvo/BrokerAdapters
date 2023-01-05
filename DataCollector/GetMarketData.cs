@@ -28,11 +28,11 @@ namespace DataCollector
         /// <returns></returns>
         public static async Task<CandlesList> GetCandlesAsync
             (string figi, CandleInterval candleInterval, int candlesCount, 
-            Provider provider = Provider.Tinkoff)
+            Provider provider = Provider.TinkoffLegacy)
         {
             switch (provider)
             {
-                case Provider.Tinkoff:
+                case Provider.TinkoffLegacy:
                     Log.Information($"GetCandlesAsync. figi: {figi} candleInterval:" +
                         $" {candleInterval} candlesCount: {candlesCount} provider: {provider}");
                     return await GetTinkoffCandles(figi, candleInterval, candlesCount);
@@ -56,11 +56,11 @@ namespace DataCollector
         /// <returns></returns>
         public static async Task<CandlesList> GetCandlesAsync
             (string figi, CandleInterval candleInterval,
-            DateTime dateFrom, Provider provider = Provider.Tinkoff)
+            DateTime dateFrom, Provider provider = Provider.TinkoffLegacy)
         {
             switch (provider)
             {
-                case Provider.Tinkoff:
+                case Provider.TinkoffLegacy:
                     Log.Information($"GetCandlesAsync. figi: {figi} candleInterval:" +
                         $" {candleInterval} dateFrom: {dateFrom} provider: {provider}");
                     return await GetTinkoffCandles(figi, candleInterval, dateFrom);
@@ -76,7 +76,7 @@ namespace DataCollector
         //{
         //    Provider.Finam => throw new NotImplementedException(),
         //    Provider.Alor => throw new NotImplementedException(),
-        //    Provider.Tinkoff => await GetTinkoffCandles(figi, candleInterval, dateFrom),
+        //    Provider.TinkoffLegacy => await GetTinkoffCandles(figi, candleInterval, dateFrom),
         //    _ => throw new NotImplementedException()
         //};
 
@@ -86,12 +86,12 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static async Task<Portfolio> GetPortfolioAsync(Provider provider = Provider.Tinkoff)
+        public static async Task<Portfolio> GetPortfolioAsync(Provider provider = Provider.TinkoffLegacy)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
                 Provider.Alor => throw new NotImplementedException(),
-                Provider.Tinkoff => await GetTinkoffPortfolioAsync(),
+                Provider.TinkoffLegacy => await GetTinkoffPortfolioAsync(),
                 _ => throw new NotImplementedException()
             };
 
@@ -102,12 +102,12 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        static public async Task<Instrument> GetInstrumentByFigiAsync(string figi, Provider provider = Provider.Tinkoff)
+        static public async Task<Instrument> GetInstrumentByFigiAsync(string figi, Provider provider = Provider.TinkoffLegacy)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
                 Provider.Alor => throw new NotImplementedException(),
-                Provider.Tinkoff => await GetTinkoffInstrumentByFigiAsync(figi),
+                Provider.TinkoffLegacy => await GetTinkoffInstrumentByFigiAsync(figi),
                 _ => throw new NotImplementedException()
             };
 
@@ -118,12 +118,12 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        static public async Task<IInstrument> GetInstrumentByTickerAsync(string ticker, Provider provider = Provider.Tinkoff)
+        static public async Task<IInstrument> GetInstrumentByTickerAsync(string ticker, Provider provider = Provider.TinkoffLegacy)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
                 Provider.Alor => throw new NotImplementedException(),
-                Provider.Tinkoff => await GetTinkoffInstrumentByTickerAsync(ticker),
+                Provider.TinkoffLegacy => await GetTinkoffInstrumentByTickerAsync(ticker),
                 _ => throw new NotImplementedException()
             };
 
@@ -133,12 +133,12 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        static public async Task<InstrumentList> GetInstrumentListAsync(Provider provider = Provider.Tinkoff)
+        static public async Task<InstrumentList> GetInstrumentListAsync(Provider provider = Provider.TinkoffLegacy)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
                 Provider.Alor => throw new NotImplementedException(),
-                Provider.Tinkoff => await GetTinkoffInstrumentListAsync(),
+                Provider.TinkoffLegacy => await GetTinkoffInstrumentListAsync(),
                 _ => throw new NotImplementedException()
             };
 
@@ -150,12 +150,12 @@ namespace DataCollector
         /// <param name="provider"></param> Брокер
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        static public async Task<Orderbook> GetOrderbookAsync(string figi, int depth, Provider provider = Provider.Tinkoff)
+        static public async Task<Orderbook> GetOrderbookAsync(string figi, int depth, Provider provider = Provider.TinkoffLegacy)
             => provider switch
             {
                 Provider.Finam => throw new NotImplementedException(),
                 Provider.Alor => throw new NotImplementedException(),
-                Provider.Tinkoff => await GetTinkoffOrderbookAsync(figi, depth),
+                Provider.TinkoffLegacy => await GetTinkoffOrderbookAsync(figi, depth),
                 _ => throw new NotImplementedException()
             };
 
@@ -213,7 +213,7 @@ namespace DataCollector
         }
 
         /// <summary>
-        /// Получение портфолио инструментов Tinkoff
+        /// Получение портфолио инструментов TinkoffLegacy
         /// </summary>
         /// <returns></returns>
         private static async Task<Portfolio> GetTinkoffPortfolioAsync()
@@ -278,7 +278,7 @@ namespace DataCollector
         }
 
         /// <summary>
-        /// Получение свечей Tinkoff по указанному кол-ву элементов временного ряда
+        /// Получение свечей TinkoffLegacy по указанному кол-ву элементов временного ряда
         /// </summary>
         /// <param name="figi"></param> Идентификатор инструмента
         /// <param name="candleInterval"></param> Длина одной свечи
@@ -286,13 +286,13 @@ namespace DataCollector
         /// <returns></returns>
         static async Task<CandlesList?> GetTinkoffCandles(string figi, CandleInterval candleInterval, int candlesCount)
         {
-            Tinkoff.Trading.OpenApi.Models.CandleList tinkoffCandles = await new GetTinkoffCandles(figi, (Tinkoff.Trading.OpenApi.Models.CandleInterval)candleInterval, candlesCount).GetCandlesTinkoffAsync();
+            Tinkoff.Trading.OpenApi.Models.CandleList tinkoffCandles = await new GetTinkoffCandles(figi, (Tinkoff.Trading.OpenApi.Models.CandleInterval)candleInterval, candlesCount).GetCandlesTinkoffLegacyAsync();
             CandlesList candlesList = TinkoffCandlesMapper(tinkoffCandles);
             return candlesList;
         }
 
         /// <summary>
-        /// Получение свечей у брокера Tinkoff по указанной дате начала временного ряда
+        /// Получение свечей у брокера TinkoffLegacy по указанной дате начала временного ряда
         /// </summary>
         /// <param name="figi"></param> Идентификатор инструмента
         /// <param name="candleInterval"></param> Длина одной свечи
@@ -300,16 +300,16 @@ namespace DataCollector
         /// <returns></returns>
         static async Task<CandlesList> GetTinkoffCandles(string figi, CandleInterval candleInterval, DateTime dateTime)
         {
-            Tinkoff.Trading.OpenApi.Models.CandleList tinkoffCandles = await new GetTinkoffCandles(figi, (Tinkoff.Trading.OpenApi.Models.CandleInterval)candleInterval, dateTime).GetCandlesTinkoffAsync();
+            Tinkoff.Trading.OpenApi.Models.CandleList tinkoffCandles = await new GetTinkoffCandles(figi, (Tinkoff.Trading.OpenApi.Models.CandleInterval)candleInterval, dateTime).GetCandlesTinkoffLegacyAsync();
             CandlesList candlesList = TinkoffCandlesMapper(tinkoffCandles);
             Log.Information($"Return {candlesList.Candles.Count} GetTinkoffCandles");
             return candlesList;
         }
 
         /// <summary>
-        /// Приведение объекта от модели Tinkoff.Trading.OpenApi к MarketDataModules
+        /// Приведение объекта от модели TinkoffLegacy.Trading.OpenApi к MarketDataModules
         /// </summary>
-        /// <param name="tinkoffCandles"></param> Tinkoff.Trading.OpenApi.Models.CandleList
+        /// <param name="tinkoffCandles"></param> TinkoffLegacy.Trading.OpenApi.Models.CandleList
         /// <returns></returns>
         static CandlesList TinkoffCandlesMapper(Tinkoff.Trading.OpenApi.Models.CandleList tinkoffCandles)
         {

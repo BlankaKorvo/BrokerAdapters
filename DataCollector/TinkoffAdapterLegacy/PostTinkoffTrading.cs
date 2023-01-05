@@ -4,7 +4,7 @@
 //using System.Collections.Generic;
 //using System.IO;
 //using System.Threading.Tasks;
-//using Tinkoff.Trading.OpenApi.Models;
+//using TinkoffLegacy.Trading.OpenApi.Models;
 
 //namespace DataCollector.TinkoffAdapterLegacy
 //{
@@ -33,7 +33,7 @@
 //            }
 
 //            await RetryPolicy.Model.RetryToManyReq().ExecuteAsync(async () => await Auth.Context.PlaceLimitOrderAsync(new LimitOrder(transactionModel.Figi, lots, OperationType.Buy, transactionModel.Price)));
-//            //Instrument instrument = await marketDataCollector.GetInstrumentByFigi(transactionModel.Figi, Provider.Tinkoff);
+//            //Instrument instrument = await marketDataCollector.GetInstrumentByFigi(transactionModel.Figi, Provider.TinkoffLegacy);
 //            using (StreamWriter sw = new StreamWriter("_operation", true, System.Text.Encoding.Default))
 //            {
 //                sw.WriteLine(DateTime.Now + @" Buy " + transactionModel.Figi + " " /*+ instrument.Ticker */+ " Quantity: " + lots + " price: " + transactionModel.Price + " mzda: " + (transactionModel.Price * 0.02m) / 100m);
@@ -81,12 +81,12 @@
 //            Log.Information("Stop TransactStoksAsyncs: " + TransactionModel.Figi);
 //        }
 
-//        private Tinkoff.Trading.OpenApi.Models.OperationType GetOperationType()
+//        private TinkoffLegacy.Trading.OpenApi.Models.OperationType GetOperationType()
 //        {
 //            if (TransactionModel.TradeOperation == MarketDataModules.Trading.TradingOperationType.Buy)
-//                return Tinkoff.Trading.OpenApi.Models.OperationType.Buy;
+//                return TinkoffLegacy.Trading.OpenApi.Models.OperationType.Buy;
 //            else if (TransactionModel.TradeOperation == MarketDataModules.Trading.TradingOperationType.Sell)
-//                return Tinkoff.Trading.OpenApi.Models.OperationType.Sell;
+//                return TinkoffLegacy.Trading.OpenApi.Models.OperationType.Sell;
 //            else
 //                throw new NotImplementedException();
 //        }
@@ -116,7 +116,7 @@
 //                }
 //            }
 
-//            await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.PlaceLimitOrderAsync(new LimitOrder(TransactionModel.Figi, TransactionModel.Quantity, Tinkoff.Trading.OpenApi.Models.OperationType.Buy, TransactionModel.Price)));
+//            await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.PlaceLimitOrderAsync(new LimitOrder(TransactionModel.Figi, TransactionModel.Quantity, TinkoffLegacy.Trading.OpenApi.Models.OperationType.Buy, TransactionModel.Price)));
 
 //            using (StreamWriter sw = new("_operation", true, System.Text.Encoding.Default))
 //            {
@@ -153,7 +153,7 @@
 //                }
 //            }
 
-//            await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.PlaceLimitOrderAsync(new LimitOrder(TransactionModel.Figi, TransactionModel.Quantity, Tinkoff.Trading.OpenApi.Models.OperationType.Sell, TransactionModel.Price)));
+//            await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.PlaceLimitOrderAsync(new LimitOrder(TransactionModel.Figi, TransactionModel.Quantity, TinkoffLegacy.Trading.OpenApi.Models.OperationType.Sell, TransactionModel.Price)));
 
 //            using (StreamWriter sw = new("_operation", true, System.Text.Encoding.Default))
 //            {
