@@ -80,7 +80,7 @@ namespace DataCollector.TinkoffAdapterLegacy
         //        candleInterval == CandleInterval._15Min
         //        )
         //    {
-        //        ///Максимально допустимый интервал за один запрос в TinkoffLegacy
+        //        ///Максимально допустимый интервал за один запрос в Tinkoff
         //        timeSpan = TimeSpan.FromHours(23);
         //        notTradeDayLimit = 7;
         //    }
@@ -125,7 +125,7 @@ namespace DataCollector.TinkoffAdapterLegacy
                 || intervalLegasy == Tinkoff.Trading.OpenApi.Models.CandleInterval.QuarterHour
                 || intervalLegasy == Tinkoff.Trading.OpenApi.Models.CandleInterval.HalfHour)
             {
-                ///Максимально допустимый интервал за один запрос в TinkoffLegacy
+                ///Максимально допустимый интервал за один запрос в Tinkoff
                 timeSpan = TimeSpan.FromHours(23);
                 notTradeDayLimit = 7;
             }
@@ -199,7 +199,7 @@ namespace DataCollector.TinkoffAdapterLegacy
         //            (dateFrom != default && date.CompareTo(dateFrom - timeSpan) > 0)
         //         )
         //    {
-        //        List<HistoricCandle> candlePayloadsOneIteration = await GetOneSetCandlesAsync(date);
+        //        List<HistoricCandle> candlePayloadsOneIteration = await GetOneSetCandles(date);
         //        IsAllCandles(emptyIterationLimit, emptyIteration, candlePayloadsOneIteration?.Count ?? 0);
         //        if (candlePayloadsOneIteration == null || candlePayloadsOneIteration.Count == 0)
         //        {
@@ -229,9 +229,9 @@ namespace DataCollector.TinkoffAdapterLegacy
                 throw new Exception("No more candles. Reduce the number of candles in the request");
         }
 
-        //async Task<List<HistoricCandle>> GetOneSetCandlesAsync(DateTime dateTo)
+        //async Task<List<HistoricCandle>> GetOneSetCandles(DateTime dateTo)
         //{
-        //    Log.Debug("Start GetOneSetCandlesAsync");
+        //    Log.Debug("Start GetOneSetCandles");
         //    DateTime from = default;
         //    switch (candleInterval)
         //    {
@@ -282,7 +282,7 @@ namespace DataCollector.TinkoffAdapterLegacy
             /// <returns></returns>
         async Task<List<Tinkoff.Trading.OpenApi.Models.CandlePayload>> GetOneSetCandlesLegasyAsync(DateTime dateTo)
         {
-            Log.Debug("Start GetOneSetCandlesAsync");
+            Log.Debug("Start GetOneSetCandles");
             DateTime from = default;
             switch (intervalLegasy)
             {

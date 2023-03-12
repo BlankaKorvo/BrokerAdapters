@@ -4,7 +4,7 @@
 //using System.IO;
 //using System.Text;
 //using System.Threading.Tasks;
-//using TinkoffLegacy.Trading.OpenApi.Models;
+//using Tinkoff.Trading.OpenApi.Models;
 
 //namespace DataCollector.TinkoffAdapterLegacy
 //{
@@ -73,7 +73,7 @@
 //                }
 //            }
 
-//            await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.PlaceLimitOrderAsync(new LimitOrder(figi, quantity, TinkoffLegacy.Trading.OpenApi.Models.OperationType.Sell, price)));
+//            await RetryPolicy.PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.PlaceLimitOrderAsync(new LimitOrder(figi, quantity, Tinkoff.Trading.OpenApi.Models.OperationType.Sell, price)));
 
 //            using (StreamWriter sw = new("_operation", true, System.Text.Encoding.Default))
 //            {
