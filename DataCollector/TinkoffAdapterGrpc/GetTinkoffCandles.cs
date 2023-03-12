@@ -66,7 +66,7 @@ namespace DataCollector.TinkoffAdapterGrpc
         public List<HistoricCandle> GetSetCandles()
         {
             List<HistoricCandle> historicCandles = new List<HistoricCandle>() { };
-            GetCandlesRequest temptCandlesRequest = new() { InstrumentId = FullCandlesRequest.InstrumentId, Interval = FullCandlesRequest.Interval, From = FullCandlesRequest.From, To = FullCandlesRequest.To };
+            GetCandlesRequest temptCandlesRequest = new() { InstrumentId = FullCandlesRequest.InstrumentId, Interval = FullCandlesRequest.Interval, /*From = FullCandlesRequest.From,*/ To = FullCandlesRequest.To };
             try
             {
                 while (historicCandles.Count < CandleCount)
@@ -74,7 +74,7 @@ namespace DataCollector.TinkoffAdapterGrpc
                     var hcandles = GetOneSetCandles(ref temptCandlesRequest);
                     historicCandles = historicCandles.Union(hcandles, comparator).ToList();
                     temptCandlesRequest.To = temptCandlesRequest.From;
-                    temptCandlesRequest.From = FullCandlesRequest.From;
+                    //temptCandlesRequest.From = FullCandlesRequest.From;
                 }
             }
             catch(Exception ex)
