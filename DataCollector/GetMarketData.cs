@@ -37,11 +37,12 @@ namespace DataCollector
                     throw new InvalidOperationException();
             }
             GetCandlesRequest getCandlesRequest = new GetCandlesRequest() { InstrumentId = uid, From = Timestamp.FromDateTime(DateTime.UtcNow.AddDays(-10)), Interval = tinkoffInterval, To = Timestamp.FromDateTime(DateTime.UtcNow) };
-            var client = GetClient.Grpc;
-            GetTinkoffCandles getTinkoffCandles = new GetTinkoffCandles() { Client = client, FullCandlesRequest = getCandlesRequest, CandleCount = candlesCount };
-            var historicCandles = getTinkoffCandles.GetSetCandles();
+            //var client = GetClient.Grpc;
+            //GetTinkoffCandles getTinkoffCandles = new GetTinkoffCandles() { Client = client, CandlesRequest = getCandlesRequest, CandleCount = candlesCount };
+            var historicCandles = GetTinkoffData.GetCandles(getCandlesRequest, candlesCount);
 
-            List<CandleStructure> listCandleStructure = new List<CandleStructure>();
+            List<CandleStructure> listCandleStructure = new(historicCandles.Select(x =>
+                   new CandleStructure(x.Open, x.Close, x.High, x.Low, x.Volume, x.Time.ToDateTime(), x.IsComplete)));
             CandlesList candlesList = new CandlesList(uid, candleInterval, listCandleStructure);
             //List<HistoricCandle> candles =
             //    new(tinkoffCandles?.Candles.Select(x =>
@@ -49,7 +50,27 @@ namespace DataCollector
             //CandlesList candlesList = new(tinkoffCandles.Figi, (CandleInterval)tinkoffCandles.Interval, candles);
             return candlesList;
         }
+        public static Orderbook GetOrderbook(string id, int depth)
+        {
+            GetOrderBookRequest getOrderBookRequest = new GetOrderBookRequest() { InstrumentId = id, Depth = depth };
+            GetOrderBookResponse orderBookTinkoff = GetTinkoffData.GetOrderbook(getOrderBookRequest);
+            Orderbook orderbook = new Orderbook(id, depth, OrderMap(orderBookTinkoff.Bids.ToList()),
+                OrderMap(orderBookTinkoff.Asks.ToList()), ToDecimal(orderBookTinkoff.LastPrice),
+                ToDecimal(orderBookTinkoff.ClosePrice), ToDecimal(orderBookTinkoff.LimitUp), ToDecimal(orderBookTinkoff.LimitDown),
+                orderBookTinkoff.LastPriceTs.ToDateTime(), orderBookTinkoff.ClosePriceTs.ToDateTime(), orderBookTinkoff.OrderbookTs.ToDateTime());
+            return orderbook; 
+            static List<MarketDataModules.Orderbooks.Order> OrderMap(List<Tinkoff.InvestApi.V1.Order> ordersT)
+            {
+                List<MarketDataModules.Orderbooks.Order> orders = new(ordersT.Select(x => new MarketDataModules.Orderbooks.Order(ToDecimal(x.Price), (int)x.Quantity)));
+                return orders;
+            }
+        }
 
+        static decimal ToDecimal(Quotation quotation)
+        { 
+            decimal result = Convert.ToDecimal($"{quotation.Units},{quotation.Nano}");
+            return result;
+        }
 
         /// <summary>
         /// Получение свечей не позже определенной даты
