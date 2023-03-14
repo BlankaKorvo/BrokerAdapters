@@ -18,7 +18,7 @@ namespace DataCollector
 
     public static class GetMarketData
     {
-        public static CandlesList GetCandles(string uid, MarketDataModules.Candles.CandleInterval candleInterval, int candlesCount)
+        public static CandleList GetCandles(string uid, MarketDataModules.Candles.CandleInterval candleInterval, int candlesCount)
         {
             Tinkoff.InvestApi.V1.CandleInterval tinkoffInterval;
             switch (candleInterval)
@@ -43,7 +43,7 @@ namespace DataCollector
 
             List<CandleStructure> listCandleStructure = new(historicCandles.Select(x =>
                    new CandleStructure(x.Open, x.Close, x.High, x.Low, x.Volume, x.Time.ToDateTime(), x.IsComplete)));
-            CandlesList candlesList = new CandlesList(uid, candleInterval, listCandleStructure);
+            CandleList candlesList = new CandleList(uid, candleInterval, listCandleStructure);
             //List<HistoricCandle> candles =
             //    new(tinkoffCandles?.Candles.Select(x =>
             //        new CandleStructure(x.Open, x.Close, x.High, x.Low, x.Volume, x.Time, (CandleInterval)x.Interval, x.Figi)).Distinct());
