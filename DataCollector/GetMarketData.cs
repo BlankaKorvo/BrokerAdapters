@@ -54,10 +54,10 @@ namespace DataCollector
         {
             GetOrderBookRequest getOrderBookRequest = new GetOrderBookRequest() { InstrumentId = id, Depth = depth };
             GetOrderBookResponse orderBookTinkoff = GetTinkoffData.GetOrderbook(getOrderBookRequest);
-            Orderbook orderbook = new Orderbook(id, depth, OrderMap(orderBookTinkoff.Bids.ToList()),
-                OrderMap(orderBookTinkoff.Asks.ToList()), ToDecimal(orderBookTinkoff.LastPrice),
+            Orderbook orderbook = new Orderbook(id, depth, OrderMap(orderBookTinkoff.Bids?.ToList()),
+                OrderMap(orderBookTinkoff.Asks?.ToList()), ToDecimal(orderBookTinkoff.LastPrice),
                 ToDecimal(orderBookTinkoff.ClosePrice), ToDecimal(orderBookTinkoff.LimitUp), ToDecimal(orderBookTinkoff.LimitDown),
-                orderBookTinkoff.LastPriceTs.ToDateTime(), orderBookTinkoff.ClosePriceTs.ToDateTime(), orderBookTinkoff.OrderbookTs.ToDateTime());
+                orderBookTinkoff.LastPriceTs.ToDateTime(), orderBookTinkoff.ClosePriceTs.ToDateTime(), orderBookTinkoff.OrderbookTs?.ToDateTime());
             return orderbook; 
             static List<MarketDataModules.Orderbooks.Order> OrderMap(List<Tinkoff.InvestApi.V1.Order> ordersT)
             {
