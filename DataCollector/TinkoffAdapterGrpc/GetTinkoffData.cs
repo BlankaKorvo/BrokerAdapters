@@ -62,8 +62,9 @@ namespace DataCollector.TinkoffAdapterGrpc
                 Log.Debug("Time periods for candles with figi: {0} from {1} to {2}", temptCandlesRequest.InstrumentId, temptCandlesRequest.From, temptCandlesRequest.InstrumentId);
                 try
                 {
-
-                    GetCandlesResponse result = GetClient.Grpc.MarketData.GetCandles(temptCandlesRequest);
+                    var req = temptCandlesRequest;
+                    GetCandlesResponse result =  PollyRetrayPolitics.Retry().Execute(() => PollyRetrayPolitics.RetryToManyReq().Execute(() => GetClient.Grpc.MarketData.GetCandles(req)));
+                    //GetCandlesResponse result = GetClient.Grpc.MarketData.GetCandles(temptCandlesRequest);
                     List<HistoricCandle> candles = result.Candles.ToList();
                     Log.Debug($"Return {candles?.Count} candles by figi {temptCandlesRequest.InstrumentId}. Interval = {temptCandlesRequest.Interval}. Date interval = {temptCandlesRequest.From} - {temptCandlesRequest.To}");
                     return candles;
@@ -79,8 +80,17 @@ namespace DataCollector.TinkoffAdapterGrpc
         }
         public static GetOrderBookResponse GetOrderbook(GetOrderBookRequest getOrderBookRequest)
         {
-            GetOrderBookResponse orderbook = GetClient.Grpc.MarketData.GetOrderBook(getOrderBookRequest);
-            return orderbook;
+            try
+            {
+                GetOrderBookResponse orderbook = PollyRetrayPolitics.Retry().Execute(() => PollyRetrayPolitics.RetryToManyReq().Execute(() => GetClient.Grpc.MarketData.GetOrderBook(getOrderBookRequest)));                
+                return orderbook;
+            }
+            catch (Exception ex) 
+            {
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
+                return null;
+            }
         }
     }
 }

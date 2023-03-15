@@ -41,7 +41,9 @@ namespace DataCollector
             //GetTinkoffCandles getTinkoffCandles = new GetTinkoffCandles() { Client = client, CandlesRequest = getCandlesRequest, CandleCount = candlesCount };
             var historicCandles = GetTinkoffData.GetCandles(getCandlesRequest, candlesCount);
 
-            List<CandleStructure> listCandleStructure = new(historicCandles.Select(x =>
+            if (historicCandles == null) return null;
+
+            List<CandleStructure> listCandleStructure = new(historicCandles?.Select(x =>
                    new CandleStructure(x.Open, x.Close, x.High, x.Low, x.Volume, x.Time.ToDateTime(), x.IsComplete)));
             CandleList candlesList = new CandleList(uid, candleInterval, listCandleStructure);
             //List<HistoricCandle> candles =
@@ -54,6 +56,7 @@ namespace DataCollector
         {
             GetOrderBookRequest getOrderBookRequest = new GetOrderBookRequest() { InstrumentId = id, Depth = depth };
             GetOrderBookResponse orderBookTinkoff = GetTinkoffData.GetOrderbook(getOrderBookRequest);
+            if (orderBookTinkoff == null) return null;
             Orderbook orderbook = new Orderbook(id, depth, OrderMap(orderBookTinkoff.Bids?.ToList()),
                 OrderMap(orderBookTinkoff.Asks?.ToList()), ToDecimal(orderBookTinkoff.LastPrice),
                 ToDecimal(orderBookTinkoff.ClosePrice), ToDecimal(orderBookTinkoff.LimitUp), ToDecimal(orderBookTinkoff.LimitDown),

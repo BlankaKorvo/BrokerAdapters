@@ -14,7 +14,7 @@ namespace DataCollector.TinkoffAdapterLegacy
         /// <returns></returns>
         internal async Task<MarketInstrumentList> GetStocksAsync()
         {
-            MarketInstrumentList instruments = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.MarketStocksAsync()));
+            MarketInstrumentList instruments = await PollyRetrayPolitics.RetryAsync().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReqAsync().ExecuteAsync(async () => await Authorisation.Context.MarketStocksAsync()));
             return instruments;
         }
 
@@ -24,7 +24,7 @@ namespace DataCollector.TinkoffAdapterLegacy
         /// <returns></returns>
         internal async Task<MarketInstrumentList> GetBondsAsync()
         {
-            MarketInstrumentList instruments = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.MarketBondsAsync()));
+            MarketInstrumentList instruments = await PollyRetrayPolitics.RetryAsync().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReqAsync().ExecuteAsync(async () => await Authorisation.Context.MarketBondsAsync()));
             return instruments;
         }
         /// <summary>
@@ -33,7 +33,7 @@ namespace DataCollector.TinkoffAdapterLegacy
         /// <returns></returns>
         internal async Task<MarketInstrumentList> GetEtfsAsync()
         {
-            MarketInstrumentList instruments = await PollyRetrayPolitics.Retry().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReq().ExecuteAsync(async () => await Authorisation.Context.MarketEtfsAsync()));
+            MarketInstrumentList instruments = await PollyRetrayPolitics.RetryAsync().ExecuteAsync(async () => await PollyRetrayPolitics.RetryToManyReqAsync().ExecuteAsync(async () => await Authorisation.Context.MarketEtfsAsync()));
             return instruments;
         }
 
