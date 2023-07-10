@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Tinkoff.InvestApi;
 using Tinkoff.InvestApi.V1;
+using Tinkoff.Trading.OpenApi.Models;
 
 namespace DataCollector.TinkoffAdapterGrpc
 {
@@ -28,6 +30,19 @@ namespace DataCollector.TinkoffAdapterGrpc
                 }
             });
             return streamMarketData;
+        }
+        public static async Task<AsyncServerStreamingCall<PortfolioStreamResponse>> Portfolio()
+        {
+            InvestApiClient client = GetClient.Grpc;
+            var accounts = new RepeatedField<string> {"" };
+            PortfolioStreamRequest request = new PortfolioStreamRequest() {};
+            var position = new PositionsStreamRequest();
+            var portfolio = new PortfolioStreamRequest(request) ;
+            AsyncServerStreamingCall<PortfolioStreamResponse> portfolioStream = client.OperationsStream.PortfolioStream(portfolio);
+
+            portfolioStream.ResponseStream.ReadAllAsync<PortfolioStreamResponse>();
+
+            return portfolioStream;
         }
     }
 }
