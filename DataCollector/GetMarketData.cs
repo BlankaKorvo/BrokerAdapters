@@ -68,6 +68,18 @@ namespace DataCollector
                 return orders;
             }
         }
+        public static Portfolio PortfolioTinkoff (PortfolioRequest portfolioRequest)
+        {
+            PortfolioResponse portfolioResponce = GetTinkoffData.Portfolio(portfolioRequest);
+            if (portfolioResponce == null) return null;
+            Portfolio portfolio = new Portfolio() { TotalAmountShares = };
+            return portfolio;
+            static List<MarketDataModules.Orderbooks.Order> OrderMap(List<Tinkoff.InvestApi.V1.Order> ordersT)
+            {
+                List<MarketDataModules.Orderbooks.Order> orders = new(ordersT.Select(x => new MarketDataModules.Orderbooks.Order(ToDecimal(x.Price), (int)x.Quantity)));
+                return orders;
+            }
+        }
 
         static decimal ToDecimal(Quotation quotation)
         { 
