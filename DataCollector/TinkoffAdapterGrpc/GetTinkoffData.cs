@@ -92,5 +92,19 @@ namespace DataCollector.TinkoffAdapterGrpc
                 return null;
             }
         }
+        public static PortfolioResponse Portfolio (PortfolioRequest portfolioRequest)
+        {
+            try
+            {
+                var portfolio = PollyRetrayPolitics.Retry().Execute(() => PollyRetrayPolitics.RetryToManyReq().Execute(() => GetClient.Grpc.Operations.GetPortfolio(portfolioRequest)));
+                return portfolio;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
+                return null;
+            }
+        }
     }
 }
