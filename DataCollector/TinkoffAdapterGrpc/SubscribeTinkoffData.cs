@@ -31,13 +31,10 @@ namespace DataCollector.TinkoffAdapterGrpc
             });
             return streamMarketData;
         }
-        public static async Task<AsyncServerStreamingCall<PortfolioStreamResponse>> Portfolio()
+        public static AsyncServerStreamingCall<PortfolioStreamResponse> Portfolio()
         {
             InvestApiClient client = GetClient.Grpc;
-            var accounts = new RepeatedField<string> {"" };
-            PortfolioStreamRequest request = new PortfolioStreamRequest() {};
-            var position = new PositionsStreamRequest();
-            var portfolio = new PortfolioStreamRequest(request) ;
+            var portfolio = new PortfolioStreamRequest() {};
             AsyncServerStreamingCall<PortfolioStreamResponse> portfolioStream = client.OperationsStream.PortfolioStream(portfolio);
 
             portfolioStream.ResponseStream.ReadAllAsync<PortfolioStreamResponse>();

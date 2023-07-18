@@ -68,20 +68,36 @@ namespace DataCollector
                 return orders;
             }
         }
-        //public static Portfolio PortfolioTinkoff (PortfolioRequest portfolioRequest)
-        //{
-        //    PortfolioResponse portfolioResponce = GetTinkoffData.Portfolio(portfolioRequest);
-        //    if (portfolioResponce == null) return null;
-        //    Portfolio portfolio = new Portfolio() { TotalAmountShares = new MoneyAmount(Currency = portfolioResponce.TotalAmountShares.Currency) };
-        //    return portfolio;
-        //    static MoneyAmount MoneyAmountMap(Tinkoff.InvestApi.V1.MoneyValue moneyValue)
-        //    {
-        //        MoneyAmount ma = new(MarketDataModules.Candles.Currency = );
-        //        return orders;
-        //    }
-        //}
 
-        static decimal ToDecimal(Quotation quotation)
+        //public static Portfolio GetPortfolio(string uid)
+        //{
+        //    PortfolioRequest request = new PortfolioRequest() { AccountId = uid };
+        //    PortfolioResponse portfolioResponse = GetTinkoffData.Portfolio(request);
+        //    Portfolio p = new Portfolio() { 
+        //        AccountId = portfolioResponse.AccountId, 
+        //        ExpectedYield = portfolioResponse.ExpectedYield, 
+        //        Positions = portfolioResponse.Positions.Select(x => new PortfolioPositionList() {
+        //            PositionUid = x.PositionUid, 
+        //            BlockedLots = x.BlockedLots, 
+        //            Figi = x.Figi,
+        //            ),
+
+        //        }).ToList() };
+        //}
+            //public static Portfolio PortfolioTinkoff (PortfolioRequest portfolioRequest)
+            //{
+            //    PortfolioResponse portfolioResponce = GetTinkoffData.Portfolio(portfolioRequest);
+            //    if (portfolioResponce == null) return null;
+            //    Portfolio portfolio = new Portfolio() { TotalAmountShares = new MoneyAmount(Currency = portfolioResponce.TotalAmountShares.Currency) };
+            //    return portfolio;
+            //    static MoneyAmount MoneyAmountMap(Tinkoff.InvestApi.V1.MoneyValue moneyValue)
+            //    {
+            //        MoneyAmount ma = new(MarketDataModules.Candles.Currency = );
+            //        return orders;
+            //    }
+            //}
+
+            static decimal ToDecimal(Quotation quotation)
         { 
             decimal result = Convert.ToDecimal($"{quotation.Units},{quotation.Nano}");
             return result;
