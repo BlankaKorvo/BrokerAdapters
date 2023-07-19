@@ -92,7 +92,7 @@ namespace DataCollector.TinkoffAdapterGrpc
                 return null;
             }
         }
-        public static PortfolioResponse Portfolio (PortfolioRequest portfolioRequest)
+        public static PortfolioResponse GetPortfolio (PortfolioRequest portfolioRequest)
         {
             try
             {
