@@ -28,11 +28,11 @@ namespace DataCollector.TinkoffAdapterGrpc
         /// Получение клиента
         /// </summary>
         /// <returns></returns>
-        static InvestApiClient GetGrpcClient()
+        static InvestApiClient GetGrpcClient(bool isSandbox = false)
         {
             string pathT = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
             string token = File.ReadAllLines(Path.Combine(pathT, "toksann.dll"))[0].Trim();
-            InvestApiClient client = InvestApiClientFactory.Create(token);
+            InvestApiClient client = InvestApiClientFactory.Create(token, isSandbox);
             return client;
         }
     }
