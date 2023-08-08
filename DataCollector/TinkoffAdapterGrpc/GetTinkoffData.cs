@@ -14,7 +14,7 @@ namespace DataCollector.TinkoffAdapterGrpc
     public static class GetTinkoffData
     {
         static ComparatorTinkoffCandles comparator = new ComparatorTinkoffCandles();
-        public static  List<HistoricCandle> GetCandles(GetCandlesRequest CandlesRequest, int CandleCount)
+        public static List<HistoricCandle> GetCandles(GetCandlesRequest CandlesRequest, int CandleCount)
         {
             List<HistoricCandle> historicCandles = new List<HistoricCandle>() { };
             GetCandlesRequest temptCandlesRequest = new() { InstrumentId = CandlesRequest.InstrumentId, Interval = CandlesRequest.Interval, /*From = FullCandlesRequest.From,*/ To = CandlesRequest.To };
@@ -28,7 +28,7 @@ namespace DataCollector.TinkoffAdapterGrpc
                     //temptCandlesRequest.From = FullCandlesRequest.From;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error(ex.Message);
                 Log.Error(ex.StackTrace);
@@ -63,7 +63,7 @@ namespace DataCollector.TinkoffAdapterGrpc
                 try
                 {
                     var req = temptCandlesRequest;
-                    GetCandlesResponse result =  PollyRetrayPolitics.Retry().Execute(() => PollyRetrayPolitics.RetryToManyReq().Execute(() => GetClient.Grpc.MarketData.GetCandles(req)));
+                    GetCandlesResponse result = PollyRetrayPolitics.Retry().Execute(() => PollyRetrayPolitics.RetryToManyReq().Execute(() => GetClient.Grpc.MarketData.GetCandles(req)));
                     //GetCandlesResponse result = GetClient.Grpc.MarketData.GetCandles(temptCandlesRequest);
                     List<HistoricCandle> candles = result.Candles.ToList();
                     Log.Debug($"Return {candles?.Count} candles by figi {temptCandlesRequest.InstrumentId}. Interval = {temptCandlesRequest.Interval}. Date interval = {temptCandlesRequest.From} - {temptCandlesRequest.To}");
@@ -82,10 +82,10 @@ namespace DataCollector.TinkoffAdapterGrpc
         {
             try
             {
-                GetOrderBookResponse orderbook = PollyRetrayPolitics.Retry().Execute(() => PollyRetrayPolitics.RetryToManyReq().Execute(() => GetClient.Grpc.MarketData.GetOrderBook(getOrderBookRequest)));                
+                GetOrderBookResponse orderbook = PollyRetrayPolitics.Retry().Execute(() => PollyRetrayPolitics.RetryToManyReq().Execute(() => GetClient.Grpc.MarketData.GetOrderBook(getOrderBookRequest)));
                 return orderbook;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Log.Error(ex.Message);
                 Log.Error(ex.StackTrace);
