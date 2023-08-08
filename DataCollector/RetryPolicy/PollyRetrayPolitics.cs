@@ -10,7 +10,7 @@ namespace DataCollector.RetryPolicy
         public static Polly.Retry.AsyncRetryPolicy RetryToManyReqAsync()
         {
             Polly.Retry.AsyncRetryPolicy retryPolicy = Policy
-                .Handle<Exception>(ex => ex.Message.Contains("Too many requests"))
+                .Handle<Exception>()
                 .WaitAndRetryForeverAsync(retryAttempt => TimeSpan.FromSeconds(Math.Pow(1.5, retryAttempt)),
                 (exception, timespan) =>
                 {
@@ -34,12 +34,25 @@ namespace DataCollector.RetryPolicy
 
             return retryPolicy;
         }
-
         public static Polly.Retry.RetryPolicy RetryToManyReq()
         {
             Polly.Retry.RetryPolicy retryPolicy = Policy
-                .Handle<Exception>(ex => ex.Message.Contains("ResourceExhausted"))
-                .WaitAndRetryForever(retryAttempt => TimeSpan.FromSeconds(10 + retryAttempt),
+                .Handle<Exception>()
+                .WaitAndRetryForever(retryAttempt => TimeSpan.FromSeconds(Math.Pow(1.5, retryAttempt)),
+                (exception, timespan) =>
+                {
+                    Log.Warning(exception.Message);
+                    Log.Warning("Start retray. Timespan = " + timespan);
+                });
+
+            return retryPolicy;
+        }
+
+        public static Polly.Retry.RetryPolicy RetryAll()
+        {
+            Polly.Retry.RetryPolicy retryPolicy = Policy
+                .Handle<Exception>()
+                .WaitAndRetryForever(retryAttempt => TimeSpan.FromSeconds(Math.Pow(1.5, retryAttempt)),
                 (exception, timespan) =>
                 {
                     Log.Warning(exception.Message);

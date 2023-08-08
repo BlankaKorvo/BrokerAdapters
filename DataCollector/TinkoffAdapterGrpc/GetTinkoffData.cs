@@ -92,17 +92,19 @@ namespace DataCollector.TinkoffAdapterGrpc
                 return null;
             }
         }
-        public static PortfolioResponse GetPortfolio (PortfolioRequest portfolioRequest)
+        public static PortfolioResponse GetPortfolio(PortfolioRequest portfolioRequest)
         {
             try
             {
-                var portfolio = PollyRetrayPolitics.Retry().Execute(() => PollyRetrayPolitics.RetryToManyReq().Execute(() => GetClient.Grpc.Operations.GetPortfolio(portfolioRequest)));
+                var portfolio = PollyRetrayPolitics.RetryAll().Execute(() => GetClient.Grpc.Operations.GetPortfolio(portfolioRequest));
+                Log.Debug($"GetPortfolio {portfolioRequest?.AccountId} success return {portfolio?.AccountId}");
                 return portfolio;
             }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
                 Log.Error(ex.StackTrace);
+                Log.Debug($"GetPortfolio {portfolioRequest?.AccountId} retern null");
                 return null;
             }
         }
