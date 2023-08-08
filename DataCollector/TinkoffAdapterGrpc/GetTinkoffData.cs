@@ -80,6 +80,7 @@ namespace DataCollector.TinkoffAdapterGrpc
         }
         public static GetOrderBookResponse GetOrderbook(GetOrderBookRequest getOrderBookRequest)
         {
+
             try
             {
                 GetOrderBookResponse orderbook = PollyRetrayPolitics.Retry().Execute(() => PollyRetrayPolitics.RetryToManyReq().Execute(() => GetClient.Grpc.MarketData.GetOrderBook(getOrderBookRequest)));
