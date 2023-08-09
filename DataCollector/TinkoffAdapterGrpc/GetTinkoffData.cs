@@ -109,5 +109,21 @@ namespace DataCollector.TinkoffAdapterGrpc
                 return null;
             }
         }
+        public static PositionsResponse GetPositions(PositionsRequest positionRequest)
+        {
+            try
+            {
+                var positions = PollyRetrayPolitics.RetryAll().Execute(() => GetClient.Grpc.Operations.GetPositions(positionRequest));
+                Log.Debug($"GetPositions {positionRequest?.AccountId} success return {positionRequest?.AccountId}");
+                return positions;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
+                Log.Debug($"GetPositions {positionRequest?.AccountId} return null");
+                return null;
+            }
+        }
     }
 }
