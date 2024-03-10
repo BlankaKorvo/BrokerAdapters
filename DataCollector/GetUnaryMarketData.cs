@@ -16,7 +16,7 @@ using Google.Protobuf.WellKnownTypes;
 namespace DataCollector
 {
 
-    public static class GetMarketData
+    public static class GetUnaryMarketData
     {
         public static CandleList GetCandles(string uid, MarketDataModules.Candles.CandleInterval candleInterval, int candlesCount)
         {
@@ -69,6 +69,13 @@ namespace DataCollector
             }
         }
 
+        public static Portfolio GetPortfolio(string accountId, Provider provider) => provider switch
+        {
+            Provider.Tinkoff => Mapping.MapPortfolioFromTinkoff(GetTinkoffData.GetPortfolio(new PortfolioRequest() { AccountId = accountId })),
+            Provider.Finam => new Portfolio(),
+            _ => new Portfolio()
+        };
+
         //public static Portfolio GetPortfolio(string uid)
         //{
         //    PortfolioRequest request = new PortfolioRequest() { AccountId = uid };
@@ -84,20 +91,20 @@ namespace DataCollector
 
         //        }).ToList() };
         //}
-            //public static Portfolio PortfolioTinkoff (PortfolioRequest portfolioRequest)
-            //{
-            //    PortfolioResponse portfolioResponce = GetTinkoffData.Portfolio(portfolioRequest);
-            //    if (portfolioResponce == null) return null;
-            //    Portfolio portfolio = new Portfolio() { TotalAmountShares = new MoneyAmount(Currency = portfolioResponce.TotalAmountShares.Currency) };
-            //    return portfolio;
-            //    static MoneyAmount MoneyAmountMap(Tinkoff.InvestApi.V1.MoneyValue moneyValue)
-            //    {
-            //        MoneyAmount ma = new(MarketDataModules.Candles.Currency = );
-            //        return orders;
-            //    }
-            //}
+        //public static Portfolio PortfolioTinkoff (PortfolioRequest portfolioRequest)
+        //{
+        //    PortfolioResponse portfolioResponce = GetTinkoffData.Portfolio(portfolioRequest);
+        //    if (portfolioResponce == null) return null;
+        //    Portfolio portfolio = new Portfolio() { TotalAmountShares = new MoneyAmount(Currency = portfolioResponce.TotalAmountShares.Currency) };
+        //    return portfolio;
+        //    static MoneyAmount MoneyAmountMap(Tinkoff.InvestApi.V1.MoneyValue moneyValue)
+        //    {
+        //        MoneyAmount ma = new(MarketDataModules.Candles.Currency = );
+        //        return orders;
+        //    }
+        //}
 
-            static decimal ToDecimal(Quotation quotation)
+        static decimal ToDecimal(Quotation quotation)
         { 
             decimal result = Convert.ToDecimal($"{quotation.Units},{quotation.Nano}");
             return result;
