@@ -15,4 +15,8 @@
     <ProjectReference Include="..\TradeDataModules\MarketDataModules\MarketDataModules.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AlorAdapterOpenApi\" />
+  </ItemGroup>
+
 </Project>

@@ -73,6 +73,7 @@ namespace DataCollector
         {
             Provider.Tinkoff => Mapping.MapPortfolioFromTinkoff(GetTinkoffData.GetPortfolio(new PortfolioRequest() { AccountId = accountId })),
             Provider.Finam => new Portfolio(),
+            Provider.Alor => new Portfolio(),
             _ => new Portfolio()
         };
 
