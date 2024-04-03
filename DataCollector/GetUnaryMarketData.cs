@@ -76,6 +76,28 @@ namespace DataCollector
             Provider.Alor => new Portfolio(),
             _ => new Portfolio()
         };
+        public static InstrumentList GetShareList(Provider provider) => provider switch
+        {
+            Provider.Tinkoff => Mapping.MapInstrumentsFromTinkoffShares(GetTinkoffData.GetShares().Instruments.ToList()),
+            Provider.Finam => new InstrumentList(),
+            Provider.Alor => new InstrumentList(),
+            _ => new InstrumentList()
+        };
+
+        public static InstrumentList GetEtfList(Provider provider) => provider switch
+        {
+            Provider.Tinkoff => Mapping.MapInstrumentsFromTinkoffEtfs(GetTinkoffData.GetEtfs().Instruments.ToList()),
+            Provider.Finam => new InstrumentList(),
+            Provider.Alor => new InstrumentList(),
+            _ => new InstrumentList()
+        };
+        public static InstrumentList GetBondList(Provider provider) => provider switch
+        {
+            Provider.Tinkoff => Mapping.MapInstrumentsFromTinkoffBonds(GetTinkoffData.GetBonds().Instruments.ToList()),
+            Provider.Finam => new InstrumentList(),
+            Provider.Alor => new InstrumentList(),
+            _ => new InstrumentList()
+        };
 
         //public static Portfolio GetPortfolio(string uid)
         //{

@@ -7,34 +7,35 @@ namespace DataCollector.RetryPolicy
 {
     static public class PollyRetrayPolitics
     {
-        public static Polly.Retry.AsyncRetryPolicy RetryToManyReqAsync()
-        {
-            Polly.Retry.AsyncRetryPolicy retryPolicy = Policy
-                .Handle<Exception>()
-                .WaitAndRetryForeverAsync(retryAttempt => TimeSpan.FromSeconds(Math.Pow(1.5, retryAttempt)),
-                (exception, timespan) =>
-                {
-                    Log.Warning(exception.Message);
-                    Log.Warning("Start retray. Timespan = " + timespan);
-                });
+        //public static Polly.Retry.AsyncRetryPolicy RetryToManyReqAsync()
+        //{
+        //    Polly.Retry.AsyncRetryPolicy retryPolicy = Policy
+        //        .Handle<Exception>()
+        //        .WaitAndRetryForeverAsync(retryAttempt => TimeSpan.FromSeconds(Math.Pow(1.5, retryAttempt)),
+        //        (exception, timespan) =>
+        //        {
+        //            Log.Warning(exception.Message);
+        //            Log.Warning("Start retray. Timespan = " + timespan);
+        //        });
 
-            return retryPolicy;
-        }
+        //    return retryPolicy;
+        //}
 
-        public static Polly.Retry.AsyncRetryPolicy RetryAsync()
-        {
-            Polly.Retry.AsyncRetryPolicy retryPolicy = Policy
-                .Handle<Exception>()
-                .RetryAsync(3, (exception, attemt) =>
-                {
-                    Log.Error(exception.Message);
-                    Log.Error(exception.StackTrace);
-                    Log.Warning("Start retray. attemt = " + attemt);
-                });
+        //public static Polly.Retry.AsyncRetryPolicy RetryAsync()
+        //{
+        //    Polly.Retry.AsyncRetryPolicy retryPolicy = Policy
+        //        .Handle<Exception>()
+        //        .RetryAsync(3, (exception, attemt) =>
+        //        {
+        //            Log.Error(exception.Message);
+        //            Log.Error(exception.StackTrace);
+        //            Log.Warning("Start retray. attemt = " + attemt);
+        //        });
 
-            return retryPolicy;
-        }
-        public static Polly.Retry.RetryPolicy RetryToManyReq()
+        //    return retryPolicy;
+        //}
+
+        public static Polly.Retry.RetryPolicy RetryToManyReqTinkoff()
         {
             Polly.Retry.RetryPolicy retryPolicy = Policy
                 .Handle<Exception>()
@@ -62,7 +63,7 @@ namespace DataCollector.RetryPolicy
             return retryPolicy;
         }
 
-        public static Polly.Retry.RetryPolicy Retry()
+        public static Polly.Retry.RetryPolicy RetryTinkoff()
         {
             Polly.Retry.RetryPolicy retryPolicy = Policy
                 .Handle<Exception>()

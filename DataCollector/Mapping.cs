@@ -1,4 +1,5 @@
-﻿using MarketDataModules.Portfolio;
+﻿using MarketDataModules.Instruments;
+using MarketDataModules.Portfolio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,18 +73,98 @@ namespace DataCollector
             };
             return result;
 
-            static MarketDataModules.Candles.Currency GetCurrency(string currency) => currency.ToUpper() switch
-            {
-                "RUB" => MarketDataModules.Candles.Currency.Rub,
-                "USD" => MarketDataModules.Candles.Currency.Usd,
-                "EUR" => MarketDataModules.Candles.Currency.Eur,
-                _ => throw new NotImplementedException()
-            };
-
             static bool IsNullOrEmptyMoneyValue(MoneyValue moneyValue)
             {
                 return moneyValue == null || string.IsNullOrEmpty(moneyValue?.Currency);
             }
+        }
+
+        private static MarketDataModules.Candles.Currency GetCurrency(string currency) => currency.ToUpper() switch
+        {
+            "RUB" => MarketDataModules.Candles.Currency.Rub,
+            "USD" => MarketDataModules.Candles.Currency.Usd,
+            "EUR" => MarketDataModules.Candles.Currency.Eur,
+            "HKD" => MarketDataModules.Candles.Currency.Hkd,
+            _ => MarketDataModules.Candles.Currency.Rub,
+        };
+
+        internal static InstrumentList MapInstrumentsFromTinkoffShares(List<Share> shareList)
+        {
+            var result = new InstrumentList()
+            {
+                Count = shareList.Count,
+                Instruments = shareList.Select(x => new MarketDataModules.Instruments.Instrument()
+                {
+                    Figi = x.Figi,
+                    ClassCode = x.ClassCode,
+                    Exchange = x.Exchange,
+                    Isin = x.Isin,
+                    Lot = x.Lot,
+                    //MinPriceIncrement = x.MinPriceIncrement,
+                    Name = x.Name,
+                    RealExchange = x.RealExchange.ToString(),
+                    ShortEnabledFlag = x.ShortEnabledFlag,
+                    Ticker = x.Ticker,
+                    TinkoffUid = x.Uid,
+                    Type = MarketDataModules.Instruments.InstrumentType.Stock,
+                    Currency = GetCurrency(x.Currency)
+
+                }).ToList()
+            };            
+            return result;
+        }
+
+        internal static InstrumentList MapInstrumentsFromTinkoffEtfs(List<Etf> etfList)
+        {
+            var result = new InstrumentList()
+            {
+                Count = etfList.Count,
+                Instruments = etfList.Select(x => new MarketDataModules.Instruments.Instrument()
+                {
+                    Figi = x.Figi,
+                    ClassCode = x.ClassCode,
+                    Exchange = x.Exchange,
+                    Isin = x.Isin,
+                    Lot = x.Lot,
+                    //MinPriceIncrement = x.MinPriceIncrement,
+                    Name = x.Name,
+                    RealExchange = x.RealExchange.ToString(),
+                    ShortEnabledFlag = x.ShortEnabledFlag,
+                    Ticker = x.Ticker,
+                    TinkoffUid = x.Uid,
+                    Type = MarketDataModules.Instruments.InstrumentType.Etf,
+                    Currency = GetCurrency(x.Currency)
+
+                }).ToList()
+            };
+            return result;
+        }
+
+        internal static InstrumentList MapInstrumentsFromTinkoffBonds(List<Bond> bondList)
+        {
+            var Instrumend = bondList.Select(x => new MarketDataModules.Instruments.Instrument()
+            {
+                Figi = x.Figi,
+                ClassCode = x.ClassCode,
+                Exchange = x.Exchange,
+                Isin = x.Isin,
+                Lot = x.Lot,
+                //MinPriceIncrement = x.MinPriceIncrement,
+                Name = x.Name,
+                RealExchange = x.RealExchange.ToString(),
+                ShortEnabledFlag = x.ShortEnabledFlag,
+                Ticker = x.Ticker,
+                TinkoffUid = x.Uid,
+                Type = MarketDataModules.Instruments.InstrumentType.Bond,
+                Currency = GetCurrency(x.Currency)
+
+            }).ToList();
+            var result = new InstrumentList()
+            {
+                Count = bondList.Count,
+                Instruments = Instrumend,
+            };
+            return result;
         }
     }
 }

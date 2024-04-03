@@ -63,7 +63,7 @@ namespace DataCollector.TinkoffAdapterGrpc
                 try
                 {
                     var req = temptCandlesRequest;
-                    GetCandlesResponse result = PollyRetrayPolitics.Retry().Execute(() => PollyRetrayPolitics.RetryToManyReq().Execute(() => GetClient.Grpc.MarketData.GetCandles(req)));
+                    GetCandlesResponse result = PollyRetrayPolitics.RetryTinkoff().Execute(() => PollyRetrayPolitics.RetryToManyReqTinkoff().Execute(() => GetClient.Grpc.MarketData.GetCandles(req)));
                     //GetCandlesResponse result = GetClient.Grpc.MarketData.GetCandles(temptCandlesRequest);
                     List<HistoricCandle> candles = result.Candles.ToList();
                     Log.Debug($"Return {candles?.Count} candles by figi {temptCandlesRequest.InstrumentId}. Interval = {temptCandlesRequest.Interval}. Date interval = {temptCandlesRequest.From} - {temptCandlesRequest.To}");
@@ -83,7 +83,7 @@ namespace DataCollector.TinkoffAdapterGrpc
 
             try
             {
-                GetOrderBookResponse orderbook = PollyRetrayPolitics.Retry().Execute(() => PollyRetrayPolitics.RetryToManyReq().Execute(() => GetClient.Grpc.MarketData.GetOrderBook(getOrderBookRequest)));
+                GetOrderBookResponse orderbook = PollyRetrayPolitics.RetryTinkoff().Execute(() => PollyRetrayPolitics.RetryToManyReqTinkoff().Execute(() => GetClient.Grpc.MarketData.GetOrderBook(getOrderBookRequest)));
                 return orderbook;
             }
             catch (Exception ex)
@@ -122,6 +122,71 @@ namespace DataCollector.TinkoffAdapterGrpc
                 Log.Error(ex.Message);
                 Log.Error(ex.StackTrace);
                 Log.Debug($"GetPositions {positionRequest?.AccountId} return null");
+                return null;
+            }
+        }
+
+        public static AssetsResponse GetAssets(AssetsRequest assetRequest)
+        {
+            try
+            {
+                var assets = PollyRetrayPolitics.RetryAll().Execute(() => GetClient.Grpc.Instruments.GetAssets(assetRequest));
+                Log.Debug($"GetAssets {assetRequest?.InstrumentType.ToString()} success");
+                return assets;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
+                Log.Debug($"GetPositions {assetRequest?.InstrumentType.ToString()} return null");
+                return null;
+            }
+        }
+        public static SharesResponse GetShares()
+        {
+            try
+            {
+                var shares = PollyRetrayPolitics.RetryAll().Execute(() => GetClient.Grpc.Instruments.Shares());
+                Log.Debug($"GetShares success");
+                return shares;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
+                Log.Debug($"GetShares return null");
+                return null;
+            }
+        }
+        public static BondsResponse GetBonds()
+        {
+            try
+            {
+                var bonds = PollyRetrayPolitics.RetryAll().Execute(() => GetClient.Grpc.Instruments.Bonds());
+                Log.Debug($"GetBonds success");
+                return bonds;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
+                Log.Debug($"GetBonds return null");
+                return null;
+            }
+        }
+        public static EtfsResponse GetEtfs()
+        {
+            try
+            {
+                var etfs = PollyRetrayPolitics.RetryAll().Execute(() => GetClient.Grpc.Instruments.Etfs());
+                Log.Debug($"GetEtfs success");
+                return etfs;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
+                Log.Debug($"GetEtfs return null");
                 return null;
             }
         }
