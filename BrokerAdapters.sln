@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCollector.Tests", "Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketDataModules", "TradeDataModules\MarketDataModules\MarketDataModules.csproj", "{4EF351DA-85BA-4646-ADFF-98290EDB2F28}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinamClient", "FinamClient\FinamClient.csproj", "{7038D1BC-4CC5-4CF0-B56E-5EC924DC5D17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4EF351DA-85BA-4646-ADFF-98290EDB2F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EF351DA-85BA-4646-ADFF-98290EDB2F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EF351DA-85BA-4646-ADFF-98290EDB2F28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7038D1BC-4CC5-4CF0-B56E-5EC924DC5D17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7038D1BC-4CC5-4CF0-B56E-5EC924DC5D17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7038D1BC-4CC5-4CF0-B56E-5EC924DC5D17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7038D1BC-4CC5-4CF0-B56E-5EC924DC5D17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

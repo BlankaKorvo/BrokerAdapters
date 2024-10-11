@@ -1,4 +1,5 @@
-﻿using MarketDataModules.Instruments;
+﻿using Finam.TradeApi.Proto.V1;
+using MarketDataModules.Instruments;
 using MarketDataModules.Portfolio;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace DataCollector
                     AveragePositionPrice = IsNullOrEmptyMoneyValue(x?.AveragePositionPrice) ? null : new MoneyAmount(GetCurrency(x?.AveragePositionPrice?.Currency), x?.AveragePositionPrice),
                     AveragePositionPriceFifo = IsNullOrEmptyMoneyValue(x?.AveragePositionPriceFifo) ? null : new MoneyAmount(GetCurrency(x?.AveragePositionPriceFifo?.Currency), x?.AveragePositionPriceFifo),
                     AveragePositionPricePt = default, //HZ
-                    Figi = x?.Figi,
+                    SecurityCode = x?.Figi,
                     Blocked = false,
                     BlockedLots = default,
                     CurrentNkd = default,
@@ -53,7 +54,7 @@ namespace DataCollector
                 }).ToList(),
                 Positions = followPortfolioResponse?.Positions?.Select(x => new PortfolioPositionList()
                 {
-                    Figi = x?.Figi,
+                    SecurityCode = x?.Figi,
                     AveragePositionPrice = IsNullOrEmptyMoneyValue(x?.AveragePositionPrice) ? null : new MoneyAmount(GetCurrency(x?.AveragePositionPrice?.Currency), x?.AveragePositionPrice),
                     AveragePositionPriceFifo = IsNullOrEmptyMoneyValue(x?.AveragePositionPriceFifo) ? null : new MoneyAmount(GetCurrency(x?.AveragePositionPriceFifo?.Currency), x?.AveragePositionPriceFifo),
                     AveragePositionPricePt = x?.AveragePositionPricePt,
@@ -76,6 +77,41 @@ namespace DataCollector
             static bool IsNullOrEmptyMoneyValue(MoneyValue moneyValue)
             {
                 return moneyValue == null || string.IsNullOrEmpty(moneyValue?.Currency);
+            }
+        }
+
+        internal static Portfolio MapPortfolioFromFinam(GetPortfolioResult finamPortfolio)
+        {
+            var result = new Portfolio()
+            {
+                TotalAmountCurrencies = new MoneyAmount(MarketDataModules.Candles.Currency.Rub, Convert.ToDecimal(finamPortfolio.Money.FirstOrDefault(m => m.Currency == "RUB").Balance)),
+                AccountId = finamPortfolio.ClientId,
+                ExpectedYield = default,
+                TotalAmountBonds = default,
+                TotalAmountEtf = default,
+                TotalAmountFutures = default,
+                TotalAmountOptions = default,
+                TotalAmountShares = default,
+                TotalAmountPortfolio = IsNullOrEmptyMoneyValue(finamPortfolio?.Equity) ? null : new MoneyAmount(GetCurrency("RUB"), Convert.ToDecimal(finamPortfolio?.Equity)),
+                TotalAmountSp = default,
+                VirtualPositions = default,
+                Positions = finamPortfolio?.Positions?.Select(x => new PortfolioPositionList()
+                {
+                    SecurityCode = x.SecurityCode,
+                    AveragePositionPrice = IsNullOrEmptyMoneyValue(x?.AveragePrice) ? null : new MoneyAmount(GetCurrency(x?.AveragePriceCurrency), Convert.ToDecimal(x?.AveragePrice)),
+                    AveragePositionPriceFifo = IsNullOrEmptyMoneyValue(x?.AveragePrice) ? null : new MoneyAmount(GetCurrency(x?.AveragePriceCurrency), Convert.ToDecimal(x?.AveragePrice)),
+                    CurrentPrice = IsNullOrEmptyMoneyValue(x?.CurrentPrice) ? null : new MoneyAmount(GetCurrency(x?.Currency), Convert.ToDecimal(x?.CurrentPrice)),
+                    InstrumentType = x?.Market.ToString(),
+                    Quantity = Convert.ToDecimal(x?.Balance),
+                    QuantityLots = Convert.ToDecimal(x?.Balance),
+                    PositionUid = x?.SecurityCode
+                }).ToList()
+            };
+            return result;
+
+            static bool IsNullOrEmptyMoneyValue<T>(T moneyValue)
+            {
+                return moneyValue == null || string.IsNullOrEmpty(moneyValue.ToString());
             }
         }
 
@@ -164,6 +200,51 @@ namespace DataCollector
                 Count = bondList.Count,
                 Instruments = Instrumend,
             };
+            return result;
+        }
+        internal static InstrumentList MapInstrumentsFromTinkoffFutures(List<Future> futureList)
+        {
+            var Instrumend = futureList.Select(x => new MarketDataModules.Instruments.Instrument()
+            {
+                Figi = x.Figi,
+                ClassCode = x.ClassCode,
+                Exchange = x.Exchange,
+                //Isin = x.Isin,
+                Lot = x.Lot,
+                //MinPriceIncrement = x.MinPriceIncrement,
+                Name = x.Name,
+                RealExchange = x.RealExchange.ToString(),
+                ShortEnabledFlag = x.ShortEnabledFlag,
+                Ticker = x.Ticker,
+                TinkoffUid = x.Uid,
+                Type = MarketDataModules.Instruments.InstrumentType.Bond,
+                Currency = GetCurrency(x.Currency)
+
+            }).ToList();
+            var result = new InstrumentList()
+            {
+                Count = futureList.Count,
+                Instruments = Instrumend,
+            };
+            return result;
+        }
+
+        internal static MarketDataModules.Instruments.Instrument MapInstrumentFromTinkoff(Tinkoff.InvestApi.V1.InstrumentResponse instrumentResponse)
+        {
+            var result = new MarketDataModules.Instruments.Instrument()
+            {
+                Figi = instrumentResponse.Instrument.Figi,
+                ClassCode = instrumentResponse.Instrument.ClassCode,   
+                Exchange = instrumentResponse.Instrument.Exchange,
+                Lot = instrumentResponse.Instrument.Lot,
+                Name = instrumentResponse.Instrument.Name,
+                RealExchange = instrumentResponse.Instrument.RealExchange.ToString(),
+                ShortEnabledFlag = instrumentResponse.Instrument.ShortEnabledFlag,
+                Ticker = instrumentResponse.Instrument.Ticker,
+                TinkoffUid = instrumentResponse.Instrument.Uid,
+                Currency = GetCurrency(instrumentResponse.Instrument.Currency),
+                Isin = instrumentResponse.Instrument.Isin,
+            };          
             return result;
         }
     }

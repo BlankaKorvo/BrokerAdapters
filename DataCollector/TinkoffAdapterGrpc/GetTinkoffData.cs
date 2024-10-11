@@ -126,6 +126,24 @@ namespace DataCollector.TinkoffAdapterGrpc
             }
         }
 
+        public static InstrumentResponse GetInstrument (InstrumentRequest instrumentRequest)
+        {
+            try
+            {
+                var instrument = PollyRetrayPolitics.RetryAll().Execute(() => GetClient.Grpc.Instruments.GetInstrumentBy(instrumentRequest));
+                Log.Debug($"GetInstrument {instrumentRequest?.Id} success return");
+                return instrument;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
+                Log.Debug($"GetPositions {instrumentRequest?.Id} return null");
+                return null;
+            }
+        }
+
+
         public static AssetsResponse GetAssets(AssetsRequest assetRequest)
         {
             try
@@ -187,6 +205,38 @@ namespace DataCollector.TinkoffAdapterGrpc
                 Log.Error(ex.Message);
                 Log.Error(ex.StackTrace);
                 Log.Debug($"GetEtfs return null");
+                return null;
+            }
+        }
+        public static FuturesResponse GetFutures()
+        {
+            try
+            {
+                var futures = PollyRetrayPolitics.RetryAll().Execute(() => GetClient.Grpc.Instruments.Futures());
+                Log.Debug($"GetFutures success");
+                return futures;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
+                Log.Debug($"GetFuture return null");
+                return null;
+            }
+        }
+        public static FutureResponse GetFuture(InstrumentRequest instrumentRequest)
+        {
+            try
+            {
+                var futures = PollyRetrayPolitics.RetryAll().Execute(() => GetClient.Grpc.Instruments.FutureBy(instrumentRequest));
+                Log.Debug($"GetFutures success");
+                return futures;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
+                Log.Debug($"GetFuture return null");
                 return null;
             }
         }

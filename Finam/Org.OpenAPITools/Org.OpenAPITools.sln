@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Org.OpenAPITools", "Org.OpenAPITools.csproj", "{0DE094A2-90E8-4440-9FF9-28E7FA51FCC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0DE094A2-90E8-4440-9FF9-28E7FA51FCC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DE094A2-90E8-4440-9FF9-28E7FA51FCC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DE094A2-90E8-4440-9FF9-28E7FA51FCC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DE094A2-90E8-4440-9FF9-28E7FA51FCC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {25E9A4B6-01D5-4194-BEB1-28F5E2F36529}
+	EndGlobalSection
+EndGlobal

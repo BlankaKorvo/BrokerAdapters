@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Tinkoff.InvestApi.V1;
 using DataCollector.TinkoffAdapterGrpc;
 using Google.Protobuf.WellKnownTypes;
+using DataCollector.FinamAdapterOpenApi;
 
 namespace DataCollector
 {
@@ -72,7 +73,7 @@ namespace DataCollector
         public static Portfolio GetPortfolio(string accountId, Provider provider) => provider switch
         {
             Provider.Tinkoff => Mapping.MapPortfolioFromTinkoff(GetTinkoffData.GetPortfolio(new PortfolioRequest() { AccountId = accountId })),
-            Provider.Finam => new Portfolio(),
+            Provider.Finam => Mapping.MapPortfolioFromFinam(GetFinamData.GetPortfolio(accountId)),
             Provider.Alor => new Portfolio(),
             _ => new Portfolio()
         };
@@ -99,6 +100,22 @@ namespace DataCollector
             _ => new InstrumentList()
         };
 
+        public static InstrumentList GetFutureList(Provider provider) => provider switch
+        {
+            Provider.Tinkoff => Mapping.MapInstrumentsFromTinkoffFutures(GetTinkoffData.GetFutures().Instruments.ToList()),
+            Provider.Finam => new InstrumentList(),
+            Provider.Alor => new InstrumentList(),
+            _ => new InstrumentList()
+        };
+
+        public static MarketDataModules.Instruments.Instrument GetInstrument(Provider provider, string uid) => provider switch
+        {
+            Provider.Tinkoff => Mapping.MapInstrumentFromTinkoff(GetTinkoffData.GetInstrument(new InstrumentRequest() { Id = uid , IdType = InstrumentIdType.Uid})),
+            Provider.Finam => new MarketDataModules.Instruments.Instrument(),
+            Provider.Alor => new MarketDataModules.Instruments.Instrument(),
+            _ => new MarketDataModules.Instruments.Instrument()
+        };
+        
         //public static Portfolio GetPortfolio(string uid)
         //{
         //    PortfolioRequest request = new PortfolioRequest() { AccountId = uid };
